@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_primary">#253740</color>
+    <color name="color_primary_dark">#111E24</color>
+    <color name="color_secondary">#00BAF2</color>
+    <color name="color_secondary_alpha5">#E7F2FE</color>
+    <color name="green">#2ECB6D</color>
+    <color name="light_orange">#FFB300</color>
+    <color name="orange">#FF8B07</color>
+    <color name="color_background">#F3F6FF</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="grey">#616161</color>
+    <color name="grey_2">#EAEAEA</color>
+    <color name="grey_4">#404040</color>
+    <color name="grey_100">#F5F5F5</color>
+    <color name="grey_300">#E0E0E0</color>
+    <color name="grey_400">#BDBDBD</color>
+    <color name="grey_700">#616161</color>
+    <color name="red">#EC1B0F</color>
+    <color name="light_red">#FBD1CF</color>
+
+    <color name="white_30">#33ffffff</color>
+    <color name="shadow">#6B6B6B</color>
+    <color name="black_10">#16000000</color>
+    <color name="black_30">#29000000</color>
+    <color name="color_secondary_highlight">#1a00BAF2</color>
+    <color name="black_50">#88000000</color>
+    <color name="app_name_color">#FFFFFF</color>
+
+    <color name="default_divider">@color/color_background</color>
+
+    <color name="primary_dark_header">#111E24</color>
+    <color name="primary_header">#253740</color>
+    <color name="white_header">#FFFFFF</color>
+    <color name="white_table">#FFFFFF</color>
+    <color name="divider">#E0E0E0</color>
+    <color name="primary_header_details">#16232B</color>
+
+</resources>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <include
+        android:id="@+id/iconButtonLayout"
+        layout="@layout/component_icon_button"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/margin_6"
+        android:layout_marginTop="@dimen/margin_6"
+        android:visibility="gone" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/outlinedTextField"
+        style="@style/TextInputLayoutStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/iconButtonLayout"
+        android:theme="@style/CursorColor_TextInputEditText_Outlined"
+        app:endIconTint="@color/grey_400">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editetxt"
+            style="@style/text_normal_primary_dark"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:textAlignment="viewStart"
+            android:textDirection="anyRtl" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/retryTv"
+        style="@style/text_button_secondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/outlinedTextField"
+        android:layout_alignBottom="@id/outlinedTextField"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:gravity="center"
+        android:text="@string/resend"
+        android:visibility="gone" />
+
+</RelativeLayout>
