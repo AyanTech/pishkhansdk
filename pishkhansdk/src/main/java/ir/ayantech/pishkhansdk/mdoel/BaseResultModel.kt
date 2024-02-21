@@ -1,14 +1,14 @@
 package ir.ayantech.pishkhan24.model.api
 
 import android.os.Build
-import ir.ayantech.pishkhan24.model.app_logic.Products
-import ir.ayantech.pishkhan24.model.app_logic.getProductSimpleAnalyticsEventName
-import ir.ayantech.pishkhan24.model.app_logic.getProductSimpleAnalyticsName
-import ir.ayantech.pishkhan24.ui.base.AyanActivity
-import ir.ayantech.pishkhan24.ui.base.AyanFragment
-import ir.ayantech.pishkhan24.ui.bottom_sheet.OptionsSelectionBottomSheet
-import ir.ayantech.pishkhan24.ui.dialog.OtpDialog
+import ir.ayantech.pishkhansdk.PaymentHelper.otpDialog
+import ir.ayantech.pishkhansdk.Products
+import ir.ayantech.pishkhansdk.mdoel.ExtraInfo
 import ir.ayantech.pishkhansdk.mdoel.OTP
+import ir.ayantech.pishkhansdk.mdoel.Type
+import ir.ayantech.pishkhansdk.ui.dialogs.OtpDialog
+import ir.ayantech.pishkhansdk.ui.fragments.AyanFragment
+import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import ir.ayantech.whygoogle.helper.isNotNull
 
 data class Prerequisites(
@@ -42,7 +42,7 @@ open class BaseResultModel<T>(
     //var otpDialog: OtpDialog? = null
 
     fun checkPrerequisites(
-        ayanActivity: AyanActivity<*>,
+        ayanActivity: WhyGoogleActivity<*>,
         input: BaseInputModel,
         product: String? = null,
         eventItems: String? = null,
@@ -53,9 +53,7 @@ open class BaseResultModel<T>(
                 when {
                     Prerequisites?.OTP != null -> {
 
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            (ayanActivity.getTopFragment() as? AyanFragment)?.startSmsReader()
-                        }
+
                         otpDialog =
                             OtpDialog(context = ayanActivity, otp = Prerequisites.OTP) { otpCode ->
                                 otpDialog?.dismiss()
@@ -64,17 +62,11 @@ open class BaseResultModel<T>(
                             }
                         otpDialog?.show()
 
-                        if (product != Products.telecomRegisteredLinesProduct.name)
-                            AnalyticsHelper.reportAnalyticsEvent(
-                                eventName = "start_${product?.getProductSimpleAnalyticsEventName()}_success",
-                                product = product?.getProductSimpleAnalyticsName(),
-                                eventItems = eventItems
-                            )
 
                     }
 
                     !Prerequisites?.TaxGroups.isNullOrEmpty() -> {
-                        OptionsSelectionBottomSheet(
+/*                        OptionsSelectionBottomSheet(
                             context = ayanActivity,
                             title = "نوع خودرو را انتخاب کنید",
                             null,
@@ -83,7 +75,7 @@ open class BaseResultModel<T>(
                             }) {
                             input.TaxGroup = it.Name
                             checkCompletedCallback(input)
-                        }.show()
+                        }.show()*/
                     }
 
                     else -> {

@@ -11,9 +11,6 @@ android {
 
     defaultConfig {
         minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildFeatures {
@@ -21,6 +18,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            isJniDebuggable = false
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -29,6 +29,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8

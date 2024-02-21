@@ -76,3 +76,73 @@ object ProductItemDetail {
     const val InquiryPaperBills = "v1_paperBills"
 
 }
+fun String.getProductShowName() = when (this) {
+    ProductItemDetail.InquiryWaterBills -> "قبض آب"
+    ProductItemDetail.InquiryElectricBills -> "قبض برق"
+    ProductItemDetail.InquiryGasBillsByIdentifier,
+    ProductItemDetail.InquiryGasBillsByParticipateCode -> "قبض گاز"
+
+    ProductItemDetail.InquiryLandlinePhoneBills -> "قبض تلفن ثابت"
+    ProductItemDetail.MOBILE -> "قبض تلفن همراه"
+    ProductItemDetail.InquiryMobileMciBills -> "قبض همراه اول"
+    ProductItemDetail.InquiryMobileIrancellBills -> "قبض ایرانسل"
+    ProductItemDetail.InquiryMobileRightelBills -> "قبض رایتل"
+    ProductItemDetail.TopUpCharge -> "خرید شارژ"
+    ProductItemDetail.TopUpInternetPackage -> "خرید بسته اینترنت"
+    ProductItemDetail.InquiryPropertyTolls -> "عوارض ملک"
+    ProductItemDetail.InquiryRealEstateContract -> "قرارداد اجاره نامه"
+
+    ProductItemDetail.CAR_TRAFFIC_FINES -> "خلافی خودرو"
+    ProductItemDetail.InquiryPlateNumbers -> "پلاک\u200Cهای فعال"
+    ProductItemDetail.InquiryDrivingLicenceNegativePoint -> "نمره منفی"
+    ProductItemDetail.InquiryTechnicalExaminationCertificate -> "معاینه فنی"
+    ProductItemDetail.InquiryFreewayTollBills -> "عوارض آزادراهی"
+    ProductItemDetail.InquiryAnnualTollsCar -> "عوارض سالیانه"
+    ProductItemDetail.InquiryTrafficPlanTollsCar -> "طرح ترافیک"
+    ProductItemDetail.MOTOR_TRAFFIC_FINES -> "خلافی موتور"
+    ProductItemDetail.THIRD_PARTY_INSURANCE,
+    ProductItemDetail.InquiryThirdPartyInsuranceCar -> "بیمه شخص ثالث"
+    ProductItemDetail.InquiryThirdPartyInsuranceCarStatus -> "بیمه شخص ثالث بدون جزئیات"
+    ProductItemDetail.InquiryTrafficFinesCarSummary -> "خلافی تجمیعی خودرو"
+    ProductItemDetail.InquiryTrafficFinesMotorcycleSummary -> "خلافی تجمیعی موتور"
+    ProductItemDetail.InquiryMunicipalityTaxiFaresBills -> "کرایه تاکسی"
+    ProductItemDetail.InquiryTransferTaxCar -> "مالیات انتقال خودرو"
+    ProductItemDetail.InquiryTransferTaxMotorcycle -> "مالیات انتقال موتور"
+    ProductItemDetail.InquiryVehicleAuthenticityByBarCode,
+    ProductItemDetail.InquiryVehicleAuthenticityByDocumentNumber -> "سوابق خودرو"
+
+    ProductItemDetail.InquiryPostPackageTracking -> "پیگیری مرسولات پستی"
+    ProductItemDetail.InquiryIdentificationDocumentsStatusCar -> "پیگیری مدارک خودرو"
+    ProductItemDetail.InquiryDrivingLicenceStatus -> "پیگیری گواهینامه"
+    ProductItemDetail.InquiryPassportStatus -> "پیگیری گذرنامه"
+    ProductItemDetail.InquiryIdentificationDocumentsStatusMotorcycle -> "پیگیری مدارک موتور"
+
+    ProductItemDetail.InquiryCryptoCurrencyPrice -> " ارز دیجیتال"
+    ProductItemDetail.InquirySayadCheque -> "چک صیادی"
+    ProductItemDetail.InquiryIbanByAccountNumber -> "شماره حساب"
+    ProductItemDetail.InquiryIbanByCardNumber -> "شماره کارت"
+    ProductItemDetail.InquiryAccountNumberByIban -> "تبدیل شبا"
+    ProductItemDetail.InquiryExchangeCurrencyPrice -> "ارزهای جهانی"
+    ProductItemDetail.InquiryExchangeGold -> "طلا و سکه"
+
+    ProductItemDetail.InquiryExitBanStatus -> "ممنوع الخروجی"
+    ProductItemDetail.InquirySocialSecurityInsuranceMedicalCredit -> "اعتبار دفترچه بیمه"
+    ProductItemDetail.InquirySocialSecurityInsuranceHistory -> "سوابق بیمه"
+    ProductItemDetail.InquiryJusticeSharesPortfolio -> "سهام عدالت"
+    ProductItemDetail.InquiryGovernmentSubventionHistory -> "یارانه نقدی"
+    ProductItemDetail.SALARY_RECEIPT -> "فیش حقوقی"
+    ProductItemDetail.RETIREMENT_RECEIPT -> "حکم بازنشستگی"
+    ProductItemDetail.InquirySocialSecurityInsuranceRetirementReceipt -> "فیش حقوقی تامین اجتماعی"
+    ProductItemDetail.InquiryGovernmentRetirementReceipt -> "فیش حقوقی کشوری"
+    ProductItemDetail.InquirySocialSecurityInsuranceRetirement -> "حکم بازنشستگی تامین اجتماعی"
+    ProductItemDetail.InquiryGovernmentRetirement -> "حکم بازنشستگی کشوری"
+    ProductItemDetail.InquirySocialSecurityInsuranceMedicalPrescription -> "نسخه الکترونیک"
+    ProductItemDetail.InquiryTelecomRegisteredLines -> "سیم کارت\u200Cهای به\u200Cنام"
+    ProductItemDetail.InquiryLivelihoodInformation -> "معیشتی"
+    ProductItemDetail.InquiryInsurancePolicies -> "بیمه نامه"
+
+    ProductItemDetail.InquiryPaperBills -> "قبض کاغذی"
+
+    else -> "محصول جدید!"
+}
+

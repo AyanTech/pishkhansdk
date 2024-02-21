@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">PishkhanSDK</string>
     <string name="preview">پیش‌نمایش</string>
     <string name="rules_and_condition">قوانین و مقررات</string>
     <string name="inuqiry_price">هزینه استعلام:</string>

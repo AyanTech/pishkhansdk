@@ -68,4 +68,9 @@ object EndPoints {
     const val TelecomRegisteredLines = "v1/TelecomRegisteredLines"
     const val LivelihoodInformation = "v1/LivelihoodInformation"
     const val InsurancePolicies = "v1/InsurancePolicies"
+
+    //core
+    const val InvoicePayment = "v1/InvoicePayment"
+
+
 }

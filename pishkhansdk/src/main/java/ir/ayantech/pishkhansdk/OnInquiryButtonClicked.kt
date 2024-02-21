@@ -10,7 +10,17 @@ fun onInquiryButtonClicked(
     inputModel: BaseInputModel,
     productName: String,
     servicesPishkhan24Api: AyanApi,
+    corePishkhan24Api: AyanApi,
     failureCallBack: FailureCallback? = null
 ) {
+    PaymentHelper.invoiceRegister(
+        activity = activity,
+        inputModel = inputModel,
+        productName = productName,
+        servicesPishkhan24Api = servicesPishkhan24Api,
+        corePishkhan24Api = corePishkhan24Api
+    ) {
+        failureCallBack?.invoke(it)
+    }
 
 }

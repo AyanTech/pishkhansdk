@@ -28,8 +28,6 @@
     <color name="black_50">#88000000</color>
     <color name="app_name_color">#FFFFFF</color>
 
-    <color name="default_divider">@color/color_background</color>
-
     <color name="primary_dark_header">#111E24</color>
     <color name="primary_header">#253740</color>
     <color name="white_header">#FFFFFF</color>

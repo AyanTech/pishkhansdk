@@ -34,11 +34,10 @@
         <item name="errorTextAppearance">@style/text_button</item>
         <item name="android:textColorHint">@color/grey_400</item>
         <item name="errorIconDrawable">@null</item>
+    </style>
 
-        <style name="CursorColor_TextInputEditText_Outlined" parent="">
-            <item name="colorPrimary">@color/color_secondary</item>
-        </style>
-
+    <style name="CursorColor_TextInputEditText_Outlined" parent="">
+        <item name="colorPrimary">@color/color_secondary</item>
     </style>
 
 </resources>
