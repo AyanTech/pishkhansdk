@@ -167,7 +167,7 @@ object PaymentHelper {
                     serviceName = invoiceOutput.Invoice.Service.Type.Name,
                     channelName = invoiceOutput.PaymentChannels[1].Type.Name
                 ).createCallBackLink(),
-                gateway = gateways.first { it.Selected }.Type.Name,
+                gateway = gateways[0].Type.Name,
                 purchaseKey = invoiceOutput.Invoice.PurchaseKey,
                 useCredit = false,
                 corePishkhan24Api = corePishkhan24Api
