@@ -18,26 +18,26 @@
         <item name="android:fontFamily">@font/regular</item>
         <item name="android:textSize">@dimen/text_12</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/primary_dark_header</item>
+        <item name="android:textColor">@color/button_text_color</item>
     </style>
 
     <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/text_input_layout_stroke_color</item>
         <item name="boxStrokeWidth">@dimen/margin_1</item>
-        <item name="boxStrokeErrorColor">@color/red</item>
+        <item name="boxStrokeErrorColor">@color/box_stroke_error_color</item>
         <item name="boxStrokeWidthFocused">@dimen/margin_1</item>
         <item name="hintTextAppearance">@style/text_normal</item>
-        <item name="hintTextColor">@color/color_secondary</item>
+        <item name="hintTextColor">@color/hint_text_color</item>
         <item name="helperTextTextAppearance">@style/text_button</item>
-        <item name="helperTextTextColor">@color/color_primary_dark</item>
-        <item name="errorTextColor">@color/red</item>
+        <item name="helperTextTextColor">@color/helper_text_color</item>
+        <item name="errorTextColor">@color/box_stroke_error_color</item>
         <item name="errorTextAppearance">@style/text_button</item>
-        <item name="android:textColorHint">@color/grey_400</item>
+        <item name="android:textColorHint">@color/text_color_hint</item>
         <item name="errorIconDrawable">@null</item>
     </style>
 
     <style name="CursorColor_TextInputEditText_Outlined" parent="">
-        <item name="colorPrimary">@color/color_secondary</item>
+        <item name="colorPrimary">@color/cursor_color_text_input_edit_text</item>
     </style>
 
 </resources>

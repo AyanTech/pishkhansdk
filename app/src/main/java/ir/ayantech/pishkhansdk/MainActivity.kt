@@ -3,14 +3,19 @@ package ir.ayantech.pishkhansdk
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.widget.Toast
 import com.alirezabdn.whyfinal.BuildConfig
 import com.google.gson.GsonBuilder
 import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.api.AyanCommonCallStatus
+import ir.ayantech.ayannetworking.api.CallingState
 import ir.ayantech.ayannetworking.ayanModel.FailureType
 import ir.ayantech.ayannetworking.ayanModel.LogLevel
 import ir.ayantech.pishkhansdk.databinding.ActivityMainBinding
-import ir.ayantech.pishkhansdk.mdoel.JusticeSharesPortfolio
+import ir.ayantech.pishkhansdk.helper.extensions.onInquiryButtonClicked
+import ir.ayantech.pishkhansdk.helper.extensions.userPaymentIsSuccessful
+import ir.ayantech.pishkhansdk.model.api.JusticeSharesPortfolio
+import ir.ayantech.pishkhansdk.ui.bottom_sheets.WaiterBottomSheet
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import java.lang.reflect.Modifier
 
@@ -19,6 +24,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
     private var servicesPishkhan24Api: AyanApi? = null
     private var corePishkhan24Api: AyanApi? = null
+    private var waiterBottomSheet: WaiterBottomSheet? = null
 
     override val binder: (LayoutInflater) -> ActivityMainBinding
         get() = ActivityMainBinding::inflate
@@ -49,6 +55,8 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             gson = gson
         )
 
+        waiterBottomSheet = WaiterBottomSheet(this)
+
         val ayanCommonCallingStatus = AyanCommonCallStatus {
             failure { failure ->
                 when (failure.failureType) {
@@ -65,12 +73,12 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                 }
             }
             changeStatus {
-/*                when (it) {
+                when (it) {
                     CallingState.NOT_USED -> waiterBottomSheet?.hideDialog()
                     CallingState.LOADING -> waiterBottomSheet?.showDialog()
                     CallingState.FAILED -> waiterBottomSheet?.hideDialog()
                     CallingState.SUCCESSFUL -> waiterBottomSheet?.hideDialog()
-                }*/
+                }
             }
         }
 
@@ -95,7 +103,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                     servicesPishkhan24Api = servicesPishkhan24Api!!,
                     corePishkhan24Api = corePishkhan24Api!!
                 ) {
-
+                    Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
                 }
             }
         }

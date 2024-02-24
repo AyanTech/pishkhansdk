@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.databinding.DialogPreviewBinding
-import ir.ayantech.pishkhansdk.mdoel.InvoiceRegister
+import ir.ayantech.pishkhansdk.model.api.InvoiceRegister
 import ir.ayantech.pishkhansdk.ui.adapter.SimpleKeyValueAdapter
 import ir.ayantech.whygoogle.helper.*
 

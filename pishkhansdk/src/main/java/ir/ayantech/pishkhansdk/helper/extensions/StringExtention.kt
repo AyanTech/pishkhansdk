@@ -1,7 +1,7 @@
-package ir.ayantech.pishkhansdk.helper
+package ir.ayantech.pishkhansdk.helper.extensions
 
 import com.google.gson.JsonParser
-import ir.ayantech.pishkhansdk.mdoel.ExtraInfo
+import ir.ayantech.pishkhansdk.model.app_logic.ExtraInfo
 import ir.ayantech.whygoogle.helper.formatAmount
 import java.security.MessageDigest
 

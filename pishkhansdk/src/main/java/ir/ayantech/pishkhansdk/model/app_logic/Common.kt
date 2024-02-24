@@ -1,4 +1,4 @@
-package ir.ayantech.pishkhansdk.mdoel
+package ir.ayantech.pishkhansdk.model.app_logic
 
 
 import ir.ayantech.whygoogle.helper.SimpleCallBack

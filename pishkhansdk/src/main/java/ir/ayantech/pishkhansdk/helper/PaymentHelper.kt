@@ -1,4 +1,4 @@
-package ir.ayantech.pishkhansdk
+package ir.ayantech.pishkhansdk.helper
 
 import android.util.Log
 import ir.ayantech.ayannetworking.api.AyanApi
@@ -6,16 +6,18 @@ import ir.ayantech.ayannetworking.api.AyanCallStatus
 import ir.ayantech.ayannetworking.api.FailureCallback
 import ir.ayantech.networking.simpleCallInvoiceInfo
 import ir.ayantech.networking.simpleCallInvoicePayment
-import ir.ayantech.pishkhan24.model.api.BaseInputModel
-import ir.ayantech.pishkhansdk.enums.PrerequisitesType
-import ir.ayantech.pishkhansdk.mdoel.CallbackDataModel
-import ir.ayantech.pishkhansdk.mdoel.InvoicePayment
+import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
+import ir.ayantech.pishkhansdk.model.constants.EndPoints
+import ir.ayantech.pishkhansdk.model.enums.PrerequisitesType
+import ir.ayantech.pishkhansdk.model.app_logic.CallbackDataModel
+import ir.ayantech.pishkhansdk.model.api.InvoicePayment
 
-import ir.ayantech.pishkhansdk.mdoel.InvoiceRegister
-import ir.ayantech.pishkhansdk.mdoel.OTP
-import ir.ayantech.pishkhansdk.mdoel.createCallBackLink
-import ir.ayantech.pishkhansdk.mdoel.HandleOutput.handleJusticeSharesPortfolioOutput
-import ir.ayantech.pishkhansdk.mdoel.InvoiceInfo
+import ir.ayantech.pishkhansdk.model.api.InvoiceRegister
+import ir.ayantech.pishkhansdk.model.app_logic.OTP
+import ir.ayantech.pishkhansdk.model.app_logic.createCallBackLink
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleJusticeSharesPortfolioOutput
+import ir.ayantech.pishkhansdk.model.api.InvoiceInfo
+import ir.ayantech.pishkhansdk.model.app_logic.Products
 import ir.ayantech.pishkhansdk.ui.dialogs.OtpDialog
 import ir.ayantech.pishkhansdk.ui.dialogs.PreviewDialog
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
@@ -101,7 +103,6 @@ object PaymentHelper {
                             else -> {
                                 when (output.Prerequisites.Type) {
                                     PrerequisitesType.OTP.name -> {
-                                        Log.d("handleOutput", it.toString())
                                         otpDialog = OtpDialog(
                                             context = activity,
                                             otp = output.Prerequisites.Value?.fromJsonToObject<OTP>(),

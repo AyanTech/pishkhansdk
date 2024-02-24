@@ -1,7 +1,7 @@
-package ir.ayantech.pishkhansdk.mdoel
+package ir.ayantech.pishkhansdk.model.api
 
 import com.alirezabdn.generator.AyanAPI
-import ir.ayantech.pishkhansdk.EndPoints
+import ir.ayantech.pishkhansdk.model.constants.EndPoints
 
 @AyanAPI(endPoint = EndPoints.InvoicePayment)
 class InvoicePayment {

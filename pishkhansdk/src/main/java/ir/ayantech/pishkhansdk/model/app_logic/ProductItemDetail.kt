@@ -1,4 +1,4 @@
-package ir.ayantech.pishkhansdk
+package ir.ayantech.pishkhansdk.model.app_logic
 
 object ProductItemDetail {
     const val InquiryWaterBills = "v1_InquiryWaterBills"

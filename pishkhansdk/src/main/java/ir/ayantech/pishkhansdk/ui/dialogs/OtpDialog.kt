@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import com.google.android.material.textfield.TextInputLayout
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.databinding.DialogOtpBinding
-import ir.ayantech.pishkhansdk.mdoel.OTP
+import ir.ayantech.pishkhansdk.model.app_logic.OTP
 import ir.ayantech.pishkhansdk.ui.components.getText
 import ir.ayantech.pishkhansdk.ui.components.init
 import ir.ayantech.pishkhansdk.ui.components.setError

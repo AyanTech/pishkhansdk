@@ -1,4 +1,4 @@
-package ir.ayantech.pishkhansdk.helper
+package ir.ayantech.pishkhansdk.helper.extensions
 
 import android.graphics.Typeface
 import android.os.CountDownTimer

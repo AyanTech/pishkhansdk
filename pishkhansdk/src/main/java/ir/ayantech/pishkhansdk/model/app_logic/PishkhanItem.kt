@@ -1,8 +1,6 @@
-package ir.ayantech.pishkhansdk.mdoel
+package ir.ayantech.pishkhansdk.model.app_logic
 
-import ir.ayantech.pishkhansdk.Products
-import ir.ayantech.pishkhansdk.enums.Category
-import ir.ayantech.pishkhansdk.getProductShowName
+import ir.ayantech.pishkhansdk.model.enums.Category
 
 abstract class PishkhanItem(
     val name: String,

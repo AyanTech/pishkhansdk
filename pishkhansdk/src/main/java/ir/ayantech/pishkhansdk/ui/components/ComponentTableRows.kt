@@ -3,8 +3,8 @@ package ir.ayantech.pishkhansdk.ui.components
 import androidx.core.widget.TextViewCompat
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.databinding.ComponentTableRowsBinding
-import ir.ayantech.pishkhansdk.helper.simpleUnify
-import ir.ayantech.pishkhansdk.helper.textColor
+import ir.ayantech.pishkhansdk.helper.extensions.simpleUnify
+import ir.ayantech.pishkhansdk.helper.extensions.textColor
 import ir.ayantech.whygoogle.helper.SimpleCallBack
 import ir.ayantech.whygoogle.helper.changeVisibility
 

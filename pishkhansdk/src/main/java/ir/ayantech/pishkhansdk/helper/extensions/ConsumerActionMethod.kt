@@ -1,17 +1,18 @@
-package ir.ayantech.pishkhansdk
+package ir.ayantech.pishkhansdk.helper.extensions
 
 import android.content.Intent
-import androidx.core.content.ContextCompat.startActivity
+import android.util.Log
+import android.widget.Toast
 import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.api.FailureCallback
-import ir.ayantech.pishkhan24.model.api.BaseInputModel
-import ir.ayantech.pishkhansdk.constants.Constant
-import ir.ayantech.pishkhansdk.constants.Constant.PREFIX
-import ir.ayantech.pishkhansdk.constants.Constant.callBackDataModel
-import ir.ayantech.pishkhansdk.constants.Parameter
-import ir.ayantech.pishkhansdk.mdoel.CallbackDataModel
-import ir.ayantech.pishkhansdk.mdoel.HandleOutput
-import ir.ayantech.pishkhansdk.mdoel.JusticeSharesPortfolio
+import ir.ayantech.pishkhansdk.helper.HandleOutput
+import ir.ayantech.pishkhansdk.helper.PaymentHelper
+import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
+import ir.ayantech.pishkhansdk.model.constants.Constant
+import ir.ayantech.pishkhansdk.model.constants.Constant.PREFIX
+import ir.ayantech.pishkhansdk.model.constants.Parameter
+import ir.ayantech.pishkhansdk.model.app_logic.CallbackDataModel
+import ir.ayantech.pishkhansdk.model.api.JusticeSharesPortfolio
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import ir.ayantech.whygoogle.helper.isNull
 
@@ -65,8 +66,6 @@ fun userPaymentIsSuccessful(
             servicesPishkhan24Api = servicesPishkhan24Api
         )
     }
-
-
 }
 
 fun handleIntent(
@@ -106,8 +105,10 @@ fun handleIntent(
                                     NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
                                     OTPCode = null,
                                     PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                                ), servicesPishkhan24Api = servicesPishkhan24Api
-
+                                ), servicesPishkhan24Api = servicesPishkhan24Api,
+                                handleResultCallback = {
+                                    Log.d("handleOutput", it.toString())
+                                }
                             )
                         } else {
                             //payment was unsuccessful

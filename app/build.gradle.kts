@@ -54,11 +54,12 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation ("androidx.multidex:multidex:2.0.1")
+    implementation("androidx.multidex:multidex:2.0.1")
 
     implementation(project(":pishkhansdk"))
     implementation("com.github.shadowalker77:whygoogle:0.8.2")
     implementation("com.github.shadowalker77:networking:1.6.1")
 
+    implementation("com.airbnb.android:lottie:6.0.0")
 
 }

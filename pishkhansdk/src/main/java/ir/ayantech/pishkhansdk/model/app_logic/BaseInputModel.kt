@@ -1,4 +1,4 @@
-package ir.ayantech.pishkhan24.model.api
+package ir.ayantech.pishkhansdk.model.app_logic
 
 open class BaseInputModel(
     var OTPCode: String?,

@@ -1,7 +1,6 @@
-package ir.ayantech.pishkhansdk
+package ir.ayantech.pishkhansdk.model.app_logic
 
-import ir.ayantech.pishkhansdk.enums.Category
-import ir.ayantech.pishkhansdk.mdoel.ProductItem
+import ir.ayantech.pishkhansdk.model.enums.Category
 
 
 object Products {

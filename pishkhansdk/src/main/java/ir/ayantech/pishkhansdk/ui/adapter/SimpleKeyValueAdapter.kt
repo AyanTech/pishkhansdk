@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.databinding.ComponentTableRowsBinding
-import ir.ayantech.pishkhansdk.mdoel.ExtraInfo
+import ir.ayantech.pishkhansdk.model.app_logic.ExtraInfo
 import ir.ayantech.pishkhansdk.ui.components.init
 import ir.ayantech.whygoogle.adapter.CommonAdapter
 import ir.ayantech.whygoogle.adapter.CommonViewHolder

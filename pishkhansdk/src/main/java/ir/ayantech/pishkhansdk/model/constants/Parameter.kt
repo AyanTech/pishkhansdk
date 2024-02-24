@@ -1,4 +1,4 @@
-package ir.ayantech.pishkhansdk.constants
+package ir.ayantech.pishkhansdk.model.constants
 
 object Parameter {
     const val NationalCode = "NationalCode"

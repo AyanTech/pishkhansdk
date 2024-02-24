@@ -1,4 +1,4 @@
-package ir.ayantech.pishkhansdk.constants
+package ir.ayantech.pishkhansdk.model.constants
 
 import android.annotation.SuppressLint
 import android.content.Context

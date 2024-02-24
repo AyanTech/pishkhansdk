@@ -4,7 +4,6 @@
     <color name="color_primary_dark">#111E24</color>
     <color name="color_secondary">#00BAF2</color>
     <color name="color_secondary_alpha5">#E7F2FE</color>
-    <color name="green">#2ECB6D</color>
     <color name="light_orange">#FFB300</color>
     <color name="orange">#FF8B07</color>
     <color name="color_background">#F3F6FF</color>
@@ -34,5 +33,14 @@
     <color name="white_table">#FFFFFF</color>
     <color name="divider">#E0E0E0</color>
     <color name="primary_header_details">#16232B</color>
+
+
+    <color name="button_text_color">#111E24</color>
+    <color name="inquiry_button_color">#2ECB6D</color>
+    <color name="cursor_color_text_input_edit_text">#00BAF2</color>
+    <color name="hint_text_color">#00BAF2</color>
+    <color name="box_stroke_error_color">#EC1B0F</color>
+    <color name="helper_text_color">#111E24</color>
+    <color name="text_color_hint">#BDBDBD</color>
 
 </resources>

@@ -1,12 +1,12 @@
-package ir.ayantech.pishkhansdk.mdoel
+package ir.ayantech.pishkhansdk.model.api
 
 import com.alirezabdn.generator.AyanAPI
-import ir.ayantech.pishkhan24.model.api.BaseInputModel
-import ir.ayantech.pishkhan24.model.api.BaseResultModel
-import ir.ayantech.pishkhan24.model.api.Messages
-import ir.ayantech.pishkhan24.model.api.Prerequisites
-import ir.ayantech.pishkhan24.model.api.Query
-import ir.ayantech.pishkhansdk.EndPoints
+import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
+import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
+import ir.ayantech.pishkhansdk.model.app_logic.Messages
+import ir.ayantech.pishkhansdk.model.app_logic.Prerequisites
+import ir.ayantech.pishkhansdk.model.app_logic.Query
+import ir.ayantech.pishkhansdk.model.constants.EndPoints
 
 
 @AyanAPI(endPoint = EndPoints.JusticeSharesPortfolio)

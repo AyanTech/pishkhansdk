@@ -1,4 +1,4 @@
-package ir.ayantech.pishkhansdk.mdoel
+package ir.ayantech.pishkhansdk.model.app_logic
 
 import android.os.Parcel
 import android.os.Parcelable

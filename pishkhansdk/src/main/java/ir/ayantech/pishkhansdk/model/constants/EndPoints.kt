@@ -1,4 +1,4 @@
-package ir.ayantech.pishkhansdk
+package ir.ayantech.pishkhansdk.model.constants
 
 object EndPoints {
 

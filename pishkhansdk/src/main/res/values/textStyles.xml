@@ -55,7 +55,7 @@
     </style>
 
     <style name="text_normal_green" parent="text_normal">
-        <item name="android:textColor">@color/green</item>
+        <item name="android:textColor">@color/inquiry_button_color</item>
     </style>
 
     <style name="text_button_secondary" parent="text_button">
