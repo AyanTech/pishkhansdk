@@ -7,20 +7,18 @@ import com.alirezabdn.whyfinal.BuildConfig
 import com.google.gson.GsonBuilder
 import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.api.AyanCommonCallStatus
-import ir.ayantech.ayannetworking.api.CallingState
 import ir.ayantech.ayannetworking.ayanModel.FailureType
 import ir.ayantech.ayannetworking.ayanModel.LogLevel
 import ir.ayantech.pishkhansdk.databinding.ActivityMainBinding
 import ir.ayantech.pishkhansdk.mdoel.JusticeSharesPortfolio
-import ir.ayantech.pishkhansdk.ui.fragments.AyanFragment
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import java.lang.reflect.Modifier
 
 
 class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
-    var servicesAyanApi: AyanApi? = null
-    var coreAyanApi: AyanApi? = null
+    private var servicesPishkhan24Api: AyanApi? = null
+    private var corePishkhan24Api: AyanApi? = null
 
     override val binder: (LayoutInflater) -> ActivityMainBinding
         get() = ActivityMainBinding::inflate
@@ -33,7 +31,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             .excludeFieldsWithModifiers(Modifier.TRANSIENT)
             .create()
 
-        servicesAyanApi = AyanApi(
+        servicesPishkhan24Api = AyanApi(
             context = this,
             getUserToken = { "B258B6B796CB46A0B84B4695355A5B96" },
             defaultBaseUrl = "https://services.pishkhan24.ayantech.ir/webservices/services.svc/",
@@ -42,7 +40,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             gson = gson
         )
 
-        coreAyanApi = AyanApi(
+        corePishkhan24Api = AyanApi(
             context = this,
             getUserToken = { "B258B6B796CB46A0B84B4695355A5B96" },
             defaultBaseUrl = "https://core.pishkhan24.ayantech.ir/webservices/core.svc/",
@@ -57,8 +55,10 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                     FailureType.LOGIN_REQUIRED -> {
 
                     }
+
                     FailureType.CANCELED -> {
                     }
+
                     else -> {
 
                     }
@@ -75,16 +75,13 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         }
 
 
-        coreAyanApi?.commonCallStatus =
+        servicesPishkhan24Api?.commonCallStatus =
             ayanCommonCallingStatus
-        servicesAyanApi?.commonCallStatus =
+        corePishkhan24Api?.commonCallStatus =
             ayanCommonCallingStatus
 
-
-
-        val servicesPishkhan24Api = servicesAyanApi
-        val corePishkhan24Api = coreAyanApi
-
+        if (intent != null)
+            handleIntent()
 
         binding.inquiryBtn.setOnClickListener {
             if (servicesPishkhan24Api != null && corePishkhan24Api != null) {
@@ -95,12 +92,23 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                         PurchaseKey = null
                     ),
                     productName = "v1_InquiryJusticeSharesPortfolio",
-                    servicesPishkhan24Api = servicesPishkhan24Api,
-                    corePishkhan24Api = corePishkhan24Api
+                    servicesPishkhan24Api = servicesPishkhan24Api!!,
+                    corePishkhan24Api = corePishkhan24Api!!
                 ) {
 
                 }
             }
+        }
+    }
+
+    private fun handleIntent() {
+        if (servicesPishkhan24Api != null && corePishkhan24Api != null) {
+            userPaymentIsSuccessful(
+                intent = intent,
+                corePishkhan24Api = corePishkhan24Api!!,
+                servicesPishkhan24Api = servicesPishkhan24Api!!,
+                activity = this
+            )
         }
     }
 }

@@ -7,7 +7,7 @@ import ir.ayantech.pishkhan24.model.api.BaseInputModel
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import ir.ayantech.whygoogle.helper.isNull
 
-object handleOutput {
+object HandleOutput {
 
     fun handleJusticeSharesPortfolioOutput(
         activity: WhyGoogleActivity<*>,
@@ -19,7 +19,8 @@ object handleOutput {
             input = input as JusticeSharesPortfolio.Input
         ) {
             success { output ->
-                output?.checkPrerequisites(activity, input) {
+                Log.d("handleOutput", (output as JusticeSharesPortfolio.Output).Result.toString())
+                output.checkPrerequisites(activity, input) {
                     if (it.isNull()) {
                         Log.d("handleOutput", it.toString())
                     } else {
@@ -41,3 +42,4 @@ object handleOutput {
 
     }
 }
+

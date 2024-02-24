@@ -4,6 +4,7 @@ import android.util.Log
 import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.api.AyanCallStatus
 import ir.ayantech.ayannetworking.api.FailureCallback
+import ir.ayantech.networking.simpleCallInvoiceInfo
 import ir.ayantech.networking.simpleCallInvoicePayment
 import ir.ayantech.pishkhan24.model.api.BaseInputModel
 import ir.ayantech.pishkhansdk.enums.PrerequisitesType
@@ -13,7 +14,8 @@ import ir.ayantech.pishkhansdk.mdoel.InvoicePayment
 import ir.ayantech.pishkhansdk.mdoel.InvoiceRegister
 import ir.ayantech.pishkhansdk.mdoel.OTP
 import ir.ayantech.pishkhansdk.mdoel.createCallBackLink
-import ir.ayantech.pishkhansdk.mdoel.handleOutput.handleJusticeSharesPortfolioOutput
+import ir.ayantech.pishkhansdk.mdoel.HandleOutput.handleJusticeSharesPortfolioOutput
+import ir.ayantech.pishkhansdk.mdoel.InvoiceInfo
 import ir.ayantech.pishkhansdk.ui.dialogs.OtpDialog
 import ir.ayantech.pishkhansdk.ui.dialogs.PreviewDialog
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
@@ -42,6 +44,7 @@ object PaymentHelper {
         servicesPishkhan24Api.ayanCall<InvoiceRegister.Output>(
             AyanCallStatus {
                 success {
+                    otpDialog?.dismiss()
                     it.response?.Parameters?.let { output ->
                         when (output.Prerequisites) {
                             //Service doesn't have any prerequisites so should check whether it has a preview or not
@@ -526,6 +529,18 @@ object PaymentHelper {
                     //online payment
                     it.RedirectLink?.openUrl(activity)
                 }
+            }
+        }
+    }
+
+    fun getInvoiceInfo(
+        corePishkhan24Api: AyanApi,
+        purchaseKey: String,
+        invoiceInfoOutputCallback: (InvoiceInfo.Output) -> Unit
+    ) {
+        corePishkhan24Api.simpleCallInvoiceInfo(input = InvoiceInfo.Input(PurchaseKey = purchaseKey)) {
+            it?.let {
+                invoiceInfoOutputCallback(it)
             }
         }
     }
