@@ -1,8 +1,6 @@
 package ir.ayantech.pishkhansdk.helper.extensions
 
 import android.content.Intent
-import android.util.Log
-import android.widget.Toast
 import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.api.FailureCallback
 import ir.ayantech.pishkhansdk.helper.HandleOutput
@@ -19,20 +17,24 @@ import ir.ayantech.whygoogle.helper.isNull
 fun onInquiryButtonClicked(
     activity: WhyGoogleActivity<*>,
     inputModel: BaseInputModel,
-    productName: String,
+    serviceName: String,
     servicesPishkhan24Api: AyanApi,
     corePishkhan24Api: AyanApi,
-    failureCallBack: FailureCallback? = null
+    failureCallBack: FailureCallback? = null,
+    handleResultCallback: ((output: JusticeSharesPortfolio.Output?) -> Unit)? = null
 ) {
     PaymentHelper.invoiceRegister(
         activity = activity,
         inputModel = inputModel,
-        productName = productName,
+        serviceName = serviceName,
         servicesPishkhan24Api = servicesPishkhan24Api,
-        corePishkhan24Api = corePishkhan24Api
-    ) {
-        failureCallBack?.invoke(it)
-    }
+        corePishkhan24Api = corePishkhan24Api,
+        failureCallBack = {
+            failureCallBack?.invoke(it)
+        }, handleResultCallback = {
+            handleResultCallback?.invoke(it)
+        }
+    )
 }
 
 fun userPaymentIsSuccessful(
@@ -40,6 +42,7 @@ fun userPaymentIsSuccessful(
     intent: Intent,
     corePishkhan24Api: AyanApi,
     servicesPishkhan24Api: AyanApi,
+    handleResultCallback: ((output: JusticeSharesPortfolio.Output?) -> Unit)? = null
 ) {
 
     intent.data?.toString()?.let {
@@ -64,7 +67,9 @@ fun userPaymentIsSuccessful(
             intent = intent,
             corePishkhan24Api = corePishkhan24Api,
             servicesPishkhan24Api = servicesPishkhan24Api
-        )
+        ) {
+            handleResultCallback?.invoke(it)
+        }
     }
 }
 
@@ -74,6 +79,7 @@ fun handleIntent(
     intent: Intent,
     corePishkhan24Api: AyanApi,
     servicesPishkhan24Api: AyanApi,
+    handleResultCallback: ((output: JusticeSharesPortfolio.Output?) -> Unit)? = null
 ) {
     if (intent.data?.toString()?.startsWith(Constant.DEEP_LINK_PREFIX) == true) {
         if (callbackDataModel.purchaseKey != null) {
@@ -90,7 +96,10 @@ fun handleIntent(
                             NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
                             OTPCode = null,
                             PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                        ), servicesPishkhan24Api = servicesPishkhan24Api
+                        ), servicesPishkhan24Api = servicesPishkhan24Api,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
                     )
                 } else {
                     if (callbackDataModel.selectedGateway != null) {
@@ -107,7 +116,7 @@ fun handleIntent(
                                     PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
                                 ), servicesPishkhan24Api = servicesPishkhan24Api,
                                 handleResultCallback = {
-                                    Log.d("handleOutput", it.toString())
+                                    handleResultCallback?.invoke(it)
                                 }
                             )
                         } else {

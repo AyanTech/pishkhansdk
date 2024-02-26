@@ -2,6 +2,7 @@ package ir.ayantech.pishkhansdk
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
 import com.alirezabdn.whyfinal.BuildConfig
@@ -99,12 +100,18 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                         NationalCode = "5230069570", OTPCode = null,
                         PurchaseKey = null
                     ),
-                    productName = "v1_InquiryJusticeSharesPortfolio",
+                    serviceName = "v1_InquiryJusticeSharesPortfolio",
                     servicesPishkhan24Api = servicesPishkhan24Api!!,
-                    corePishkhan24Api = corePishkhan24Api!!
-                ) {
-                    Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
-                }
+                    corePishkhan24Api = corePishkhan24Api!!,
+                    failureCallBack = {
+                        Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
+                    },
+                    handleResultCallback = {
+                        Toast.makeText(this, "result successful", Toast.LENGTH_LONG)
+                            .show()
+                        Log.d("handleOutput", it?.Result.toString())
+                    }
+                )
             }
         }
     }
@@ -116,7 +123,11 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                 corePishkhan24Api = corePishkhan24Api!!,
                 servicesPishkhan24Api = servicesPishkhan24Api!!,
                 activity = this
-            )
+            ) {
+                Toast.makeText(this, "result successful", Toast.LENGTH_LONG)
+                    .show()
+                Log.d("handleOutput", it?.Result.toString())
+            }
         }
     }
 }

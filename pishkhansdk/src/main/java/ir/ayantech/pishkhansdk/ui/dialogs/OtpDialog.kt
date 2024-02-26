@@ -19,7 +19,6 @@ import ir.ayantech.whygoogle.helper.trying
 class OtpDialog(
     context: Context,
     private val otp: OTP?,
-    private val serviceName: String? = null,
     private val callback: (String?) -> Unit
 ) : AyanDialog<DialogOtpBinding>(context) {
 

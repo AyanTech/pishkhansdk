@@ -34,13 +34,15 @@ object HandleOutput {
                                 apiCalledFromTransactionsFragment,
                                 it,
                                 servicesPishkhan24Api
-                            )
+                            ) {
+                                handleResultCallback?.invoke(output)
+                            }
                         }
                     }
                 }
-                failure {
-                    Toast.makeText(activity, "failure: $it", Toast.LENGTH_LONG).show()
-                }
+            }
+            failure {
+                Toast.makeText(activity, "failure: $it", Toast.LENGTH_LONG).show()
             }
         }
     }
