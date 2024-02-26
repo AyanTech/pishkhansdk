@@ -247,34 +247,29 @@ object PaymentHelper {
                     )
                 }
 
+                Products.carTrafficFinesProduct.name -> {
+
+                }
+
+                Products.carTrafficFinesSummeryProduct.name -> {
+
+                }
+
+                Products.motorTrafficFinesProduct.name -> {
+
+                }
+
+                Products.motorTrafficFinesSummeryProduct.name -> {
+
+                }
+
+
                 else -> {}
 
             }
         }
 
-        /*                Products.carTrafficFinesProduct.name -> {
-                            handleCarTrafficFinesOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.motorTrafficFinesProduct.name -> {
-                            handleMotorTrafficFinesOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.carTrafficFinesSummeryProduct.name -> {
-                            handleCarTrafficFinesSummeryOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.motorTrafficFinesSummeryProduct.name -> {
-                            handleMotorTrafficFinesSummeryOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
+        /*
 
                         Products.plateNumbersProduct.name -> {
                             handleVehiclePlateNumbersOutput(

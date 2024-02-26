@@ -6,9 +6,9 @@ import androidx.core.widget.TextViewCompat
 import com.google.android.material.textfield.TextInputLayout
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.databinding.ComponentTextFieldsBinding
-import ir.ayantech.pishkhansdk.helper.placeCursorToEnd
-import ir.ayantech.pishkhansdk.helper.setMaxLength
-import ir.ayantech.pishkhansdk.helper.textChanges
+import ir.ayantech.pishkhansdk.helper.extensions.placeCursorToEnd
+import ir.ayantech.pishkhansdk.helper.extensions.setMaxLength
+import ir.ayantech.pishkhansdk.helper.extensions.textChanges
 import ir.ayantech.whygoogle.helper.SimpleCallBack
 import ir.ayantech.whygoogle.helper.StringCallBack
 import ir.ayantech.whygoogle.helper.changeVisibility
