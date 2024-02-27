@@ -10,8 +10,8 @@ object Products {
         category = Category.CarServices,
     )
 
-    val carTrafficFinesSummeryProduct = ProductItem(
-        name = ProductItemDetail.InquiryTrafficFinesCarSummary,
+    val carTrafficFinesNoDetailsProduct = ProductItem(
+        name = ProductItemDetail.InquiryTrafficFinesCarNoDetails,
         category = Category.CarServices,
     )
 
@@ -51,7 +51,7 @@ object Products {
     )
 
     val motorTrafficFinesSummeryProduct = ProductItem(
-        name = ProductItemDetail.InquiryTrafficFinesMotorcycleSummary,
+        name = ProductItemDetail.InquiryTrafficFinesMotorcycleNoDetails,
         category = Category.CarServices,
     )
 

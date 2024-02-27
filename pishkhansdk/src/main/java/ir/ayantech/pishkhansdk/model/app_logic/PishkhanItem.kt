@@ -24,7 +24,7 @@ fun String.resolveNameToPishkhanItem(): PishkhanItem? {
 
 private val availablePishkhanItems = listOf(
     Products.carTrafficFinesProduct,
-    Products.carTrafficFinesSummeryProduct,
+    Products.carTrafficFinesNoDetailsProduct,
     Products.plateNumbersProduct,
     Products.negativePointProduct,
     Products.technicalExaminationCertificateProduct,
