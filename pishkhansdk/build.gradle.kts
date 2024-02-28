@@ -1,7 +1,8 @@
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    kotlin("android")
     id("kotlin-kapt")
+    id("kotlin-android")
     id("maven-publish")
 }
 
@@ -21,12 +22,8 @@ android {
         viewBinding = true
     }
 
-    publishing {
-        singleVariant("release")
-    }
-
     buildTypes {
-        release {
+        getByName("release") {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -42,6 +39,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    publishing {
+        singleVariant("release")
+    }
+
 }
 
 dependencies {
