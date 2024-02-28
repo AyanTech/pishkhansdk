@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         minSdk = 24
-        targetSdk = 34
+        testOptions.targetSdk = 34
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -36,6 +36,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -63,7 +64,6 @@ dependencies {
     kapt("com.github.shadowalker77:generator:0.3.0")
 }
 
-
 afterEvaluate {
     publishing {
         publications {
@@ -81,7 +81,7 @@ afterEvaluate {
                 artifactId = "pishkhan-sdk"
 
                 // Version Library Name (Example : "1.0.0")
-                version = "0.0.7"
+                version = "0.0.8"
             }
         }
     }
