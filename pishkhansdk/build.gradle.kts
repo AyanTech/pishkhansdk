@@ -11,6 +11,10 @@ android {
 
     defaultConfig {
         minSdk = 24
+        targetSdk = 34
+        multiDexEnabled = true
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildFeatures {
@@ -22,9 +26,6 @@ android {
     }
 
     buildTypes {
-        debug {
-            isJniDebuggable = false
-        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -78,7 +79,7 @@ afterEvaluate {
                 artifactId = "pishkhan-sdk"
 
                 // Version Library Name (Example : "1.0.0")
-                version = "0.0.6"
+                version = "0.0.7"
             }
         }
     }
