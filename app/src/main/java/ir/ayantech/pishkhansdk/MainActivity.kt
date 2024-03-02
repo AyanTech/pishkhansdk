@@ -118,7 +118,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                     handleResultCallback = {
                         Toast.makeText(this, "result successful", Toast.LENGTH_LONG)
                             .show()
-                        Log.d("handleOutput", it?.Result.toString())
+                        Log.d("handleOutput", it.Result.toString())
                     }
                 )
             }
