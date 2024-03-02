@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!--    <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lav"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_16"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading" />-->
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/lav"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_16"
+        android:src="@drawable/ic_logo" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/cancelTv"
+        style="@style/text_normal_secondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lav"
+        android:layout_alignParentEnd="true"
+        android:foreground="?selectableItemBackground"
+        android:padding="@dimen/margin_16"
+        android:text="انصراف" />
+
+</RelativeLayout>

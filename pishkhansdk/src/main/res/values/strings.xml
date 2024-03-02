@@ -1,0 +1,11 @@
+<resources>
+    <string name="preview">پیش‌نمایش</string>
+    <string name="rules_and_condition">قوانین و مقررات</string>
+    <string name="inuqiry_price">هزینه استعلام:</string>
+    <string name="confirm_and_continue">تایید و ادامه</string>
+    <string name="confirm_code">تایید رمز یکبار مصرف</string>
+    <string name="confirm">تایید</string>
+    <string name="resend">ارسال مجدد</string>
+    <string name="activation_code">رمز یک‌بارمصرف</string>
+
+</resources>

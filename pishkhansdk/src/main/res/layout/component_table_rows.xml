@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLl"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingStart="@dimen/margin_16"
+    android:paddingTop="@dimen/margin_12"
+    android:paddingEnd="@dimen/margin_16"
+    android:paddingBottom="@dimen/margin_12">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/keyTv"
+        style="@style/text_normal_grey700"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.8"
+        android:gravity="start" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/valueTv"
+        style="@style/text_normal_primary_dark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="end"
+        android:textAlignment="viewEnd"
+        android:textDirection="anyRtl" />
+
+    <LinearLayout
+        android:id="@+id/imageBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/back_blue_radius6"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:paddingStart="@dimen/margin_8"
+        android:paddingTop="@dimen/margin_4"
+        android:paddingEnd="@dimen/margin_8"
+        android:paddingBottom="@dimen/margin_4">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/actionIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/actionTv"
+            style="@style/text_button_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_4" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iconIv"
+        android:layout_width="@dimen/margin_32"
+        android:layout_height="@dimen/margin_32"
+        android:visibility="gone"
+        android:layout_marginStart="@dimen/margin_8"
+        android:adjustViewBounds="true" />
+
+</LinearLayout>

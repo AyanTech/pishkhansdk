@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="text_normal">
+        <item name="fontFamily">@font/regular</item>
+        <item name="android:fontFamily">@font/regular</item>
+        <item name="android:textSize">@dimen/text_12</item>
+    </style>
+
+    <style name="text_normal_primary_dark" parent="text_normal">
+        <item name="android:textColor">@color/color_primary_dark</item>
+    </style>
+
+    <style name="text_normal_secondary" parent="text_normal">
+        <item name="android:textColor">@color/color_secondary</item>
+    </style>
+
+    <style name="text_normal_grey700" parent="text_normal">
+        <item name="android:textColor">@color/grey_700</item>
+    </style>
+
+    <style name="header">
+        <item name="fontFamily">@font/bold</item>
+        <item name="android:fontFamily">@font/bold</item>
+        <item name="android:textSize">@dimen/text_12</item>
+    </style>
+
+    <style name="header_primary_dark" parent="header">
+        <item name="android:textColor">@color/color_primary_dark</item>
+    </style>
+
+    <style name="description">
+        <item name="fontFamily">@font/regular</item>
+        <item name="android:fontFamily">@font/regular</item>
+        <item name="android:textSize">@dimen/text_11</item>
+    </style>
+
+    <style name="description_grey700" parent="description">
+        <item name="android:textColor">@color/grey_700</item>
+    </style>
+
+    <style name="description_primary_dark" parent="description">
+        <item name="android:textColor">@color/color_primary_dark</item>
+    </style>
+
+    <style name="text_button">
+        <item name="fontFamily">@font/regular</item>
+        <item name="android:fontFamily">@font/regular</item>
+        <item name="android:textSize">@dimen/text_10</item>
+        <item name="android:textColor">@color/color_secondary</item>
+    </style>
+
+    <style name="text_button_white" parent="text_button">
+        <item name="android:textColor">@color/white_header</item>
+    </style>
+
+    <style name="text_normal_green" parent="text_normal">
+        <item name="android:textColor">@color/inquiry_button_color</item>
+    </style>
+
+    <style name="text_button_secondary" parent="text_button">
+        <item name="android:textColor">@color/color_secondary</item>
+    </style>
+
+</resources>
