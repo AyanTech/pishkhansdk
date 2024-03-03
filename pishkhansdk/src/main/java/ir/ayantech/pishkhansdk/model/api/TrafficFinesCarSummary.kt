@@ -10,8 +10,8 @@ import ir.ayantech.pishkhansdk.model.app_logic.Query
 import ir.ayantech.pishkhansdk.model.app_logic.Type
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
 
-@AyanAPI(endPoint = EndPoints.TrafficFinesCarNoDetails)
-class TrafficFinesCarNoDetails {
+@AyanAPI(endPoint = EndPoints.TrafficFinesCarSummary)
+class TrafficFinesCarSummary {
     class Input(
         OTPCode: String? = null,
         val PlateNumber: String,
@@ -22,9 +22,9 @@ class TrafficFinesCarNoDetails {
         Prerequisites: Prerequisites?,
         Messages: Messages?,
         Query: Query,
-        Result: TrafficFinesCarNoDetailsResult?,
+        Result: TrafficFinesCarSummaryResult?,
         WarningMessage: String
-    ) : BaseResultModel<TrafficFinesCarNoDetailsResult>(
+    ) : BaseResultModel<TrafficFinesCarSummaryResult>(
         Query,
         Result,
         WarningMessage,
@@ -32,7 +32,7 @@ class TrafficFinesCarNoDetails {
         Messages
     )
 
-    data class TrafficFinesCarNoDetailsResult(
+    data class TrafficFinesCarSummaryResult(
         val Amount: Long,
         val DateTime: String,
         val ExtraInfo: ExtraInfo?,

@@ -14,7 +14,8 @@ import ir.ayantech.ayannetworking.ayanModel.FailureType
 import ir.ayantech.ayannetworking.ayanModel.LogLevel
 import ir.ayantech.pishkhansdk.databinding.ActivityMainBinding
 import ir.ayantech.pishkhansdk.helper.extensions.PishkhanSDK
-import ir.ayantech.pishkhansdk.model.api.SubventionHistory
+import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
+import ir.ayantech.pishkhansdk.model.api.TrafficFinesCarSummary
 import ir.ayantech.pishkhansdk.ui.bottom_sheets.WaiterBottomSheet
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import java.lang.reflect.Modifier
@@ -40,17 +41,18 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         servicesPishkhan24Api = AyanApi(
             context = this,
             //getUserToken = { PishkhanSDK.getPishkhanToken() },
-            getUserToken = { "B258B6B796CB46A0B84B4695355A5B96" },
+            getUserToken = { "FB6A9A12D7794B14BFD409A0FCFE9780" },
             defaultBaseUrl = "https://services.pishkhan24.ayantech.ir/webservices/services.svc/",
             timeout = 120,
             logLevel = if (BuildConfig.BUILD_TYPE == "debug") LogLevel.LOG_ALL else LogLevel.DO_NOT_LOG,
             gson = gson
         )
 
+
         corePishkhan24Api = AyanApi(
             context = this,
             //getUserToken = { PishkhanSDK.getPishkhanToken() },
-            getUserToken = { "B258B6B796CB46A0B84B4695355A5B96" },
+            getUserToken = { "FB6A9A12D7794B14BFD409A0FCFE9780" },
             defaultBaseUrl = "https://core.pishkhan24.ayantech.ir/webservices/core.svc/",
             timeout = 120,
             logLevel = if (BuildConfig.BUILD_TYPE == "debug") LogLevel.LOG_ALL else LogLevel.DO_NOT_LOG,
@@ -61,7 +63,10 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             context = this, Application = "pishkhan24", Origin = "myket",
             Platform = "android",
             Version = "6.2.1",
-            corePishkhan24Api = corePishkhan24Api!!
+            corePishkhan24Api = corePishkhan24Api!!,
+            successCallback = {
+
+            }
         )
 
 
@@ -83,12 +88,12 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                 }
             }
             changeStatus {
-/*                when (it) {
+                when (it) {
                     CallingState.NOT_USED -> waiterBottomSheet?.hideDialog()
                     CallingState.LOADING -> waiterBottomSheet?.showDialog()
                     CallingState.FAILED -> waiterBottomSheet?.hideDialog()
                     CallingState.SUCCESSFUL -> waiterBottomSheet?.hideDialog()
-                }*/
+                }
             }
         }
 
@@ -105,18 +110,21 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             if (servicesPishkhan24Api != null && corePishkhan24Api != null) {
                 PishkhanSDK.onInquiryButtonClicked(
                     activity = this,
-                    inputModel = SubventionHistory.Input(
-                        MobileNumber = "09016140723", OTPCode = null,
+                    inputModel = TrafficFinesCar.Input(
+                        PlateNumber = "71-و-741-40",
+                        NationalCode = "0923063544",
+                        MobileNumber = "09356078900",
+                        OTPCode = null,
                         PurchaseKey = null
                     ),
-                    serviceName = "v2_InquiryGovernmentSubventionHistory",
+                    serviceName = "v1_InquiryTrafficFinesCar",
                     servicesPishkhan24Api = servicesPishkhan24Api!!,
                     corePishkhan24Api = corePishkhan24Api!!,
                     failureCallBack = {
                         Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
                     },
                     handleResultCallback = {
-                        Toast.makeText(this, "result successful", Toast.LENGTH_LONG)
+                        Toast.makeText(this, "result successful1", Toast.LENGTH_LONG)
                             .show()
                         Log.d("handleOutput", it.Result.toString())
                     }
@@ -133,9 +141,9 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                 servicesPishkhan24Api = servicesPishkhan24Api!!,
                 activity = this
             ) {
-                Toast.makeText(this, "result successful", Toast.LENGTH_LONG)
+                Toast.makeText(this, "result successful2", Toast.LENGTH_LONG)
                     .show()
-                Log.d("handleOutput", it.Result.toString())
+                Log.d("handleOutput", it.toString())
             }
         }
     }

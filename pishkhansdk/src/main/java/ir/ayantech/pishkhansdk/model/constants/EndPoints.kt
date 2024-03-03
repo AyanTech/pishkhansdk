@@ -3,13 +3,12 @@ package ir.ayantech.pishkhansdk.model.constants
 object EndPoints {
 
     //services
-    const val InvoiceRegister = "v1/InvoiceRegister"
     const val JusticeSharesPortfolio = "v1/JusticeSharesPortfolio"
     const val TrafficFinesCar = "v1/TrafficFinesCar"
     const val TrafficFinesImages = "v1/TrafficFinesImages"
-    const val TrafficFinesCarNoDetails = "v1/TrafficFinesCarNoDetails"
+    const val TrafficFinesCarSummary = "v1/TrafficFinesCarSummary"
     const val TrafficFinesMotorcycle = "v1/TrafficFinesMotorcycle"
-    const val TrafficFinesMotorcycleNoDetails = "v1/TrafficFinesMotorcycleNoDetails"
+    const val TrafficFinesMotorcycleSummary = "v1/TrafficFinesMotorcycleSummary"
     const val TopUpOperators = "v1/TopUpOperators"
     const val TopUpProducts = "v1/TopUpProducts"
     const val VehiclePlateNumbers = "v1/VehiclePlateNumbers"
@@ -73,6 +72,7 @@ object EndPoints {
     const val InvoicePayment = "v1/InvoicePayment"
     const val InvoiceInfo = "v1/InvoiceInfo"
     const val DeviceRegister = "v1/DeviceRegister"
+    const val InvoiceRegister = "v1/InvoiceRegister"
 
 
 }

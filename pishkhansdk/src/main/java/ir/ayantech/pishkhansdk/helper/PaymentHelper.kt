@@ -16,7 +16,7 @@ import ir.ayantech.pishkhansdk.model.app_logic.OTP
 import ir.ayantech.pishkhansdk.model.app_logic.createCallBackLink
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleJusticeSharesPortfolioOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleSubventionHistoryOutput
-import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficFinesCarNoDetailsOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficFinesCarSummaryOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficFinesCarOutput
 import ir.ayantech.pishkhansdk.model.api.InvoiceInfo
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
@@ -259,8 +259,8 @@ object PaymentHelper {
                     )
                 }
 
-                Products.carTrafficFinesNoDetailsProduct.name -> {
-                    handleTrafficFinesCarNoDetailsOutput(
+                Products.carTrafficFinesSummaryProduct.name -> {
+                    handleTrafficFinesCarSummaryOutput(
                         activity = activity,
                         input = input,
                         servicesPishkhan24Api = servicesPishkhan24Api,

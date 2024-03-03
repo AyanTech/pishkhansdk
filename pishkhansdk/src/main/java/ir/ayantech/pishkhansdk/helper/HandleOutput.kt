@@ -5,13 +5,13 @@ import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.networking.callJusticeSharesPortfolio
 import ir.ayantech.networking.callSubventionHistory
 import ir.ayantech.networking.callTrafficFinesCar
-import ir.ayantech.networking.callTrafficFinesCarNoDetails
+import ir.ayantech.networking.callTrafficFinesCarSummary
 import ir.ayantech.pishkhansdk.model.api.InvoiceInfo
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.api.JusticeSharesPortfolio
 import ir.ayantech.pishkhansdk.model.api.SubventionHistory
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
-import ir.ayantech.pishkhansdk.model.api.TrafficFinesCarNoDetails
+import ir.ayantech.pishkhansdk.model.api.TrafficFinesCarSummary
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
 import ir.ayantech.pishkhansdk.model.app_logic.Products
 import ir.ayantech.pishkhansdk.model.constants.Parameter
@@ -68,9 +68,9 @@ object HandleOutput {
                 )
             }
 
-            Products.carTrafficFinesNoDetailsProduct.name -> {
-                handleTrafficFinesCarNoDetailsOutput(
-                    activity = activity, input = TrafficFinesCarNoDetails.Input(
+            Products.carTrafficFinesSummaryProduct.name -> {
+                handleTrafficFinesCarSummaryOutput(
+                    activity = activity, input = TrafficFinesCarSummary.Input(
                         PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
                         OTPCode = null,
                         PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
@@ -189,23 +189,23 @@ object HandleOutput {
         }
     }
 
-    fun handleTrafficFinesCarNoDetailsOutput(
+    fun handleTrafficFinesCarSummaryOutput(
         activity: WhyGoogleActivity<*>,
         apiCalledFromTransactionsFragment: Boolean = false,
         input: BaseInputModel,
         servicesPishkhan24Api: AyanApi,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
-        servicesPishkhan24Api.callTrafficFinesCarNoDetails(
-            input = input as TrafficFinesCarNoDetails.Input
+        servicesPishkhan24Api.callTrafficFinesCarSummary(
+            input = input as TrafficFinesCarSummary.Input
         ) {
             success { output ->
                 output?.checkPrerequisites(activity, input) {
                     if (it.isNull()) {
                         handleResultCallback?.invoke(output)
                     } else {
-                        (it as? TrafficFinesCarNoDetails.Input)?.let {
-                            handleTrafficFinesCarNoDetailsOutput(
+                        (it as? TrafficFinesCarSummary.Input)?.let {
+                            handleTrafficFinesCarSummaryOutput(
                                 activity = activity,
                                 apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
                                 input = it,

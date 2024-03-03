@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.api.FailureCallback
+import ir.ayantech.ayannetworking.api.SimpleCallback
+import ir.ayantech.ayannetworking.api.SuccessCallback
 import ir.ayantech.pishkhansdk.Initializer
 import ir.ayantech.pishkhansdk.PishkhanUser
 import ir.ayantech.pishkhansdk.helper.HandleOutput
@@ -26,7 +28,8 @@ object PishkhanSDK {
         Origin: String,
         Platform: String,
         Version: String,
-        corePishkhan24Api: AyanApi
+        corePishkhan24Api: AyanApi,
+        successCallback: SimpleCallback?
     ) {
         PishkhanUser.context = context
 
@@ -35,7 +38,8 @@ object PishkhanSDK {
             Origin = Origin,
             Platform = Platform,
             Version = Version,
-            corePishkhan24Api = corePishkhan24Api
+            corePishkhan24Api = corePishkhan24Api,
+            successCallback= successCallback
         )
     }
 
