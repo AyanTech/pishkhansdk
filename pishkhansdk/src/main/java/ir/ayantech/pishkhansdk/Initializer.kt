@@ -25,7 +25,6 @@ object Initializer {
                 success {
                     it.response?.Parameters?.Session?.let {
                         successCallback?.invoke()
-                        Log.d("hfssdg", it)
                         PishkhanUser.token = it
                     }
                 }

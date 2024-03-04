@@ -1,23 +1,17 @@
-package ir.ayantech.pishkhansdk.helper.extensions
+package ir.ayantech.pishkhansdk.helper
 
 import android.content.Context
 import android.content.Intent
 import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.api.FailureCallback
 import ir.ayantech.ayannetworking.api.SimpleCallback
-import ir.ayantech.ayannetworking.api.SuccessCallback
 import ir.ayantech.pishkhansdk.Initializer
 import ir.ayantech.pishkhansdk.PishkhanUser
-import ir.ayantech.pishkhansdk.helper.HandleOutput
-import ir.ayantech.pishkhansdk.helper.PaymentHelper
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.constants.Constant
 import ir.ayantech.pishkhansdk.model.constants.Constant.PREFIX
-import ir.ayantech.pishkhansdk.model.constants.Parameter
 import ir.ayantech.pishkhansdk.model.app_logic.CallbackDataModel
-import ir.ayantech.pishkhansdk.model.api.JusticeSharesPortfolio
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
-import ir.ayantech.pishkhansdk.model.app_logic.Products
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import ir.ayantech.whygoogle.helper.isNull
 

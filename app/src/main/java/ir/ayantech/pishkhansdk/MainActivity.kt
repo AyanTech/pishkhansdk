@@ -13,10 +13,9 @@ import ir.ayantech.ayannetworking.api.CallingState
 import ir.ayantech.ayannetworking.ayanModel.FailureType
 import ir.ayantech.ayannetworking.ayanModel.LogLevel
 import ir.ayantech.pishkhansdk.databinding.ActivityMainBinding
-import ir.ayantech.pishkhansdk.helper.extensions.PishkhanSDK
+import ir.ayantech.pishkhansdk.helper.PishkhanSDK
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
-import ir.ayantech.pishkhansdk.model.api.TrafficFinesCarSummary
-import ir.ayantech.pishkhansdk.ui.bottom_sheets.WaiterBottomSheet
+import ir.ayantech.pishkhansdk.bottom_sheets.WaiterBottomSheet
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import java.lang.reflect.Modifier
 
