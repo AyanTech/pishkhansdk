@@ -135,7 +135,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                 PishkhanSDK.getInquiryHistory(
                     corePishkhan24Api!!,
                     "v2_InquiryGovernmentSubventionHistory"
-                ){
+                ) {
                     Log.d("hcfh", it.toString())
                 }
             }
