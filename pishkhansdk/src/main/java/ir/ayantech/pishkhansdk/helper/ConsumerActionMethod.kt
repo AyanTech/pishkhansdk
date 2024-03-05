@@ -5,8 +5,10 @@ import android.content.Intent
 import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.api.FailureCallback
 import ir.ayantech.ayannetworking.api.SimpleCallback
+import ir.ayantech.networking.simpleCallUserServiceQueries
 import ir.ayantech.pishkhansdk.Initializer
 import ir.ayantech.pishkhansdk.PishkhanUser
+import ir.ayantech.pishkhansdk.model.api.UserServiceQueries
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.constants.Constant
 import ir.ayantech.pishkhansdk.model.constants.Constant.PREFIX
@@ -33,7 +35,7 @@ object PishkhanSDK {
             Platform = Platform,
             Version = Version,
             corePishkhan24Api = corePishkhan24Api,
-            successCallback= successCallback
+            successCallback = successCallback
         )
     }
 
@@ -161,6 +163,17 @@ object PishkhanSDK {
                   })*/
             }
 
+        }
+    }
+
+    fun getInquiryHistory(
+        corePishkhan24Api: AyanApi, serviceName: String,
+        successfulResponseCallBack: (UserServiceQueries.Output) -> Unit
+    ) {
+        corePishkhan24Api.simpleCallUserServiceQueries(input = UserServiceQueries.Input(Service = serviceName)) {
+            if (it != null) {
+                successfulResponseCallBack(it)
+            }
         }
     }
 }
