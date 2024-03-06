@@ -14,6 +14,7 @@ import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCarSummary
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
 import ir.ayantech.pishkhansdk.model.app_logic.Products
+import ir.ayantech.pishkhansdk.model.constants.EndPoints
 import ir.ayantech.pishkhansdk.model.constants.Parameter
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import ir.ayantech.whygoogle.helper.isNull
@@ -62,6 +63,7 @@ object HandleOutput {
                         OTPCode = null,
                         PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
                     ), servicesPishkhan24Api = servicesPishkhan24Api,
+                    endPoint = EndPoints.TrafficFinesCar,
                     handleResultCallback = {
                         handleResultCallback?.invoke(it)
                     }
@@ -75,6 +77,7 @@ object HandleOutput {
                         OTPCode = null,
                         PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
                     ), servicesPishkhan24Api = servicesPishkhan24Api,
+                    endPoint = EndPoints.TrafficFinesCarSummary,
                     handleResultCallback = {
                         handleResultCallback?.invoke(it)
                     }
@@ -160,10 +163,12 @@ object HandleOutput {
         apiCalledFromTransactionsFragment: Boolean = false,
         input: BaseInputModel,
         servicesPishkhan24Api: AyanApi,
+        endPoint: String,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
         servicesPishkhan24Api.callTrafficFinesCar(
-            input = input as TrafficFinesCar.Input
+            input = input as TrafficFinesCar.Input,
+            endPoint = endPoint
         ) {
             success { output ->
                 output?.checkPrerequisites(activity, input) {
@@ -175,7 +180,8 @@ object HandleOutput {
                                 activity = activity,
                                 apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
                                 input = it,
-                                servicesPishkhan24Api = servicesPishkhan24Api
+                                servicesPishkhan24Api = servicesPishkhan24Api,
+                                endPoint = endPoint
                             ) {
                                 handleResultCallback?.invoke(output)
                             }
@@ -194,10 +200,12 @@ object HandleOutput {
         apiCalledFromTransactionsFragment: Boolean = false,
         input: BaseInputModel,
         servicesPishkhan24Api: AyanApi,
+        endPoint: String,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
         servicesPishkhan24Api.callTrafficFinesCarSummary(
-            input = input as TrafficFinesCarSummary.Input
+            input = input as TrafficFinesCarSummary.Input,
+            endPoint = endPoint
         ) {
             success { output ->
                 output?.checkPrerequisites(activity, input) {
@@ -209,7 +217,8 @@ object HandleOutput {
                                 activity = activity,
                                 apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
                                 input = it,
-                                servicesPishkhan24Api = servicesPishkhan24Api
+                                servicesPishkhan24Api = servicesPishkhan24Api,
+                                endPoint = endPoint
                             ) {
                                 handleResultCallback?.invoke(output)
                             }

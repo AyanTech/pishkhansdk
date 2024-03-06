@@ -163,7 +163,7 @@ object PaymentHelper {
         invoiceOutput: InvoiceRegister.Output,
         corePishkhan24Api: AyanApi
     ) {
-        invoiceOutput.PaymentChannels?.get(1)?.Gateways?.let { gateways ->
+        invoiceOutput.PaymentChannels?.get(0)?.Gateways?.let { gateways ->
             invoicePayment(
                 activity = activity,
                 callBack = CallbackDataModel(
@@ -173,7 +173,7 @@ object PaymentHelper {
                     selectedGateway = null,
                     useCredit = "false",
                     serviceName = invoiceOutput.Invoice.Service.Type.Name,
-                    channelName = invoiceOutput.PaymentChannels[1].Type.Name
+                    channelName = invoiceOutput.PaymentChannels[0].Type.Name
                 ).createCallBackLink(),
                 gateway = gateways[0].Type.Name,
                 purchaseKey = invoiceOutput.Invoice.PurchaseKey,
@@ -253,6 +253,7 @@ object PaymentHelper {
                         activity = activity,
                         input = input,
                         servicesPishkhan24Api = servicesPishkhan24Api,
+                        endPoint = EndPoints.TrafficFinesCar,
                         handleResultCallback = {
                             handleResultCallback?.invoke(it)
                         }
@@ -264,6 +265,7 @@ object PaymentHelper {
                         activity = activity,
                         input = input,
                         servicesPishkhan24Api = servicesPishkhan24Api,
+                        endPoint = EndPoints.TrafficFinesCarSummary,
                         handleResultCallback = {
                             handleResultCallback?.invoke(it)
                         }
@@ -271,11 +273,27 @@ object PaymentHelper {
                 }
 
                 Products.motorTrafficFinesProduct.name -> {
-
+                    handleTrafficFinesCarOutput(
+                        activity = activity,
+                        input = input,
+                        servicesPishkhan24Api = servicesPishkhan24Api,
+                        endPoint = EndPoints.TrafficFinesMotorcycle,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
                 }
 
                 Products.motorTrafficFinesSummeryProduct.name -> {
-
+                    handleTrafficFinesCarSummaryOutput(
+                        activity = activity,
+                        input = input,
+                        servicesPishkhan24Api = servicesPishkhan24Api,
+                        endPoint = EndPoints.TrafficFinesMotorcycleSummary,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
                 }
 
 
