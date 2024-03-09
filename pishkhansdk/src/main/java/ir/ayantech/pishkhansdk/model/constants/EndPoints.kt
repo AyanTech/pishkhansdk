@@ -74,6 +74,8 @@ object EndPoints {
     const val DeviceRegister = "v1/DeviceRegister"
     const val InvoiceRegister = "v1/InvoiceRegister"
     const val UserServiceQueries = "v1/UserServiceQueries"
-
+    const val UserServiceQueryBookmark = "v1/UserServiceQueryBookmark"
+    const val UserServiceQueryDelete = "v1/UserServiceQueryDelete"
+    const val UserServiceQueryNote = "v1/UserServiceQueryNote"
 
 }

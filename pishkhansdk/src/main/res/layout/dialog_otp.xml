@@ -61,7 +61,7 @@
 
     <include
         android:id="@+id/enterOtpCodeLayout"
-        layout="@layout/component_text_fields"
+        layout="@layout/pishkhansdk_component_text_fields"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/secondDescriptionLayout"

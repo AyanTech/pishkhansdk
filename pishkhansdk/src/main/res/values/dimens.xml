@@ -59,5 +59,11 @@
     <dimen name="text_24">24dp</dimen>
     <dimen name="text_32">32dp</dimen>
 
+    <dimen name="button_outlined_radius">12dp</dimen>
+    <dimen name="button_filled_radius">12dp</dimen>
+    <dimen name="edittext_radius">12dp</dimen>
+    <dimen name="button_outlined_stroke_width">1dp</dimen>
+    <dimen name="edittext_stroke_width">1dp</dimen>
+    <dimen name="edittext_height">43dp</dimen>
 
 </resources>

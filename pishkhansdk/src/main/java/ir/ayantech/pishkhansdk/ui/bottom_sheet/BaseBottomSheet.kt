@@ -1,4 +1,4 @@
-package ir.ayantech.pishkhansdk.bottom_sheets
+package ir.ayantech.pishkhansdk.ui.bottom_sheet
 
 import android.content.Context
 import android.os.Bundle

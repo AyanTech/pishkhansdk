@@ -2,6 +2,7 @@ package ir.ayantech.pishkhansdk.model.app_logic
 
 import android.os.Parcel
 import android.os.Parcelable
+import ir.ayantech.pishkhansdk.PishkhanUser
 import ir.ayantech.whygoogle.helper.isNotNull
 
 data class CallbackDataModel(
@@ -55,7 +56,7 @@ data class CallbackDataModel(
 
 fun CallbackDataModel.createCallBackLink(
 ): String {
-    var result = "pishkhan24://ir.ayantech.pishkhan24?"
+    var result = "${PishkhanUser.schema}://${PishkhanUser.host}?"
     if (this.sourcePage.isNotNull())
         result += "sourcePage=${this.sourcePage}"
     if (this.purchaseKey.isNotNull())

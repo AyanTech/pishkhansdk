@@ -15,7 +15,10 @@ import ir.ayantech.ayannetworking.ayanModel.LogLevel
 import ir.ayantech.pishkhansdk.databinding.ActivityMainBinding
 import ir.ayantech.pishkhansdk.helper.PishkhanSDK
 import ir.ayantech.pishkhansdk.bottom_sheets.WaiterBottomSheet
+import ir.ayantech.pishkhansdk.model.api.SubventionHistory
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCarSummary
+import ir.ayantech.pishkhansdk.model.constants.Parameter.PlateNumber
+import ir.ayantech.pishkhansdk.model.constants.Parameter.PurchaseKey
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import java.lang.reflect.Modifier
 
@@ -39,8 +42,8 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
         servicesPishkhan24Api = AyanApi(
             context = this,
-            // getUserToken = { PishkhanSDK.getPishkhanToken() },
-            getUserToken = { "AA22622ACF84434BB946BD74BD7761EB" },
+            getUserToken = { PishkhanSDK.getPishkhanToken() },
+            // getUserToken = { "AA22622ACF84434BB946BD74BD7761EB" },
             defaultBaseUrl = "https://services.pishkhan24.ayantech.ir/webservices/services.svc/",
             timeout = 120,
             logLevel = if (BuildConfig.BUILD_TYPE == "debug") LogLevel.LOG_ALL else LogLevel.DO_NOT_LOG,
@@ -50,8 +53,8 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
         corePishkhan24Api = AyanApi(
             context = this,
-            //getUserToken = { PishkhanSDK.getPishkhanToken() },
-            getUserToken = { "AA22622ACF84434BB946BD74BD7761EB" },
+            getUserToken = { PishkhanSDK.getPishkhanToken() },
+            //getUserToken = { "AA22622ACF84434BB946BD74BD7761EB" },
             defaultBaseUrl = "https://core.pishkhan24.ayantech.ir/webservices/core.svc/",
             timeout = 120,
             logLevel = if (BuildConfig.BUILD_TYPE == "debug") LogLevel.LOG_ALL else LogLevel.DO_NOT_LOG,
@@ -62,6 +65,8 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             context = this, Application = "VasHookSubventionInquiry", Origin = "cafebazaar",
             Platform = "android",
             Version = "4.0.0",
+            schema = "subvention",
+            host = "ir.ayantech.subvention",
             corePishkhan24Api = corePishkhan24Api!!,
             successCallback = {
 
@@ -69,7 +74,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         )
 
 
-        waiterBottomSheet = WaiterBottomSheet(this)
+        waiterBottomSheet = WaiterBottomSheet(this,"")
 
         val ayanCommonCallingStatus = AyanCommonCallStatus {
             failure { failure ->
@@ -108,12 +113,12 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             if (servicesPishkhan24Api != null && corePishkhan24Api != null) {
                 PishkhanSDK.onInquiryButtonClicked(
                     activity = this,
-                    inputModel = TrafficFinesCarSummary.Input(
-                        PlateNumber = "137-93573",
+                    inputModel = SubventionHistory.Input(
+                        MobileNumber = "09397799139",
                         OTPCode = null,
                         PurchaseKey = null
                     ),
-                    serviceName = "v1_InquiryTrafficFinesMotorcycleSummary",
+                    serviceName = "v2_InquiryGovernmentSubventionHistory",
                     servicesPishkhan24Api = servicesPishkhan24Api!!,
                     corePishkhan24Api = corePishkhan24Api!!,
                     failureCallBack = {
@@ -126,13 +131,16 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                     }
                 )
 
-                /*         PishkhanSDK.getInquiryHistory(
-                             corePishkhan24Api!!,
-                             "v2_InquiryGovernmentSubventionHistory"
-                         ) {
-                             Log.d("hcfh", it.toString())
-                         }*/
+                PishkhanSDK.getInquiryHistory(
+                    context = this,
+                    corePishkhan24Api = corePishkhan24Api!!,
+                    serviceName = "v2_InquiryGovernmentSubventionHistory",
+                    inquiryHistoryRv = binding.historyRv
+                ) {
+                    Log.d("inquiry history", it.toString())
+                }
             }
+
         }
     }
 

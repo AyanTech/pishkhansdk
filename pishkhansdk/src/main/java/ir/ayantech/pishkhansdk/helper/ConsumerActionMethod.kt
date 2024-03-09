@@ -2,20 +2,31 @@ package ir.ayantech.pishkhansdk.helper
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
+import androidx.recyclerview.widget.RecyclerView
 import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.api.FailureCallback
 import ir.ayantech.ayannetworking.api.SimpleCallback
+import ir.ayantech.networking.callUserServiceQueries
 import ir.ayantech.networking.simpleCallUserServiceQueries
+import ir.ayantech.networking.simpleCallUserServiceQueryNote
 import ir.ayantech.pishkhansdk.Initializer
 import ir.ayantech.pishkhansdk.PishkhanUser
+import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.model.api.UserServiceQueries
+import ir.ayantech.pishkhansdk.model.api.UserServiceQueryNote
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.constants.Constant
-import ir.ayantech.pishkhansdk.model.constants.Constant.PREFIX
 import ir.ayantech.pishkhansdk.model.app_logic.CallbackDataModel
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
+import ir.ayantech.pishkhansdk.model.app_logic.ExtraInfo
+import ir.ayantech.pishkhansdk.ui.adapter.InquiryHistoryAdapter
+import ir.ayantech.pishkhansdk.ui.bottom_sheet.EditInquiryHistoryBottomSheet
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
+import ir.ayantech.whygoogle.adapter.MultiViewTypeViewHolder
 import ir.ayantech.whygoogle.helper.isNull
+import ir.ayantech.whygoogle.helper.verticalSetup
+import kotlin.math.log
 
 object PishkhanSDK {
     fun initialize(
@@ -24,10 +35,14 @@ object PishkhanSDK {
         Origin: String,
         Platform: String,
         Version: String,
+        schema: String,
+        host: String,
         corePishkhan24Api: AyanApi,
         successCallback: SimpleCallback?
     ) {
         PishkhanUser.context = context
+        PishkhanUser.schema = schema
+        PishkhanUser.host = host
 
         Initializer.deviceRegister(
             Application = Application,
@@ -71,7 +86,8 @@ object PishkhanSDK {
     ) {
 
         intent.data?.toString()?.let {
-            val queryString = it.replace(PREFIX, "")
+            val prefix = "${PishkhanUser.schema}://${PishkhanUser.host}?"
+            val queryString = it.replace(prefix, "")
             val items = queryString.split("&")
 
             val callbackDataModel = CallbackDataModel(
@@ -102,7 +118,7 @@ object PishkhanSDK {
         }
     }
 
-    fun handleIntent(
+    private fun handleIntent(
         callbackDataModel: CallbackDataModel,
         activity: WhyGoogleActivity<*>,
         intent: Intent,
@@ -167,13 +183,71 @@ object PishkhanSDK {
     }
 
     fun getInquiryHistory(
+        context: Context,
         corePishkhan24Api: AyanApi, serviceName: String,
-        successfulResponseCallBack: (UserServiceQueries.Output) -> Unit
+        inquiryHistoryRv: RecyclerView,
+        handleInquiryHistoryClick: (List<ExtraInfo>) -> Unit
     ) {
-        corePishkhan24Api.simpleCallUserServiceQueries(input = UserServiceQueries.Input(Service = serviceName)) {
-            if (it != null) {
-                successfulResponseCallBack(it)
+        corePishkhan24Api.callUserServiceQueries(input = UserServiceQueries.Input(Service = serviceName)) {
+            success {
+                if (it != null) {
+                    inquiryHistoryRv.verticalSetup()
+                    inquiryHistoryRv.adapter =
+                        InquiryHistoryAdapter(it) { item, viewId, position ->
+                            item?.let { inquiryHistoryItem ->
+                                when (viewId) {
+                                    R.id.inquiryHistoryRl -> {
+                                        handleInquiryHistoryClick(inquiryHistoryItem.Parameters)
+                                        //inquiryBtn.performClick()
+
+                                    }
+
+                                    R.id.deleteIv -> {
+                                        /*               DeleteInquiryHistoryDialog(
+                                                           this@BaseInputFragment, product, inquiryHistoryItem
+                                                       ) {
+                                                           ((inquiryHistoryRv.adapter as InquiryHistoryAdapter).items as ArrayList).removeAt(
+                                                               position
+                                                           )
+                                                           inquiryHistoryRv.adapter?.notifyItemRemoved(position)
+                                                           (inquiryHistoryRv.adapter as InquiryHistoryAdapter).items.let {
+                                                               noInquiryHistoryTv.changeVisibility(it.isEmpty())
+                                                           }
+                                                       }.show()*/
+                                    }
+
+                                    R.id.editIv -> {
+                                        EditInquiryHistoryBottomSheet(
+                                            context = context,
+                                            note = inquiryHistoryItem.Note,
+                                            onConfirmClicked = {
+                                                corePishkhan24Api.simpleCallUserServiceQueryNote(
+                                                    UserServiceQueryNote.Input(
+                                                        Note = it,
+                                                        QueryUniqueID = inquiryHistoryItem.UniqueID!!
+                                                    )
+                                                ) {
+                                                    inquiryHistoryRv.adapter?.notifyItemChanged(
+                                                        position
+                                                    )
+
+                                                }
+
+                                            }).show()
+                                    }
+
+                                    R.id.favoriteIv -> {
+
+                                    }
+                                }
+                            }
+                        }
+                }
+            }
+            failure {
+                Log.d("kdhfsgv", it.toString())
             }
         }
     }
+
 }

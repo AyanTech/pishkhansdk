@@ -5,7 +5,7 @@ import android.widget.TextView
 import androidx.core.widget.TextViewCompat
 import com.google.android.material.textfield.TextInputLayout
 import ir.ayantech.pishkhansdk.R
-import ir.ayantech.pishkhansdk.databinding.ComponentTextFieldsBinding
+import ir.ayantech.pishkhansdk.databinding.PishkhansdkComponentTextFieldsBinding
 import ir.ayantech.pishkhansdk.helper.extensions.placeCursorToEnd
 import ir.ayantech.pishkhansdk.helper.extensions.setMaxLength
 import ir.ayantech.pishkhansdk.helper.extensions.textChanges
@@ -14,7 +14,7 @@ import ir.ayantech.whygoogle.helper.StringCallBack
 import ir.ayantech.whygoogle.helper.changeVisibility
 import ir.ayantech.whygoogle.helper.isNotNull
 
-fun ComponentTextFieldsBinding.init(
+fun PishkhansdkComponentTextFieldsBinding.init(
     hint: String,
     maxLength: Int? = null,
     isFocusable: Boolean = true,
@@ -64,23 +64,23 @@ fun ComponentTextFieldsBinding.init(
 
 }
 
-fun ComponentTextFieldsBinding.setError(errorText: String?) {
+fun PishkhansdkComponentTextFieldsBinding.setError(errorText: String?) {
     outlinedTextField.error = errorText
 }
 
-fun ComponentTextFieldsBinding.getText(): String {
+fun PishkhansdkComponentTextFieldsBinding.getText(): String {
     return outlinedTextField.editText?.text.toString()
 }
 
-fun ComponentTextFieldsBinding.setText(text: String) {
+fun PishkhansdkComponentTextFieldsBinding.setText(text: String) {
     outlinedTextField.editText?.setText(text)
 
 }
 
-fun ComponentTextFieldsBinding.placeCursorToEnd() {
+fun PishkhansdkComponentTextFieldsBinding.placeCursorToEnd() {
     outlinedTextField.editText?.placeCursorToEnd()
 }
 
-fun ComponentTextFieldsBinding.setHint(hint: String) {
+fun PishkhansdkComponentTextFieldsBinding.setHint(hint: String) {
     outlinedTextField.hint = hint
 }
