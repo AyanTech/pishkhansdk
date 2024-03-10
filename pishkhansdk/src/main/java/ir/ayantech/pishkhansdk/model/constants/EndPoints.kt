@@ -53,7 +53,6 @@ object EndPoints {
     const val TransferTaxCar = "v1/TransferTaxCar"
     const val TransferTaxMotorcycle = "v1/TransferTaxMotorcycle"
     const val PostPackagesStatus = "v1/PostPackagesStatus"
-    const val UserTransactions = "v1/UserTransactions"
     const val BankChequeStatusSayad = "v1/BankChequeStatusSayad"
     const val VehicleThirdPartyInsurance = "v1/VehicleThirdPartyInsurance"
     const val VehicleThirdPartyInsuranceStatus = "v1/VehicleThirdPartyInsuranceStatus"
@@ -77,5 +76,6 @@ object EndPoints {
     const val UserServiceQueryBookmark = "v1/UserServiceQueryBookmark"
     const val UserServiceQueryDelete = "v1/UserServiceQueryDelete"
     const val UserServiceQueryNote = "v1/UserServiceQueryNote"
-
+    const val UserSessionUpdateInfo = "v1/UserSessionUpdateInfo"
+    const val UserTransactions = "v1/UserTransactions"
 }

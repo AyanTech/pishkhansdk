@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/back_white_radius8"
+    android:layout_marginTop="@dimen/margin_10"
     android:backgroundTint="@color/white"
     android:paddingStart="@dimen/margin_16"
     android:paddingTop="@dimen/margin_12"

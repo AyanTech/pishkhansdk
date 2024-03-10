@@ -57,6 +57,7 @@ data class CallbackDataModel(
 fun CallbackDataModel.createCallBackLink(
 ): String {
     var result = "${PishkhanUser.schema}://${PishkhanUser.host}?"
+    PishkhanUser.prefix = "${PishkhanUser.schema}://${PishkhanUser.host}?"
     if (this.sourcePage.isNotNull())
         result += "sourcePage=${this.sourcePage}"
     if (this.purchaseKey.isNotNull())

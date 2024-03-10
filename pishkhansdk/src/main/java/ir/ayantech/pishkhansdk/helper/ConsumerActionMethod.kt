@@ -1,5 +1,6 @@
 package ir.ayantech.pishkhansdk.helper
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -8,33 +9,40 @@ import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.api.FailureCallback
 import ir.ayantech.ayannetworking.api.SimpleCallback
 import ir.ayantech.networking.callUserServiceQueries
-import ir.ayantech.networking.simpleCallUserServiceQueries
+import ir.ayantech.networking.callUserTransactions
+import ir.ayantech.networking.simpleCallUserServiceQueryBookmark
+import ir.ayantech.networking.simpleCallUserServiceQueryDelete
 import ir.ayantech.networking.simpleCallUserServiceQueryNote
 import ir.ayantech.pishkhansdk.Initializer
 import ir.ayantech.pishkhansdk.PishkhanUser
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.model.api.UserServiceQueries
+import ir.ayantech.pishkhansdk.model.api.UserServiceQueryBookmark
+import ir.ayantech.pishkhansdk.model.api.UserServiceQueryDelete
 import ir.ayantech.pishkhansdk.model.api.UserServiceQueryNote
+import ir.ayantech.pishkhansdk.model.api.UserTransactions
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.constants.Constant
 import ir.ayantech.pishkhansdk.model.app_logic.CallbackDataModel
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
 import ir.ayantech.pishkhansdk.model.app_logic.ExtraInfo
 import ir.ayantech.pishkhansdk.ui.adapter.InquiryHistoryAdapter
+import ir.ayantech.pishkhansdk.ui.adapter.TransactionAdapter
+import ir.ayantech.pishkhansdk.ui.bottom_sheet.ConfirmationBottomSheet
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.EditInquiryHistoryBottomSheet
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
-import ir.ayantech.whygoogle.adapter.MultiViewTypeViewHolder
+import ir.ayantech.whygoogle.helper.formatAmount
 import ir.ayantech.whygoogle.helper.isNull
+import ir.ayantech.whygoogle.helper.openUrl
 import ir.ayantech.whygoogle.helper.verticalSetup
-import kotlin.math.log
 
 object PishkhanSDK {
     fun initialize(
         context: Context,
-        Application: String,
-        Origin: String,
-        Platform: String,
-        Version: String,
+        application: String,
+        origin: String,
+        platform: String,
+        version: String,
         schema: String,
         host: String,
         corePishkhan24Api: AyanApi,
@@ -44,14 +52,22 @@ object PishkhanSDK {
         PishkhanUser.schema = schema
         PishkhanUser.host = host
 
-        Initializer.deviceRegister(
-            Application = Application,
-            Origin = Origin,
-            Platform = Platform,
-            Version = Version,
+        Initializer.updateUserSessions(
             corePishkhan24Api = corePishkhan24Api,
-            successCallback = successCallback
+            origin = origin,
+            version = version,
         )
+
+        if (PishkhanUser.token.isEmpty())
+            Initializer.deviceRegister(
+                application = application,
+                origin = origin,
+                platform = platform,
+                version = version,
+                corePishkhan24Api = corePishkhan24Api,
+                successCallback = successCallback
+            )
+
     }
 
     fun getPishkhanToken(): String = PishkhanUser.token
@@ -86,7 +102,7 @@ object PishkhanSDK {
     ) {
 
         intent.data?.toString()?.let {
-            val prefix = "${PishkhanUser.schema}://${PishkhanUser.host}?"
+            val prefix = PishkhanUser.prefix
             val queryString = it.replace(prefix, "")
             val items = queryString.split("&")
 
@@ -126,7 +142,7 @@ object PishkhanSDK {
         servicesPishkhan24Api: AyanApi,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
-        if (intent.data?.toString()?.startsWith(Constant.DEEP_LINK_PREFIX) == true) {
+        if (intent.data?.toString()?.startsWith("${PishkhanUser.schema}:") == true) {
             if (callbackDataModel.purchaseKey != null) {
                 //it means that it was a inquiry with cost
                 //now should check user has paid with wallet or online
@@ -184,7 +200,8 @@ object PishkhanSDK {
 
     fun getInquiryHistory(
         context: Context,
-        corePishkhan24Api: AyanApi, serviceName: String,
+        corePishkhan24Api: AyanApi,
+        serviceName: String,
         inquiryHistoryRv: RecyclerView,
         handleInquiryHistoryClick: (List<ExtraInfo>) -> Unit
     ) {
@@ -203,17 +220,23 @@ object PishkhanSDK {
                                     }
 
                                     R.id.deleteIv -> {
-                                        /*               DeleteInquiryHistoryDialog(
-                                                           this@BaseInputFragment, product, inquiryHistoryItem
-                                                       ) {
-                                                           ((inquiryHistoryRv.adapter as InquiryHistoryAdapter).items as ArrayList).removeAt(
-                                                               position
-                                                           )
-                                                           inquiryHistoryRv.adapter?.notifyItemRemoved(position)
-                                                           (inquiryHistoryRv.adapter as InquiryHistoryAdapter).items.let {
-                                                               noInquiryHistoryTv.changeVisibility(it.isEmpty())
-                                                           }
-                                                       }.show()*/
+                                        ConfirmationBottomSheet(
+                                            context = context, onConfirmClicked = {
+                                                ((inquiryHistoryRv.adapter as InquiryHistoryAdapter).items as ArrayList).removeAt(
+                                                    position
+                                                )
+                                                inquiryHistoryRv.adapter?.notifyItemRemoved(position)
+
+                                                corePishkhan24Api.simpleCallUserServiceQueryDelete(
+                                                    UserServiceQueryDelete.Input(
+                                                        QueryUniqueID = inquiryHistoryItem.UniqueID!!
+                                                    )
+                                                ) {
+                                                    inquiryHistoryRv.adapter?.notifyItemChanged(
+                                                        position
+                                                    )
+                                                }
+                                            }).show()
                                     }
 
                                     R.id.editIv -> {
@@ -230,14 +253,20 @@ object PishkhanSDK {
                                                     inquiryHistoryRv.adapter?.notifyItemChanged(
                                                         position
                                                     )
-
                                                 }
 
                                             }).show()
                                     }
 
                                     R.id.favoriteIv -> {
-
+                                        bookmarkInquiryHistory(
+                                            corePishkhan24Api,
+                                            inquiryHistoryItem
+                                        ) {
+                                            item.Favorite = !item.Favorite
+                                            inquiryHistoryRv.adapter?.notifyItemChanged(position)
+                                            // getInquiryHistory()
+                                        }
                                     }
                                 }
                             }
@@ -248,6 +277,84 @@ object PishkhanSDK {
                 Log.d("kdhfsgv", it.toString())
             }
         }
+    }
+
+    private fun bookmarkInquiryHistory(
+        corePishkhan24Api: AyanApi,
+        inquiryHistoryItem: UserServiceQueries.InquiryHistory,
+        successCallback: SimpleCallback
+    ) {
+        corePishkhan24Api.simpleCallUserServiceQueryBookmark(
+            UserServiceQueryBookmark.Input(
+                Favorite = !inquiryHistoryItem.Favorite,
+                QueryUniqueID = inquiryHistoryItem.UniqueID!!
+            )
+        ) {
+            successCallback()
+        }
+    }
+
+    fun getUserTransactionHistory(
+        activity: WhyGoogleActivity<*>,
+        corePishkhan24Api: AyanApi,
+        servicesPishkhan24Api: AyanApi,
+        userTransactionHistoryRv: RecyclerView,
+        handleInquiryHistoryClick: (List<ExtraInfo>) -> Unit
+    ) {
+        corePishkhan24Api.callUserTransactions {
+            success {
+                it?.let {
+                    setupAdapter(
+                        activity = activity,
+                        list = it.Transactions ?: arrayListOf(),
+                        transactionRv = userTransactionHistoryRv,
+                        corePishkhan24Api = corePishkhan24Api,
+                        servicesPishkhan24Api = servicesPishkhan24Api
+                    )
+                }
+            }
+            failure {
+                Log.d("kdhfsgv", it.toString())
+            }
+        }
+    }
+
+    private fun setupAdapter(
+        activity: WhyGoogleActivity<*>,
+        list: List<UserTransactions.Transaction>,
+        transactionRv: RecyclerView,
+        corePishkhan24Api: AyanApi,
+        servicesPishkhan24Api: AyanApi,
+    ) {
+
+        transactionRv.verticalSetup()
+        transactionRv.adapter = TransactionAdapter(list)
+        { item, viewId, position ->
+            item?.let {
+                if (it.Reference?.startsWith("http") == true) {
+                    it.Reference.openUrl(activity)
+                } else {
+                    it.Reference?.replace(PishkhanUser.prefix, "")?.split("&")?.let {
+                        it.firstOrNull { it.startsWith("purchaseKey") }?.split("=")?.get(1)
+                            ?.let { purchaseKey ->
+                                PaymentHelper.getInvoiceInfo(
+                                    corePishkhan24Api = corePishkhan24Api,
+                                    purchaseKey = purchaseKey
+                                ) { invoiceInfoOutput ->
+                                    HandleOutput.handleOutputResult(
+                                        activity = activity,
+                                        invoiceInfoOutput = invoiceInfoOutput,
+                                        servicesPishkhan24Api = servicesPishkhan24Api
+                                    ) {
+
+                                    }
+                                }
+                            }
+                    }
+                }
+            }
+        }
+
     }
 
 }

@@ -16,9 +16,6 @@ import ir.ayantech.pishkhansdk.databinding.ActivityMainBinding
 import ir.ayantech.pishkhansdk.helper.PishkhanSDK
 import ir.ayantech.pishkhansdk.bottom_sheets.WaiterBottomSheet
 import ir.ayantech.pishkhansdk.model.api.SubventionHistory
-import ir.ayantech.pishkhansdk.model.api.TrafficFinesCarSummary
-import ir.ayantech.pishkhansdk.model.constants.Parameter.PlateNumber
-import ir.ayantech.pishkhansdk.model.constants.Parameter.PurchaseKey
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import java.lang.reflect.Modifier
 
@@ -62,9 +59,9 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         )
 
         PishkhanSDK.initialize(
-            context = this, Application = "VasHookSubventionInquiry", Origin = "cafebazaar",
-            Platform = "android",
-            Version = "4.0.0",
+            context = this, application = "VasHookSubventionInquiry", origin = "cafebazaar",
+            platform = "android",
+            version = "4.0.0",
             schema = "subvention",
             host = "ir.ayantech.subvention",
             corePishkhan24Api = corePishkhan24Api!!,
@@ -74,7 +71,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         )
 
 
-        waiterBottomSheet = WaiterBottomSheet(this,"")
+        waiterBottomSheet = WaiterBottomSheet(this, "")
 
         val ayanCommonCallingStatus = AyanCommonCallStatus {
             failure { failure ->
@@ -114,7 +111,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                 PishkhanSDK.onInquiryButtonClicked(
                     activity = this,
                     inputModel = SubventionHistory.Input(
-                        MobileNumber = "09397799139",
+                        MobileNumber = "09016140723",
                         OTPCode = null,
                         PurchaseKey = null
                     ),
@@ -131,16 +128,27 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                     }
                 )
 
-                PishkhanSDK.getInquiryHistory(
-                    context = this,
-                    corePishkhan24Api = corePishkhan24Api!!,
-                    serviceName = "v2_InquiryGovernmentSubventionHistory",
-                    inquiryHistoryRv = binding.historyRv
-                ) {
-                    Log.d("inquiry history", it.toString())
-                }
+                /*                PishkhanSDK.getInquiryHistory(
+                                    context = this,
+                                    corePishkhan24Api = corePishkhan24Api!!,
+                                    serviceName = "v2_InquiryGovernmentSubventionHistory",
+                                    inquiryHistoryRv = binding.historyRv
+                                ) {
+                                    Log.d("inquiry history", it.toString())
+                                }*/
+
+
             }
 
+        }
+
+        PishkhanSDK.getUserTransactionHistory(
+            activity = this,
+            corePishkhan24Api = corePishkhan24Api!!,
+            servicesPishkhan24Api = servicesPishkhan24Api!!,
+            userTransactionHistoryRv = binding.historyRv
+        ) {
+            Log.d("transactionHistory", it.toString())
         }
     }
 

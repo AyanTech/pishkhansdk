@@ -10,5 +10,7 @@
     <string name="enter_info">اطلاعات را وارد کنید</string>
     <string name="edit_info">اطلاعات را ویرایش کنید</string>
     <string name="cancel">لغو</string>
+    <string name="delete_confirmation">آیا مایل به حذف هستید؟</string>
+    <string name="attention">توجه</string>
 
 </resources>

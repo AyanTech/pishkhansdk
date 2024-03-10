@@ -1,22 +1,20 @@
 package ir.ayantech.pishkhansdk
 
-import android.app.Application
-import android.util.Log
 import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.api.AyanCallStatus
 import ir.ayantech.ayannetworking.api.SimpleCallback
+import ir.ayantech.networking.callUserSessionUpdateInfo
 import ir.ayantech.pishkhansdk.model.api.DeviceRegister
+import ir.ayantech.pishkhansdk.model.api.UserSessionUpdateInfo
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
-import okhttp3.internal.Version
-import okhttp3.internal.platform.Platform
 
 object Initializer {
 
     fun deviceRegister(
-        Application: String,
-        Origin: String,
-        Platform: String,
-        Version: String,
+        application: String,
+        origin: String,
+        platform: String,
+        version: String,
         corePishkhan24Api: AyanApi,
         successCallback: SimpleCallback?
     ) {
@@ -32,12 +30,26 @@ object Initializer {
             },
             EndPoints.DeviceRegister,
             DeviceRegister.Input(
-                Application = Application,
-                Origin = Origin,
-                Platform = Platform,
-                Version = Version
+                Application = application,
+                Origin = origin,
+                Platform = platform,
+                Version = version
             ),
             hasIdentity = false
         )
+    }
+
+    fun updateUserSessions(
+        corePishkhan24Api: AyanApi,
+        origin: String,
+        version: String
+    ) {
+        corePishkhan24Api.callUserSessionUpdateInfo(
+            input = UserSessionUpdateInfo.Input(
+                Origin = origin, Version = version
+            )
+        ) {
+
+        }
     }
 }

@@ -8,6 +8,7 @@
     <color name="orange">#FF8B07</color>
     <color name="color_background">#F3F6FF</color>
     <color name="white">#FFFFFF</color>
+    <color name="green">#2ECB6D</color>
 
     <color name="grey">#616161</color>
     <color name="grey_2">#EAEAEA</color>
@@ -44,7 +45,7 @@
     <color name="pishkhansdk_text_color_hint">#BDBDBD</color>
     <color name="pishkhansdk_text_color_inquiry_history">#424242</color>
     <color name="pishkhansdk_is_favorite_icon_color">#00BAF2</color>
-    <color name="pishkhansdk_is_not_favorite_icon_color">#BDBDBD</color>
+    <color name="pishkhansdk_is_not_favorite_icon_color">#FFFFFF</color>
 
 
     <color name="gray1">#212121</color>

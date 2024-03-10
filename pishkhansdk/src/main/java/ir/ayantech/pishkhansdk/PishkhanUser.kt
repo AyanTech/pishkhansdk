@@ -18,4 +18,8 @@ object PishkhanUser {
     var host: String
         get() = PreferencesManager.getInstance(context).read("host")
         set(value) = PreferencesManager.getInstance(context).save("host", value)
+
+    var prefix: String
+        get() = PreferencesManager.getInstance(context).read("prefix")
+        set(value) = PreferencesManager.getInstance(context).save("prefix", value)
 }
