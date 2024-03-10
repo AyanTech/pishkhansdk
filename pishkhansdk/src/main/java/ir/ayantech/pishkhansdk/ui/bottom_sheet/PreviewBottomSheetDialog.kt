@@ -1,4 +1,4 @@
-package ir.ayantech.pishkhansdk.ui.dialogs
+package ir.ayantech.pishkhansdk.ui.bottom_sheet
 
 import android.content.Context
 import android.os.Bundle
@@ -9,15 +9,18 @@ import ir.ayantech.pishkhansdk.model.api.InvoiceRegister
 import ir.ayantech.pishkhansdk.ui.adapter.SimpleKeyValueAdapter
 import ir.ayantech.whygoogle.helper.*
 
-class PreviewDialog(
+class PreviewBottomSheetDialog(
     context: Context,
     var invoiceOutput: InvoiceRegister.Output,
     var showAmountSection: Boolean,
     val confirmBtnClicked: SimpleCallBack
-) : AyanDialog<DialogPreviewBinding>(context) {
+) : BaseBottomSheet<DialogPreviewBinding>(context) {
 
     override val binder: (LayoutInflater) -> DialogPreviewBinding
         get() = DialogPreviewBinding::inflate
+
+    override val title: String
+        get() = "پیش نمایش"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

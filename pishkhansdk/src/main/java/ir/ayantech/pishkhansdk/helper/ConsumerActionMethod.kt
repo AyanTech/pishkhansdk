@@ -299,7 +299,7 @@ object PishkhanSDK {
         corePishkhan24Api: AyanApi,
         servicesPishkhan24Api: AyanApi,
         userTransactionHistoryRv: RecyclerView,
-        handleInquiryHistoryClick: (List<ExtraInfo>) -> Unit
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)?
     ) {
         corePishkhan24Api.callUserTransactions {
             success {
@@ -310,7 +310,9 @@ object PishkhanSDK {
                         transactionRv = userTransactionHistoryRv,
                         corePishkhan24Api = corePishkhan24Api,
                         servicesPishkhan24Api = servicesPishkhan24Api
-                    )
+                    ){
+                        handleResultCallback?.invoke(it)
+                    }
                 }
             }
             failure {
@@ -325,6 +327,7 @@ object PishkhanSDK {
         transactionRv: RecyclerView,
         corePishkhan24Api: AyanApi,
         servicesPishkhan24Api: AyanApi,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)?
     ) {
 
         transactionRv.verticalSetup()
@@ -346,7 +349,7 @@ object PishkhanSDK {
                                         invoiceInfoOutput = invoiceInfoOutput,
                                         servicesPishkhan24Api = servicesPishkhan24Api
                                     ) {
-
+                                        handleResultCallback?.invoke(it)
                                     }
                                 }
                             }

@@ -21,8 +21,8 @@ import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficFinesCarOutput
 import ir.ayantech.pishkhansdk.model.api.InvoiceInfo
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
 import ir.ayantech.pishkhansdk.model.app_logic.Products
-import ir.ayantech.pishkhansdk.ui.dialogs.OtpDialog
-import ir.ayantech.pishkhansdk.ui.dialogs.PreviewDialog
+import ir.ayantech.pishkhansdk.ui.bottom_sheet.OtpBottomSheetDialog
+import ir.ayantech.pishkhansdk.ui.bottom_sheet.PreviewBottomSheetDialog
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import ir.ayantech.whygoogle.helper.fromJsonToObject
 import ir.ayantech.whygoogle.helper.isNotNull
@@ -31,7 +31,7 @@ import ir.ayantech.whygoogle.helper.toJsonString
 
 object PaymentHelper {
 
-    var otpDialog: OtpDialog? = null
+    var otpBottomSheetDialog: OtpBottomSheetDialog? = null
 
     /**
      * This method checks if the service has a prerequisite
@@ -50,7 +50,7 @@ object PaymentHelper {
         servicesPishkhan24Api.ayanCall<InvoiceRegister.Output>(
             AyanCallStatus {
                 success {
-                    otpDialog?.dismiss()
+                    otpBottomSheetDialog?.dismiss()
                     it.response?.Parameters?.let { output ->
                         when (output.Prerequisites) {
                             //Service doesn't have any prerequisites so should check whether it has a preview or not
@@ -108,7 +108,7 @@ object PaymentHelper {
                             else -> {
                                 when (output.Prerequisites.Type) {
                                     PrerequisitesType.OTP.name -> {
-                                        otpDialog = OtpDialog(
+                                        otpBottomSheetDialog = OtpBottomSheetDialog(
                                             context = activity,
                                             otp = output.Prerequisites.Value?.fromJsonToObject<OTP>(),
                                         ) { otpCode ->
@@ -134,7 +134,7 @@ object PaymentHelper {
                                                 )
                                             }
                                         }
-                                        otpDialog?.show()
+                                        otpBottomSheetDialog?.show()
                                     }
                                 }
                             }
@@ -142,8 +142,8 @@ object PaymentHelper {
                     }
                 }
                 failure {
-                    if (otpDialog?.isShowing == true) {
-                        otpDialog?.setError(it.failureMessage)
+                    if (otpBottomSheetDialog?.isShowing == true) {
+                        otpBottomSheetDialog?.setError(it.failureMessage)
                         if (failureCallBack != null) {
                             failureCallBack(it)
                         }
@@ -193,7 +193,7 @@ object PaymentHelper {
         servicesPishkhan24Api: AyanApi,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
-        PreviewDialog(
+        PreviewBottomSheetDialog(
             context = activity, invoiceOutput = output, showAmountSection = showAmountSection
         ) {
             if (showAmountSection) {

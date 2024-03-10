@@ -4,7 +4,7 @@ import ir.ayantech.whygoogle.helper.isNull
 import ir.ayantech.whygoogle.helper.trying
 import java.text.SimpleDateFormat
 import java.util.Locale
-//import saman.zamani.persiandate.PersianDate
+import saman.zamani.persiandate.PersianDate
 
 fun String.getFormattedPersianDateTime(): String {
     return if (this.contains("T"))
@@ -12,20 +12,21 @@ fun String.getFormattedPersianDateTime(): String {
     else
         "نامشخص"
 }
+
 fun String.getDate(): String {
     var date = "-"
     trying {
         if (this.isNotEmpty()) {
             val grogDate = convertUtcToGregorian(this)
             if (grogDate.isNotEmpty()) {
-/*               val persianDate = PersianDate()
+                val persianDate = PersianDate()
                 val jalali = persianDate.gregorian_to_jalali(grogDate[0], grogDate[1], grogDate[2])
 
                 // Format month and day with two digits
                 val formattedMonth = String.format("%02d", jalali[1])
                 val formattedDay = String.format("%02d", jalali[2])
 
-                date = "${jalali[0]}-$formattedMonth-$formattedDay"*/
+                date = "${jalali[0]}-$formattedMonth-$formattedDay"
             }
         }
     }

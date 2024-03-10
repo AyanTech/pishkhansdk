@@ -40,7 +40,6 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         servicesPishkhan24Api = AyanApi(
             context = this,
             getUserToken = { PishkhanSDK.getPishkhanToken() },
-            // getUserToken = { "AA22622ACF84434BB946BD74BD7761EB" },
             defaultBaseUrl = "https://services.pishkhan24.ayantech.ir/webservices/services.svc/",
             timeout = 120,
             logLevel = if (BuildConfig.BUILD_TYPE == "debug") LogLevel.LOG_ALL else LogLevel.DO_NOT_LOG,
@@ -51,7 +50,6 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         corePishkhan24Api = AyanApi(
             context = this,
             getUserToken = { PishkhanSDK.getPishkhanToken() },
-            //getUserToken = { "AA22622ACF84434BB946BD74BD7761EB" },
             defaultBaseUrl = "https://core.pishkhan24.ayantech.ir/webservices/core.svc/",
             timeout = 120,
             logLevel = if (BuildConfig.BUILD_TYPE == "debug") LogLevel.LOG_ALL else LogLevel.DO_NOT_LOG,
@@ -111,7 +109,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                 PishkhanSDK.onInquiryButtonClicked(
                     activity = this,
                     inputModel = SubventionHistory.Input(
-                        MobileNumber = "09016140723",
+                        MobileNumber = "09331762383",
                         OTPCode = null,
                         PurchaseKey = null
                     ),
@@ -128,19 +126,19 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                     }
                 )
 
-                /*                PishkhanSDK.getInquiryHistory(
-                                    context = this,
-                                    corePishkhan24Api = corePishkhan24Api!!,
-                                    serviceName = "v2_InquiryGovernmentSubventionHistory",
-                                    inquiryHistoryRv = binding.historyRv
-                                ) {
-                                    Log.d("inquiry history", it.toString())
-                                }*/
-
-
             }
 
         }
+
+        PishkhanSDK.getInquiryHistory(
+            context = this,
+            corePishkhan24Api = corePishkhan24Api!!,
+            serviceName = "v2_InquiryGovernmentSubventionHistory",
+            inquiryHistoryRv = binding.historyRv
+        ) {
+            Log.d("inquiry history", it.toString())
+        }
+
 
         PishkhanSDK.getUserTransactionHistory(
             activity = this,
@@ -148,7 +146,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             servicesPishkhan24Api = servicesPishkhan24Api!!,
             userTransactionHistoryRv = binding.historyRv
         ) {
-            Log.d("transactionHistory", it.toString())
+            Log.d("hsdbcakf",it.toString())
         }
     }
 

@@ -1,4 +1,4 @@
-package ir.ayantech.pishkhansdk.ui.dialogs
+package ir.ayantech.pishkhansdk.ui.bottom_sheet
 
 import android.content.Context
 import android.os.Bundle
@@ -16,17 +16,17 @@ import ir.ayantech.whygoogle.helper.changeVisibility
 import ir.ayantech.whygoogle.helper.isNotNull
 import ir.ayantech.whygoogle.helper.trying
 
-class OtpDialog(
+class OtpBottomSheetDialog(
     context: Context,
     private val otp: OTP?,
     private val callback: (String?) -> Unit
-) : AyanDialog<DialogOtpBinding>(context) {
+) : BaseBottomSheet<DialogOtpBinding>(context) {
 
     override val binder: (LayoutInflater) -> DialogOtpBinding
         get() = DialogOtpBinding::inflate
 
-    override val isCentered: Boolean
-        get() = true
+    override val title: String?
+        get() = ""
 
     val otpValidation = otp?.Validation
 

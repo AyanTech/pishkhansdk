@@ -3,11 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:clipToPadding="false"
-    android:paddingStart="@dimen/margin_16"
-    android:paddingTop="@dimen/margin_16"
-    android:paddingEnd="@dimen/margin_16"
-    android:paddingBottom="@dimen/margin_24">
+    android:clipToPadding="false">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/closeIv"

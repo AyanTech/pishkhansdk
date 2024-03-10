@@ -1,8 +1,7 @@
 package ir.ayantech.pishkhansdk.model.app_logic
 
-import ir.ayantech.pishkhansdk.helper.PaymentHelper.otpDialog
-import ir.ayantech.pishkhansdk.ui.dialogs.OtpDialog
-import ir.ayantech.pishkhansdk.ui.fragments.AyanFragment
+import ir.ayantech.pishkhansdk.helper.PaymentHelper.otpBottomSheetDialog
+import ir.ayantech.pishkhansdk.ui.bottom_sheet.OtpBottomSheetDialog
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import ir.ayantech.whygoogle.helper.isNotNull
 
@@ -44,13 +43,13 @@ open class BaseResultModel<T>(
         if (Prerequisites.isNotNull()) {
             when {
                 Prerequisites?.OTP != null -> {
-                    otpDialog =
-                        OtpDialog(context = ayanActivity, otp = Prerequisites.OTP) { otpCode ->
-                            otpDialog?.dismiss()
+                    otpBottomSheetDialog =
+                        OtpBottomSheetDialog(context = ayanActivity, otp = Prerequisites.OTP) { otpCode ->
+                            otpBottomSheetDialog?.dismiss()
                             input.OTPCode = otpCode
                             checkCompletedCallback(input)
                         }
-                    otpDialog?.show()
+                    otpBottomSheetDialog?.show()
 
 
                 }
@@ -69,12 +68,12 @@ open class BaseResultModel<T>(
                 }
 
                 else -> {
-                    otpDialog?.dismiss()
+                    otpBottomSheetDialog?.dismiss()
                     checkCompletedCallback(null)
                 }
             }
         } else {
-            otpDialog?.dismiss()
+            otpBottomSheetDialog?.dismiss()
             checkCompletedCallback(null)
         }
 

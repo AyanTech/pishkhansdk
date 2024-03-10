@@ -59,10 +59,6 @@ abstract class BaseBottomSheet<T : ViewBinding>(context: Context) : BottomSheetD
         window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_RTL
 
         parentBinding = BottomSheetBaseBinding.inflate(layoutInflater)
-        parentBinding?.closeIv?.changeVisibility(show = hasCloseOption)
-        parentBinding?.closeIv?.setOnClickListener { onCloseIvClicked() }
-        parentBinding?.titleTv?.changeVisibility(show = title.isNotNull())
-        parentBinding?.titleTv?.text = title
         parentBinding?.containerFl?.addView(binding.root)
         parentBinding?.root?.let { setContentView(it) }
         window?.setLayout(MATCH_PARENT, MATCH_PARENT)

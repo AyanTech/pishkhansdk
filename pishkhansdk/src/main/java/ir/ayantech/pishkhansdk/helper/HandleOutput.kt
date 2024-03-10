@@ -6,6 +6,10 @@ import ir.ayantech.networking.callJusticeSharesPortfolio
 import ir.ayantech.networking.callSubventionHistory
 import ir.ayantech.networking.callTrafficFinesCar
 import ir.ayantech.networking.callTrafficFinesCarSummary
+import ir.ayantech.networking.simpleCallJusticeSharesPortfolio
+import ir.ayantech.networking.simpleCallSubventionHistory
+import ir.ayantech.networking.simpleCallTrafficFinesCar
+import ir.ayantech.networking.simpleCallTrafficFinesCarSummary
 import ir.ayantech.pishkhansdk.model.api.InvoiceInfo
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.api.JusticeSharesPortfolio
@@ -97,30 +101,27 @@ object HandleOutput {
         servicesPishkhan24Api: AyanApi,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
-        servicesPishkhan24Api.callJusticeSharesPortfolio(
+        servicesPishkhan24Api.simpleCallJusticeSharesPortfolio(
             input = input as JusticeSharesPortfolio.Input
-        ) {
-            success { output ->
-                output?.checkPrerequisites(activity, input) {
-                    if (it.isNull()) {
-                        handleResultCallback?.invoke(output)
-                    } else {
-                        (it as? JusticeSharesPortfolio.Input)?.let {
-                            handleJusticeSharesPortfolioOutput(
-                                activity = activity,
-                                apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
-                                input = it,
-                                servicesPishkhan24Api = servicesPishkhan24Api
-                            ) {
-                                handleResultCallback?.invoke(output)
-                            }
+        ) { output ->
+            output?.checkPrerequisites(activity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? JusticeSharesPortfolio.Input)?.let {
+                        handleJusticeSharesPortfolioOutput(
+                            activity = activity,
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                            servicesPishkhan24Api = servicesPishkhan24Api
+                        ) {
+                            handleResultCallback?.invoke(output)
                         }
                     }
                 }
             }
-            failure {
-                Toast.makeText(activity, "failure: $it", Toast.LENGTH_LONG).show()
-            }
+
+
         }
     }
 
@@ -131,29 +132,24 @@ object HandleOutput {
         servicesPishkhan24Api: AyanApi,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
-        servicesPishkhan24Api.callSubventionHistory(
+        servicesPishkhan24Api.simpleCallSubventionHistory(
             input = input as SubventionHistory.Input
-        ) {
-            success { output ->
-                output?.checkPrerequisites(activity, input) {
-                    if (it.isNull()) {
-                        handleResultCallback?.invoke(output)
-                    } else {
-                        (it as? SubventionHistory.Input)?.let {
-                            handleSubventionHistoryOutput(
-                                activity = activity,
-                                apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
-                                input = it,
-                                servicesPishkhan24Api = servicesPishkhan24Api
-                            ) {
-                                handleResultCallback?.invoke(output)
-                            }
+        ) { output ->
+            output?.checkPrerequisites(activity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? SubventionHistory.Input)?.let {
+                        handleSubventionHistoryOutput(
+                            activity = activity,
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                            servicesPishkhan24Api = servicesPishkhan24Api
+                        ) {
+                            handleResultCallback?.invoke(output)
                         }
                     }
                 }
-            }
-            failure {
-                Toast.makeText(activity, "failure: $it", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -166,32 +162,28 @@ object HandleOutput {
         endPoint: String,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
-        servicesPishkhan24Api.callTrafficFinesCar(
+        servicesPishkhan24Api.simpleCallTrafficFinesCar(
             input = input as TrafficFinesCar.Input,
             endPoint = endPoint
-        ) {
-            success { output ->
-                output?.checkPrerequisites(activity, input) {
-                    if (it.isNull()) {
-                        handleResultCallback?.invoke(output)
-                    } else {
-                        (it as? TrafficFinesCar.Input)?.let {
-                            handleTrafficFinesCarOutput(
-                                activity = activity,
-                                apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
-                                input = it,
-                                servicesPishkhan24Api = servicesPishkhan24Api,
-                                endPoint = endPoint
-                            ) {
-                                handleResultCallback?.invoke(output)
-                            }
+        ) { output ->
+            output?.checkPrerequisites(activity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? TrafficFinesCar.Input)?.let {
+                        handleTrafficFinesCarOutput(
+                            activity = activity,
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                            servicesPishkhan24Api = servicesPishkhan24Api,
+                            endPoint = endPoint
+                        ) {
+                            handleResultCallback?.invoke(output)
                         }
                     }
                 }
             }
-            failure {
-                Toast.makeText(activity, "failure: $it", Toast.LENGTH_LONG).show()
-            }
+
         }
     }
 
@@ -203,31 +195,26 @@ object HandleOutput {
         endPoint: String,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
-        servicesPishkhan24Api.callTrafficFinesCarSummary(
+        servicesPishkhan24Api.simpleCallTrafficFinesCarSummary(
             input = input as TrafficFinesCarSummary.Input,
             endPoint = endPoint
-        ) {
-            success { output ->
-                output?.checkPrerequisites(activity, input) {
-                    if (it.isNull()) {
-                        handleResultCallback?.invoke(output)
-                    } else {
-                        (it as? TrafficFinesCarSummary.Input)?.let {
-                            handleTrafficFinesCarSummaryOutput(
-                                activity = activity,
-                                apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
-                                input = it,
-                                servicesPishkhan24Api = servicesPishkhan24Api,
-                                endPoint = endPoint
-                            ) {
-                                handleResultCallback?.invoke(output)
-                            }
+        ) { output ->
+            output?.checkPrerequisites(activity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? TrafficFinesCarSummary.Input)?.let {
+                        handleTrafficFinesCarSummaryOutput(
+                            activity = activity,
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                            servicesPishkhan24Api = servicesPishkhan24Api,
+                            endPoint = endPoint
+                        ) {
+                            handleResultCallback?.invoke(output)
                         }
                     }
                 }
-            }
-            failure {
-                Toast.makeText(activity, "failure: $it", Toast.LENGTH_LONG).show()
             }
         }
     }
