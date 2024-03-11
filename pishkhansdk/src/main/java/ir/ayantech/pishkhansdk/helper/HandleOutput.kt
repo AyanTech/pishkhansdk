@@ -1,11 +1,6 @@
 package ir.ayantech.pishkhansdk.helper
 
-import android.widget.Toast
-import ir.ayantech.ayannetworking.api.AyanApi
-import ir.ayantech.networking.callJusticeSharesPortfolio
-import ir.ayantech.networking.callSubventionHistory
-import ir.ayantech.networking.callTrafficFinesCar
-import ir.ayantech.networking.callTrafficFinesCarSummary
+
 import ir.ayantech.networking.simpleCallJusticeSharesPortfolio
 import ir.ayantech.networking.simpleCallSubventionHistory
 import ir.ayantech.networking.simpleCallTrafficFinesCar
@@ -20,7 +15,6 @@ import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
 import ir.ayantech.pishkhansdk.model.app_logic.Products
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
 import ir.ayantech.pishkhansdk.model.constants.Parameter
-import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import ir.ayantech.whygoogle.helper.isNull
 
 object HandleOutput {
