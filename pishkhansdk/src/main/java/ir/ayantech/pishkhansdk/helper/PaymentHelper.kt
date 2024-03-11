@@ -41,13 +41,11 @@ object PaymentHelper {
         activity: WhyGoogleActivity<*>,
         inputModel: BaseInputModel,
         serviceName: String,
-        servicesPishkhan24Api: AyanApi,
-        corePishkhan24Api: AyanApi,
         failureCallBack: FailureCallback? = null,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
 
-        servicesPishkhan24Api.ayanCall<InvoiceRegister.Output>(
+        PishkhanSDK.serviceApi.ayanCall<InvoiceRegister.Output>(
             AyanCallStatus {
                 success {
                     otpBottomSheetDialog?.dismiss()
@@ -62,7 +60,6 @@ object PaymentHelper {
                                         openOnlinePaymentUrl(
                                             activity = activity,
                                             invoiceOutput = output,
-                                            corePishkhan24Api = corePishkhan24Api
                                         )
                                     } else {
                                         //show preview dialog with amount like 2600 or 5200
@@ -72,8 +69,6 @@ object PaymentHelper {
                                             inputModel = inputModel,
                                             output = output,
                                             showAmountSection = true,
-                                            corePishkhan24Api = corePishkhan24Api,
-                                            servicesPishkhan24Api = servicesPishkhan24Api
                                         )
 
                                     }
@@ -87,8 +82,6 @@ object PaymentHelper {
                                             inputModel = inputModel,
                                             output = output,
                                             showAmountSection = false,
-                                            corePishkhan24Api = corePishkhan24Api,
-                                            servicesPishkhan24Api = servicesPishkhan24Api
                                         )
                                     } else {
                                         doProperServiceCall(
@@ -96,7 +89,6 @@ object PaymentHelper {
                                             serviceName = serviceName,
                                             inputModel = inputModel,
                                             purchaseKey = output.Invoice.PurchaseKey,
-                                            servicesPishkhan24Api = servicesPishkhan24Api
                                         ) {
                                             handleResultCallback?.invoke(it)
                                         }
@@ -118,15 +110,11 @@ object PaymentHelper {
                                                     activity = activity,
                                                     inputModel = inputModel,
                                                     serviceName = serviceName,
-                                                    servicesPishkhan24Api = servicesPishkhan24Api,
-                                                    corePishkhan24Api = corePishkhan24Api
                                                 )
                                             } else {
                                                 //call invoice register again and put user entered otp to service input
                                                 invoiceRegister(
                                                     activity = activity,
-                                                    servicesPishkhan24Api = servicesPishkhan24Api,
-                                                    corePishkhan24Api = corePishkhan24Api,
                                                     inputModel = inputModel.also {
                                                         it.OTPCode = otpCode
                                                     },
@@ -161,7 +149,6 @@ object PaymentHelper {
     private fun openOnlinePaymentUrl(
         activity: WhyGoogleActivity<*>,
         invoiceOutput: InvoiceRegister.Output,
-        corePishkhan24Api: AyanApi
     ) {
         invoiceOutput.PaymentChannels?.get(0)?.Gateways?.let { gateways ->
             invoicePayment(
@@ -178,7 +165,6 @@ object PaymentHelper {
                 gateway = gateways[0].Type.Name,
                 purchaseKey = invoiceOutput.Invoice.PurchaseKey,
                 useCredit = false,
-                corePishkhan24Api = corePishkhan24Api
             )
         }
     }
@@ -189,8 +175,6 @@ object PaymentHelper {
         inputModel: BaseInputModel,
         output: InvoiceRegister.Output,
         showAmountSection: Boolean,
-        corePishkhan24Api: AyanApi,
-        servicesPishkhan24Api: AyanApi,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
         PreviewBottomSheetDialog(
@@ -200,7 +184,6 @@ object PaymentHelper {
                 openOnlinePaymentUrl(
                     activity = activity,
                     invoiceOutput = output,
-                    corePishkhan24Api = corePishkhan24Api
                 )
             } else {
                 doProperServiceCall(
@@ -208,7 +191,6 @@ object PaymentHelper {
                     serviceName = serviceName,
                     inputModel = inputModel,
                     purchaseKey = output.Invoice.PurchaseKey,
-                    servicesPishkhan24Api = servicesPishkhan24Api
                 ) {
                     handleResultCallback?.invoke(it)
                 }
@@ -221,7 +203,6 @@ object PaymentHelper {
         serviceName: String,
         inputModel: BaseInputModel,
         purchaseKey: String,
-        servicesPishkhan24Api: AyanApi,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
         inputModel.also { it.PurchaseKey = purchaseKey }.let { input ->
@@ -230,7 +211,6 @@ object PaymentHelper {
                     handleJusticeSharesPortfolioOutput(
                         activity = activity,
                         input = input,
-                        servicesPishkhan24Api = servicesPishkhan24Api,
                         handleResultCallback = {
                             handleResultCallback?.invoke(it)
                         }
@@ -241,7 +221,6 @@ object PaymentHelper {
                     handleSubventionHistoryOutput(
                         activity = activity,
                         input = input,
-                        servicesPishkhan24Api = servicesPishkhan24Api,
                         handleResultCallback = {
                             handleResultCallback?.invoke(it)
                         }
@@ -252,7 +231,6 @@ object PaymentHelper {
                     handleTrafficFinesCarOutput(
                         activity = activity,
                         input = input,
-                        servicesPishkhan24Api = servicesPishkhan24Api,
                         endPoint = EndPoints.TrafficFinesCar,
                         handleResultCallback = {
                             handleResultCallback?.invoke(it)
@@ -264,7 +242,6 @@ object PaymentHelper {
                     handleTrafficFinesCarSummaryOutput(
                         activity = activity,
                         input = input,
-                        servicesPishkhan24Api = servicesPishkhan24Api,
                         endPoint = EndPoints.TrafficFinesCarSummary,
                         handleResultCallback = {
                             handleResultCallback?.invoke(it)
@@ -276,7 +253,6 @@ object PaymentHelper {
                     handleTrafficFinesCarOutput(
                         activity = activity,
                         input = input,
-                        servicesPishkhan24Api = servicesPishkhan24Api,
                         endPoint = EndPoints.TrafficFinesMotorcycle,
                         handleResultCallback = {
                             handleResultCallback?.invoke(it)
@@ -288,7 +264,6 @@ object PaymentHelper {
                     handleTrafficFinesCarSummaryOutput(
                         activity = activity,
                         input = input,
-                        servicesPishkhan24Api = servicesPishkhan24Api,
                         endPoint = EndPoints.TrafficFinesMotorcycleSummary,
                         handleResultCallback = {
                             handleResultCallback?.invoke(it)
@@ -570,10 +545,9 @@ object PaymentHelper {
         gateway: String,
         purchaseKey: String,
         useCredit: Boolean,
-        corePishkhan24Api: AyanApi
     ) {
 
-        corePishkhan24Api.simpleCallInvoicePayment(
+        PishkhanSDK.coreApi.simpleCallInvoicePayment(
             InvoicePayment.Input(
                 Callback = callBack,
                 Gateway = gateway,
@@ -591,11 +565,10 @@ object PaymentHelper {
     }
 
     fun getInvoiceInfo(
-        corePishkhan24Api: AyanApi,
         purchaseKey: String,
         invoiceInfoOutputCallback: (InvoiceInfo.Output) -> Unit
     ) {
-        corePishkhan24Api.simpleCallInvoiceInfo(input = InvoiceInfo.Input(PurchaseKey = purchaseKey)) {
+        PishkhanSDK.coreApi.simpleCallInvoiceInfo(input = InvoiceInfo.Input(PurchaseKey = purchaseKey)) {
             it?.let {
                 invoiceInfoOutputCallback(it)
             }

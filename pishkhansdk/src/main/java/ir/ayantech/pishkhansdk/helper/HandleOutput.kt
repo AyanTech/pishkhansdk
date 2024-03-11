@@ -28,7 +28,6 @@ object HandleOutput {
     fun handleOutputResult(
         activity: WhyGoogleActivity<*>,
         invoiceInfoOutput: InvoiceInfo.Output,
-        servicesPishkhan24Api: AyanApi,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
         when (invoiceInfoOutput.Invoice.Service.Type.Name) {
@@ -38,7 +37,7 @@ object HandleOutput {
                         NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
                         OTPCode = null,
                         PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                    ), servicesPishkhan24Api = servicesPishkhan24Api,
+                    ),
                     handleResultCallback = {
                         handleResultCallback?.invoke(it)
                     }
@@ -51,7 +50,7 @@ object HandleOutput {
                         MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
                         OTPCode = null,
                         PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                    ), servicesPishkhan24Api = servicesPishkhan24Api,
+                    ),
                     handleResultCallback = {
                         handleResultCallback?.invoke(it)
                     }
@@ -66,7 +65,7 @@ object HandleOutput {
                         PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
                         OTPCode = null,
                         PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                    ), servicesPishkhan24Api = servicesPishkhan24Api,
+                    ),
                     endPoint = EndPoints.TrafficFinesCar,
                     handleResultCallback = {
                         handleResultCallback?.invoke(it)
@@ -80,7 +79,7 @@ object HandleOutput {
                         PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
                         OTPCode = null,
                         PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                    ), servicesPishkhan24Api = servicesPishkhan24Api,
+                    ),
                     endPoint = EndPoints.TrafficFinesCarSummary,
                     handleResultCallback = {
                         handleResultCallback?.invoke(it)
@@ -98,10 +97,9 @@ object HandleOutput {
         activity: WhyGoogleActivity<*>,
         apiCalledFromTransactionsFragment: Boolean = false,
         input: BaseInputModel,
-        servicesPishkhan24Api: AyanApi,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
-        servicesPishkhan24Api.simpleCallJusticeSharesPortfolio(
+        PishkhanSDK.serviceApi.simpleCallJusticeSharesPortfolio(
             input = input as JusticeSharesPortfolio.Input
         ) { output ->
             output?.checkPrerequisites(activity, input) {
@@ -113,7 +111,6 @@ object HandleOutput {
                             activity = activity,
                             apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
                             input = it,
-                            servicesPishkhan24Api = servicesPishkhan24Api
                         ) {
                             handleResultCallback?.invoke(output)
                         }
@@ -129,10 +126,9 @@ object HandleOutput {
         activity: WhyGoogleActivity<*>,
         apiCalledFromTransactionsFragment: Boolean = false,
         input: BaseInputModel,
-        servicesPishkhan24Api: AyanApi,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
-        servicesPishkhan24Api.simpleCallSubventionHistory(
+        PishkhanSDK.serviceApi.simpleCallSubventionHistory(
             input = input as SubventionHistory.Input
         ) { output ->
             output?.checkPrerequisites(activity, input) {
@@ -144,7 +140,6 @@ object HandleOutput {
                             activity = activity,
                             apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
                             input = it,
-                            servicesPishkhan24Api = servicesPishkhan24Api
                         ) {
                             handleResultCallback?.invoke(output)
                         }
@@ -158,11 +153,10 @@ object HandleOutput {
         activity: WhyGoogleActivity<*>,
         apiCalledFromTransactionsFragment: Boolean = false,
         input: BaseInputModel,
-        servicesPishkhan24Api: AyanApi,
         endPoint: String,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
-        servicesPishkhan24Api.simpleCallTrafficFinesCar(
+        PishkhanSDK.serviceApi.simpleCallTrafficFinesCar(
             input = input as TrafficFinesCar.Input,
             endPoint = endPoint
         ) { output ->
@@ -175,7 +169,6 @@ object HandleOutput {
                             activity = activity,
                             apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
                             input = it,
-                            servicesPishkhan24Api = servicesPishkhan24Api,
                             endPoint = endPoint
                         ) {
                             handleResultCallback?.invoke(output)
@@ -191,11 +184,10 @@ object HandleOutput {
         activity: WhyGoogleActivity<*>,
         apiCalledFromTransactionsFragment: Boolean = false,
         input: BaseInputModel,
-        servicesPishkhan24Api: AyanApi,
         endPoint: String,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
-        servicesPishkhan24Api.simpleCallTrafficFinesCarSummary(
+        PishkhanSDK.serviceApi.simpleCallTrafficFinesCarSummary(
             input = input as TrafficFinesCarSummary.Input,
             endPoint = endPoint
         ) { output ->
@@ -208,7 +200,6 @@ object HandleOutput {
                             activity = activity,
                             apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
                             input = it,
-                            servicesPishkhan24Api = servicesPishkhan24Api,
                             endPoint = endPoint
                         ) {
                             handleResultCallback?.invoke(output)

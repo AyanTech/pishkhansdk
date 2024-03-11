@@ -63,6 +63,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             schema = "subvention",
             host = "ir.ayantech.subvention",
             corePishkhan24Api = corePishkhan24Api!!,
+            servicesPishkhan24Api = servicesPishkhan24Api!!,
             successCallback = {
 
             }
@@ -109,13 +110,11 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                 PishkhanSDK.onInquiryButtonClicked(
                     activity = this,
                     inputModel = SubventionHistory.Input(
-                        MobileNumber = "09331762383",
+                        MobileNumber = "09016140723",
                         OTPCode = null,
                         PurchaseKey = null
                     ),
                     serviceName = "v2_InquiryGovernmentSubventionHistory",
-                    servicesPishkhan24Api = servicesPishkhan24Api!!,
-                    corePishkhan24Api = corePishkhan24Api!!,
                     failureCallBack = {
                         Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
                     },
@@ -130,32 +129,27 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
         }
 
-        PishkhanSDK.getInquiryHistory(
-            context = this,
-            corePishkhan24Api = corePishkhan24Api!!,
-            serviceName = "v2_InquiryGovernmentSubventionHistory",
-            inquiryHistoryRv = binding.historyRv
-        ) {
-            Log.d("inquiry history", it.toString())
-        }
-
-
-        /*        PishkhanSDK.getUserTransactionHistory(
-                    activity = this,
-                    corePishkhan24Api = corePishkhan24Api!!,
-                    servicesPishkhan24Api = servicesPishkhan24Api!!,
-                    userTransactionHistoryRv = binding.historyRv
-                ) { output, serviceName ->
-                    Log.d("hsdbcakf", "${output.Result}   $serviceName")
+        /*        PishkhanSDK.getInquiryHistory(
+                    context = this,
+                    serviceName = "v2_InquiryGovernmentSubventionHistory",
+                    inquiryHistoryRv = binding.historyRv
+                ) {
+                    Log.d("inquiry history", it.toString())
                 }*/
+
+
+        PishkhanSDK.getUserTransactionHistory(
+            activity = this,
+            userTransactionHistoryRv = binding.historyRv
+        ) { output, serviceName ->
+            Log.d("hsdbcakf", "${output.Result}   $serviceName")
+        }
     }
 
     private fun handleIntent() {
         if (servicesPishkhan24Api != null && corePishkhan24Api != null) {
             PishkhanSDK.userPaymentIsSuccessful(
                 intent = intent,
-                corePishkhan24Api = corePishkhan24Api!!,
-                servicesPishkhan24Api = servicesPishkhan24Api!!,
                 activity = this
             ) {
                 Toast.makeText(this, "result successful2", Toast.LENGTH_LONG)

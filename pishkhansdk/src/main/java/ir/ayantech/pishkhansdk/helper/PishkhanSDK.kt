@@ -2,12 +2,10 @@ package ir.ayantech.pishkhansdk.helper
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.api.FailureCallback
 import ir.ayantech.ayannetworking.api.SimpleCallback
-import ir.ayantech.networking.callUserServiceQueries
 import ir.ayantech.networking.simpleCallUserServiceQueries
 import ir.ayantech.networking.simpleCallUserServiceQueryBookmark
 import ir.ayantech.networking.simpleCallUserServiceQueryDelete
@@ -36,6 +34,9 @@ import ir.ayantech.whygoogle.helper.openUrl
 import ir.ayantech.whygoogle.helper.verticalSetup
 
 object PishkhanSDK {
+     lateinit var coreApi: AyanApi
+     lateinit var serviceApi: AyanApi
+
     fun initialize(
         context: Context,
         application: String,
@@ -45,11 +46,14 @@ object PishkhanSDK {
         schema: String,
         host: String,
         corePishkhan24Api: AyanApi,
+        servicesPishkhan24Api: AyanApi,
         successCallback: SimpleCallback?
     ) {
         PishkhanUser.context = context
         PishkhanUser.schema = schema
         PishkhanUser.host = host
+        coreApi = corePishkhan24Api
+        serviceApi = servicesPishkhan24Api
 
         Initializer.updateUserSessions(
             corePishkhan24Api = corePishkhan24Api,
@@ -74,16 +78,12 @@ object PishkhanSDK {
         activity: WhyGoogleActivity<*>,
         inputModel: BaseInputModel,
         serviceName: String,
-        servicesPishkhan24Api: AyanApi,
-        corePishkhan24Api: AyanApi,
         failureCallBack: FailureCallback? = null,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
         PaymentHelper.invoiceRegister(activity = activity,
             inputModel = inputModel,
             serviceName = serviceName,
-            servicesPishkhan24Api = servicesPishkhan24Api,
-            corePishkhan24Api = corePishkhan24Api,
             failureCallBack = {
                 failureCallBack?.invoke(it)
             },
@@ -95,8 +95,6 @@ object PishkhanSDK {
     fun userPaymentIsSuccessful(
         activity: WhyGoogleActivity<*>,
         intent: Intent,
-        corePishkhan24Api: AyanApi,
-        servicesPishkhan24Api: AyanApi,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
 
@@ -125,8 +123,6 @@ object PishkhanSDK {
                 callbackDataModel = callbackDataModel,
                 activity = activity,
                 intent = intent,
-                corePishkhan24Api = corePishkhan24Api,
-                servicesPishkhan24Api = servicesPishkhan24Api
             ) {
                 handleResultCallback?.invoke(it)
             }
@@ -137,8 +133,6 @@ object PishkhanSDK {
         callbackDataModel: CallbackDataModel,
         activity: WhyGoogleActivity<*>,
         intent: Intent,
-        corePishkhan24Api: AyanApi,
-        servicesPishkhan24Api: AyanApi,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
         if (intent.data?.toString()?.startsWith("${PishkhanUser.schema}:") == true) {
@@ -146,7 +140,6 @@ object PishkhanSDK {
                 //it means that it was a inquiry with cost
                 //now should check user has paid with wallet or online
                 PaymentHelper.getInvoiceInfo(
-                    corePishkhan24Api = corePishkhan24Api,
                     purchaseKey = callbackDataModel.purchaseKey!!
                 ) { invoiceInfoOutput ->
                     //Payment has been successfully so invoice result is checking to call service api, invoiceInfoOutput is passing for service api call
@@ -154,7 +147,6 @@ object PishkhanSDK {
                     if (invoiceInfoOutput.PaymentChannels.isNull()) {
                         HandleOutput.handleOutputResult(activity = activity,
                             invoiceInfoOutput = invoiceInfoOutput,
-                            servicesPishkhan24Api = servicesPishkhan24Api,
                             handleResultCallback = {
                                 handleResultCallback?.invoke(it)
                             })
@@ -169,7 +161,6 @@ object PishkhanSDK {
                                 //should call service result api and show result page
                                 HandleOutput.handleOutputResult(activity = activity,
                                     invoiceInfoOutput = invoiceInfoOutput,
-                                    servicesPishkhan24Api = servicesPishkhan24Api,
                                     handleResultCallback = {
                                         handleResultCallback?.invoke(it)
                                     })
@@ -199,12 +190,11 @@ object PishkhanSDK {
 
     fun getInquiryHistory(
         context: Context,
-        corePishkhan24Api: AyanApi,
         serviceName: String,
         inquiryHistoryRv: RecyclerView,
         handleInquiryHistoryClick: ((List<ExtraInfo>) -> Unit)? = null
     ) {
-        corePishkhan24Api.simpleCallUserServiceQueries(input = UserServiceQueries.Input(Service = serviceName)) {
+        coreApi.simpleCallUserServiceQueries(input = UserServiceQueries.Input(Service = serviceName)) {
             if (it != null) {
                 inquiryHistoryRv.verticalSetup()
                 inquiryHistoryRv.adapter =
@@ -223,7 +213,7 @@ object PishkhanSDK {
                                             )
                                             inquiryHistoryRv.adapter?.notifyItemRemoved(position)
 
-                                            corePishkhan24Api.simpleCallUserServiceQueryDelete(
+                                            coreApi.simpleCallUserServiceQueryDelete(
                                                 UserServiceQueryDelete.Input(
                                                     QueryUniqueID = inquiryHistoryItem.UniqueID!!
                                                 )
@@ -240,7 +230,7 @@ object PishkhanSDK {
                                         context = context,
                                         note = inquiryHistoryItem.Note,
                                         onConfirmClicked = {
-                                            corePishkhan24Api.simpleCallUserServiceQueryNote(
+                                            coreApi.simpleCallUserServiceQueryNote(
                                                 UserServiceQueryNote.Input(
                                                     Note = it,
                                                     QueryUniqueID = inquiryHistoryItem.UniqueID!!
@@ -256,13 +246,10 @@ object PishkhanSDK {
 
                                 R.id.favoriteIv -> {
                                     bookmarkInquiryHistory(
-                                        corePishkhan24Api,
                                         inquiryHistoryItem
                                     ) {
-
                                         getInquiryHistory(
                                             context,
-                                            corePishkhan24Api,
                                             serviceName,
                                             inquiryHistoryRv
                                         )
@@ -277,11 +264,10 @@ object PishkhanSDK {
     }
 
     private fun bookmarkInquiryHistory(
-        corePishkhan24Api: AyanApi,
         inquiryHistoryItem: UserServiceQueries.InquiryHistory,
         successCallback: SimpleCallback
     ) {
-        corePishkhan24Api.simpleCallUserServiceQueryBookmark(
+        coreApi.simpleCallUserServiceQueryBookmark(
             UserServiceQueryBookmark.Input(
                 Favorite = !inquiryHistoryItem.Favorite,
                 QueryUniqueID = inquiryHistoryItem.UniqueID!!
@@ -293,19 +279,15 @@ object PishkhanSDK {
 
     fun getUserTransactionHistory(
         activity: WhyGoogleActivity<*>,
-        corePishkhan24Api: AyanApi,
-        servicesPishkhan24Api: AyanApi,
         userTransactionHistoryRv: RecyclerView,
         onTransactionItemClicked: ((output: BaseResultModel<*>, serviceName: String) -> Unit)?
     ) {
-        corePishkhan24Api.simpleCallUserTransactions {
+        coreApi.simpleCallUserTransactions {
             it?.let {
                 setupAdapter(
                     activity = activity,
                     list = it.Transactions ?: arrayListOf(),
                     transactionRv = userTransactionHistoryRv,
-                    corePishkhan24Api = corePishkhan24Api,
-                    servicesPishkhan24Api = servicesPishkhan24Api
                 ) { output, serviceName ->
                     onTransactionItemClicked?.invoke(output, serviceName)
                 }
@@ -317,8 +299,6 @@ object PishkhanSDK {
         activity: WhyGoogleActivity<*>,
         list: List<UserTransactions.Transaction>,
         transactionRv: RecyclerView,
-        corePishkhan24Api: AyanApi,
-        servicesPishkhan24Api: AyanApi,
         onTransactionItemClicked: ((output: BaseResultModel<*>, serviceNAme: String) -> Unit)?
     ) {
 
@@ -333,13 +313,11 @@ object PishkhanSDK {
                         it.firstOrNull { it.startsWith("purchaseKey") }?.split("=")?.get(1)
                             ?.let { purchaseKey ->
                                 PaymentHelper.getInvoiceInfo(
-                                    corePishkhan24Api = corePishkhan24Api,
                                     purchaseKey = purchaseKey
                                 ) { invoiceInfoOutput ->
                                     HandleOutput.handleOutputResult(
                                         activity = activity,
                                         invoiceInfoOutput = invoiceInfoOutput,
-                                        servicesPishkhan24Api = servicesPishkhan24Api
                                     ) {
                                         onTransactionItemClicked?.invoke(
                                             it,
