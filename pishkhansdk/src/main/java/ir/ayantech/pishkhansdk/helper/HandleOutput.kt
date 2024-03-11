@@ -26,18 +26,16 @@ import ir.ayantech.whygoogle.helper.isNull
 object HandleOutput {
 
     fun handleOutputResult(
-        activity: WhyGoogleActivity<*>,
         invoiceInfoOutput: InvoiceInfo.Output,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
         when (invoiceInfoOutput.Invoice.Service.Type.Name) {
             Products.justiceSharesProduct.name -> {
-                handleJusticeSharesPortfolioOutput(
-                    activity = activity, input = JusticeSharesPortfolio.Input(
-                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
-                        OTPCode = null,
-                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                    ),
+                handleJusticeSharesPortfolioOutput(input = JusticeSharesPortfolio.Input(
+                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ),
                     handleResultCallback = {
                         handleResultCallback?.invoke(it)
                     }
@@ -45,12 +43,11 @@ object HandleOutput {
             }
 
             Products.subventionHistoryProduct.name -> {
-                handleSubventionHistoryOutput(
-                    activity = activity, input = SubventionHistory.Input(
-                        MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
-                        OTPCode = null,
-                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                    ),
+                handleSubventionHistoryOutput(input = SubventionHistory.Input(
+                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ),
                     handleResultCallback = {
                         handleResultCallback?.invoke(it)
                     }
@@ -58,14 +55,13 @@ object HandleOutput {
             }
 
             Products.carTrafficFinesProduct.name -> {
-                handleTrafficFinesCarOutput(
-                    activity = activity, input = TrafficFinesCar.Input(
-                        MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
-                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
-                        PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
-                        OTPCode = null,
-                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                    ),
+                handleTrafficFinesCarOutput(input = TrafficFinesCar.Input(
+                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ),
                     endPoint = EndPoints.TrafficFinesCar,
                     handleResultCallback = {
                         handleResultCallback?.invoke(it)
@@ -74,12 +70,11 @@ object HandleOutput {
             }
 
             Products.carTrafficFinesSummaryProduct.name -> {
-                handleTrafficFinesCarSummaryOutput(
-                    activity = activity, input = TrafficFinesCarSummary.Input(
-                        PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
-                        OTPCode = null,
-                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                    ),
+                handleTrafficFinesCarSummaryOutput(input = TrafficFinesCarSummary.Input(
+                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ),
                     endPoint = EndPoints.TrafficFinesCarSummary,
                     handleResultCallback = {
                         handleResultCallback?.invoke(it)
@@ -94,7 +89,6 @@ object HandleOutput {
     }
 
     fun handleJusticeSharesPortfolioOutput(
-        activity: WhyGoogleActivity<*>,
         apiCalledFromTransactionsFragment: Boolean = false,
         input: BaseInputModel,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
@@ -102,13 +96,12 @@ object HandleOutput {
         PishkhanSDK.serviceApi.simpleCallJusticeSharesPortfolio(
             input = input as JusticeSharesPortfolio.Input
         ) { output ->
-            output?.checkPrerequisites(activity, input) {
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
                 if (it.isNull()) {
                     handleResultCallback?.invoke(output)
                 } else {
                     (it as? JusticeSharesPortfolio.Input)?.let {
                         handleJusticeSharesPortfolioOutput(
-                            activity = activity,
                             apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
                             input = it,
                         ) {
@@ -123,7 +116,6 @@ object HandleOutput {
     }
 
     fun handleSubventionHistoryOutput(
-        activity: WhyGoogleActivity<*>,
         apiCalledFromTransactionsFragment: Boolean = false,
         input: BaseInputModel,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
@@ -131,13 +123,12 @@ object HandleOutput {
         PishkhanSDK.serviceApi.simpleCallSubventionHistory(
             input = input as SubventionHistory.Input
         ) { output ->
-            output?.checkPrerequisites(activity, input) {
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
                 if (it.isNull()) {
                     handleResultCallback?.invoke(output)
                 } else {
                     (it as? SubventionHistory.Input)?.let {
                         handleSubventionHistoryOutput(
-                            activity = activity,
                             apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
                             input = it,
                         ) {
@@ -150,7 +141,6 @@ object HandleOutput {
     }
 
     fun handleTrafficFinesCarOutput(
-        activity: WhyGoogleActivity<*>,
         apiCalledFromTransactionsFragment: Boolean = false,
         input: BaseInputModel,
         endPoint: String,
@@ -160,13 +150,12 @@ object HandleOutput {
             input = input as TrafficFinesCar.Input,
             endPoint = endPoint
         ) { output ->
-            output?.checkPrerequisites(activity, input) {
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
                 if (it.isNull()) {
                     handleResultCallback?.invoke(output)
                 } else {
                     (it as? TrafficFinesCar.Input)?.let {
                         handleTrafficFinesCarOutput(
-                            activity = activity,
                             apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
                             input = it,
                             endPoint = endPoint
@@ -181,7 +170,6 @@ object HandleOutput {
     }
 
     fun handleTrafficFinesCarSummaryOutput(
-        activity: WhyGoogleActivity<*>,
         apiCalledFromTransactionsFragment: Boolean = false,
         input: BaseInputModel,
         endPoint: String,
@@ -191,13 +179,12 @@ object HandleOutput {
             input = input as TrafficFinesCarSummary.Input,
             endPoint = endPoint
         ) { output ->
-            output?.checkPrerequisites(activity, input) {
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
                 if (it.isNull()) {
                     handleResultCallback?.invoke(output)
                 } else {
                     (it as? TrafficFinesCarSummary.Input)?.let {
                         handleTrafficFinesCarSummaryOutput(
-                            activity = activity,
                             apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
                             input = it,
                             endPoint = endPoint

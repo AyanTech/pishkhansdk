@@ -18,6 +18,7 @@ import ir.ayantech.pishkhansdk.helper.HandleOutput.handleJusticeSharesPortfolioO
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleSubventionHistoryOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficFinesCarSummaryOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficFinesCarOutput
+import ir.ayantech.pishkhansdk.helper.PishkhanSDK.serviceName
 import ir.ayantech.pishkhansdk.model.api.InvoiceInfo
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
 import ir.ayantech.pishkhansdk.model.app_logic.Products
@@ -38,9 +39,7 @@ object PaymentHelper {
      **/
 
     fun invoiceRegister(
-        activity: WhyGoogleActivity<*>,
         inputModel: BaseInputModel,
-        serviceName: String,
         failureCallBack: FailureCallback? = null,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
@@ -58,14 +57,11 @@ object PaymentHelper {
                                     if (output.TermsAndConditions == null && output.Invoice.Service.Summary == null) {
                                         //show payment url page
                                         openOnlinePaymentUrl(
-                                            activity = activity,
                                             invoiceOutput = output,
                                         )
                                     } else {
                                         //show preview dialog with amount like 2600 or 5200
                                         showPreviewDialog(
-                                            activity = activity,
-                                            serviceName = serviceName,
                                             inputModel = inputModel,
                                             output = output,
                                             showAmountSection = true,
@@ -77,16 +73,12 @@ object PaymentHelper {
 
                                     if (output.TermsAndConditions != null) {
                                         showPreviewDialog(
-                                            activity = activity,
-                                            serviceName = serviceName,
                                             inputModel = inputModel,
                                             output = output,
                                             showAmountSection = false,
                                         )
                                     } else {
                                         doProperServiceCall(
-                                            activity = activity,
-                                            serviceName = serviceName,
                                             inputModel = inputModel,
                                             purchaseKey = output.Invoice.PurchaseKey,
                                         ) {
@@ -101,24 +93,20 @@ object PaymentHelper {
                                 when (output.Prerequisites.Type) {
                                     PrerequisitesType.OTP.name -> {
                                         otpBottomSheetDialog = OtpBottomSheetDialog(
-                                            context = activity,
+                                            context = PishkhanSDK.whyGoogleActivity,
                                             otp = output.Prerequisites.Value?.fromJsonToObject<OTP>(),
                                         ) { otpCode ->
                                             //if otp code was null,it means that user has clicked retryTv
                                             if (otpCode == null) {
                                                 invoiceRegister(
-                                                    activity = activity,
                                                     inputModel = inputModel,
-                                                    serviceName = serviceName,
                                                 )
                                             } else {
                                                 //call invoice register again and put user entered otp to service input
                                                 invoiceRegister(
-                                                    activity = activity,
                                                     inputModel = inputModel.also {
                                                         it.OTPCode = otpCode
                                                     },
-                                                    serviceName = serviceName,
                                                 )
                                             }
                                         }
@@ -147,12 +135,10 @@ object PaymentHelper {
     }
 
     private fun openOnlinePaymentUrl(
-        activity: WhyGoogleActivity<*>,
         invoiceOutput: InvoiceRegister.Output,
     ) {
         invoiceOutput.PaymentChannels?.get(0)?.Gateways?.let { gateways ->
             invoicePayment(
-                activity = activity,
                 callBack = CallbackDataModel(
                     sourcePage = "factor",
                     purchaseKey = invoiceOutput.Invoice.PurchaseKey,
@@ -170,25 +156,22 @@ object PaymentHelper {
     }
 
     private fun showPreviewDialog(
-        activity: WhyGoogleActivity<*>,
-        serviceName: String,
         inputModel: BaseInputModel,
         output: InvoiceRegister.Output,
         showAmountSection: Boolean,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
         PreviewBottomSheetDialog(
-            context = activity, invoiceOutput = output, showAmountSection = showAmountSection
+            context = PishkhanSDK.whyGoogleActivity,
+            invoiceOutput = output,
+            showAmountSection = showAmountSection
         ) {
             if (showAmountSection) {
                 openOnlinePaymentUrl(
-                    activity = activity,
                     invoiceOutput = output,
                 )
             } else {
                 doProperServiceCall(
-                    activity = activity,
-                    serviceName = serviceName,
                     inputModel = inputModel,
                     purchaseKey = output.Invoice.PurchaseKey,
                 ) {
@@ -199,8 +182,6 @@ object PaymentHelper {
     }
 
     private fun doProperServiceCall(
-        activity: WhyGoogleActivity<*>,
-        serviceName: String,
         inputModel: BaseInputModel,
         purchaseKey: String,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
@@ -209,7 +190,6 @@ object PaymentHelper {
             when (serviceName) {
                 Products.justiceSharesProduct.name -> {
                     handleJusticeSharesPortfolioOutput(
-                        activity = activity,
                         input = input,
                         handleResultCallback = {
                             handleResultCallback?.invoke(it)
@@ -219,7 +199,7 @@ object PaymentHelper {
 
                 Products.subventionHistoryProduct.name -> {
                     handleSubventionHistoryOutput(
-                        activity = activity,
+
                         input = input,
                         handleResultCallback = {
                             handleResultCallback?.invoke(it)
@@ -229,7 +209,7 @@ object PaymentHelper {
 
                 Products.carTrafficFinesProduct.name -> {
                     handleTrafficFinesCarOutput(
-                        activity = activity,
+
                         input = input,
                         endPoint = EndPoints.TrafficFinesCar,
                         handleResultCallback = {
@@ -240,7 +220,7 @@ object PaymentHelper {
 
                 Products.carTrafficFinesSummaryProduct.name -> {
                     handleTrafficFinesCarSummaryOutput(
-                        activity = activity,
+
                         input = input,
                         endPoint = EndPoints.TrafficFinesCarSummary,
                         handleResultCallback = {
@@ -251,7 +231,7 @@ object PaymentHelper {
 
                 Products.motorTrafficFinesProduct.name -> {
                     handleTrafficFinesCarOutput(
-                        activity = activity,
+
                         input = input,
                         endPoint = EndPoints.TrafficFinesMotorcycle,
                         handleResultCallback = {
@@ -262,7 +242,7 @@ object PaymentHelper {
 
                 Products.motorTrafficFinesSummeryProduct.name -> {
                     handleTrafficFinesCarSummaryOutput(
-                        activity = activity,
+
                         input = input,
                         endPoint = EndPoints.TrafficFinesMotorcycleSummary,
                         handleResultCallback = {
@@ -540,7 +520,6 @@ object PaymentHelper {
     }
 
     fun invoicePayment(
-        activity: WhyGoogleActivity<*>,
         callBack: String,
         gateway: String,
         purchaseKey: String,
@@ -558,7 +537,7 @@ object PaymentHelper {
             it?.let {
                 if (it.RedirectLink.isNotNull()) {
                     //online payment
-                    it.RedirectLink?.openUrl(activity)
+                    it.RedirectLink?.openUrl(PishkhanSDK.whyGoogleActivity)
                 }
             }
         }

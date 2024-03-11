@@ -34,11 +34,14 @@ import ir.ayantech.whygoogle.helper.openUrl
 import ir.ayantech.whygoogle.helper.verticalSetup
 
 object PishkhanSDK {
-     lateinit var coreApi: AyanApi
-     lateinit var serviceApi: AyanApi
+    lateinit var coreApi: AyanApi
+    lateinit var serviceApi: AyanApi
+    lateinit var serviceName: String
+    lateinit var whyGoogleActivity: WhyGoogleActivity<*>
 
     fun initialize(
         context: Context,
+        activity: WhyGoogleActivity<*>,
         application: String,
         origin: String,
         platform: String,
@@ -54,6 +57,7 @@ object PishkhanSDK {
         PishkhanUser.host = host
         coreApi = corePishkhan24Api
         serviceApi = servicesPishkhan24Api
+        whyGoogleActivity = activity
 
         Initializer.updateUserSessions(
             corePishkhan24Api = corePishkhan24Api,
@@ -75,15 +79,15 @@ object PishkhanSDK {
 
     fun getPishkhanToken(): String = PishkhanUser.token
     fun onInquiryButtonClicked(
-        activity: WhyGoogleActivity<*>,
+        product: String,
         inputModel: BaseInputModel,
-        serviceName: String,
         failureCallBack: FailureCallback? = null,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
-        PaymentHelper.invoiceRegister(activity = activity,
+        serviceName = product
+
+        PaymentHelper.invoiceRegister(
             inputModel = inputModel,
-            serviceName = serviceName,
             failureCallBack = {
                 failureCallBack?.invoke(it)
             },
@@ -93,7 +97,6 @@ object PishkhanSDK {
     }
 
     fun userPaymentIsSuccessful(
-        activity: WhyGoogleActivity<*>,
         intent: Intent,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
@@ -121,7 +124,6 @@ object PishkhanSDK {
             )
             handleIntent(
                 callbackDataModel = callbackDataModel,
-                activity = activity,
                 intent = intent,
             ) {
                 handleResultCallback?.invoke(it)
@@ -131,7 +133,6 @@ object PishkhanSDK {
 
     private fun handleIntent(
         callbackDataModel: CallbackDataModel,
-        activity: WhyGoogleActivity<*>,
         intent: Intent,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
@@ -145,7 +146,7 @@ object PishkhanSDK {
                     //Payment has been successfully so invoice result is checking to call service api, invoiceInfoOutput is passing for service api call
                     //service is free
                     if (invoiceInfoOutput.PaymentChannels.isNull()) {
-                        HandleOutput.handleOutputResult(activity = activity,
+                        HandleOutput.handleOutputResult(
                             invoiceInfoOutput = invoiceInfoOutput,
                             handleResultCallback = {
                                 handleResultCallback?.invoke(it)
@@ -159,7 +160,7 @@ object PishkhanSDK {
                             //means that user has paid online
                             if (callbackDataModel.paymentStatus == Constant.paid || callbackDataModel.paymentStatus == Constant.Settle) {
                                 //should call service result api and show result page
-                                HandleOutput.handleOutputResult(activity = activity,
+                                HandleOutput.handleOutputResult(
                                     invoiceInfoOutput = invoiceInfoOutput,
                                     handleResultCallback = {
                                         handleResultCallback?.invoke(it)
@@ -189,11 +190,12 @@ object PishkhanSDK {
     }
 
     fun getInquiryHistory(
+        product: String,
         context: Context,
-        serviceName: String,
         inquiryHistoryRv: RecyclerView,
         handleInquiryHistoryClick: ((List<ExtraInfo>) -> Unit)? = null
     ) {
+        serviceName = product
         coreApi.simpleCallUserServiceQueries(input = UserServiceQueries.Input(Service = serviceName)) {
             if (it != null) {
                 inquiryHistoryRv.verticalSetup()
@@ -249,8 +251,8 @@ object PishkhanSDK {
                                         inquiryHistoryItem
                                     ) {
                                         getInquiryHistory(
-                                            context,
                                             serviceName,
+                                            context,
                                             inquiryHistoryRv
                                         )
                                     }
@@ -278,14 +280,12 @@ object PishkhanSDK {
     }
 
     fun getUserTransactionHistory(
-        activity: WhyGoogleActivity<*>,
         userTransactionHistoryRv: RecyclerView,
         onTransactionItemClicked: ((output: BaseResultModel<*>, serviceName: String) -> Unit)?
     ) {
         coreApi.simpleCallUserTransactions {
             it?.let {
                 setupAdapter(
-                    activity = activity,
                     list = it.Transactions ?: arrayListOf(),
                     transactionRv = userTransactionHistoryRv,
                 ) { output, serviceName ->
@@ -296,7 +296,6 @@ object PishkhanSDK {
     }
 
     private fun setupAdapter(
-        activity: WhyGoogleActivity<*>,
         list: List<UserTransactions.Transaction>,
         transactionRv: RecyclerView,
         onTransactionItemClicked: ((output: BaseResultModel<*>, serviceNAme: String) -> Unit)?
@@ -307,7 +306,7 @@ object PishkhanSDK {
         { item, viewId, position ->
             item?.let {
                 if (it.Reference?.startsWith("http") == true) {
-                    it.Reference.openUrl(activity)
+                    it.Reference.openUrl(whyGoogleActivity)
                 } else {
                     it.Reference?.replace(PishkhanUser.prefix, "")?.split("&")?.let {
                         it.firstOrNull { it.startsWith("purchaseKey") }?.split("=")?.get(1)
@@ -316,7 +315,6 @@ object PishkhanSDK {
                                     purchaseKey = purchaseKey
                                 ) { invoiceInfoOutput ->
                                     HandleOutput.handleOutputResult(
-                                        activity = activity,
                                         invoiceInfoOutput = invoiceInfoOutput,
                                     ) {
                                         onTransactionItemClicked?.invoke(
