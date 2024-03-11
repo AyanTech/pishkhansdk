@@ -8,7 +8,7 @@ import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.api.FailureCallback
 import ir.ayantech.ayannetworking.api.SimpleCallback
 import ir.ayantech.networking.callUserServiceQueries
-import ir.ayantech.networking.callUserTransactions
+import ir.ayantech.networking.simpleCallUserServiceQueries
 import ir.ayantech.networking.simpleCallUserServiceQueryBookmark
 import ir.ayantech.networking.simpleCallUserServiceQueryDelete
 import ir.ayantech.networking.simpleCallUserServiceQueryNote
@@ -202,79 +202,77 @@ object PishkhanSDK {
         corePishkhan24Api: AyanApi,
         serviceName: String,
         inquiryHistoryRv: RecyclerView,
-        handleInquiryHistoryClick: (List<ExtraInfo>) -> Unit
+        handleInquiryHistoryClick: ((List<ExtraInfo>) -> Unit)? = null
     ) {
-        corePishkhan24Api.callUserServiceQueries(input = UserServiceQueries.Input(Service = serviceName)) {
-            success {
-                if (it != null) {
-                    inquiryHistoryRv.verticalSetup()
-                    inquiryHistoryRv.adapter =
-                        InquiryHistoryAdapter(it) { item, viewId, position ->
-                            item?.let { inquiryHistoryItem ->
-                                when (viewId) {
-                                    R.id.inquiryHistoryRl -> {
-                                        handleInquiryHistoryClick(inquiryHistoryItem.Parameters)
-                                        //inquiryBtn.performClick()
+        corePishkhan24Api.simpleCallUserServiceQueries(input = UserServiceQueries.Input(Service = serviceName)) {
+            if (it != null) {
+                inquiryHistoryRv.verticalSetup()
+                inquiryHistoryRv.adapter =
+                    InquiryHistoryAdapter(it) { item, viewId, position ->
+                        item?.let { inquiryHistoryItem ->
+                            when (viewId) {
+                                R.id.inquiryHistoryRl -> {
+                                    handleInquiryHistoryClick?.invoke(inquiryHistoryItem.Parameters)
+                                }
 
-                                    }
+                                R.id.deleteIv -> {
+                                    ConfirmationBottomSheet(
+                                        context = context, onConfirmClicked = {
+                                            ((inquiryHistoryRv.adapter as InquiryHistoryAdapter).items as ArrayList).removeAt(
+                                                position
+                                            )
+                                            inquiryHistoryRv.adapter?.notifyItemRemoved(position)
 
-                                    R.id.deleteIv -> {
-                                        ConfirmationBottomSheet(
-                                            context = context, onConfirmClicked = {
-                                                ((inquiryHistoryRv.adapter as InquiryHistoryAdapter).items as ArrayList).removeAt(
+                                            corePishkhan24Api.simpleCallUserServiceQueryDelete(
+                                                UserServiceQueryDelete.Input(
+                                                    QueryUniqueID = inquiryHistoryItem.UniqueID!!
+                                                )
+                                            ) {
+                                                inquiryHistoryRv.adapter?.notifyItemChanged(
                                                     position
                                                 )
-                                                inquiryHistoryRv.adapter?.notifyItemRemoved(position)
+                                            }
+                                        }).show()
+                                }
 
-                                                corePishkhan24Api.simpleCallUserServiceQueryDelete(
-                                                    UserServiceQueryDelete.Input(
-                                                        QueryUniqueID = inquiryHistoryItem.UniqueID!!
-                                                    )
-                                                ) {
-                                                    inquiryHistoryRv.adapter?.notifyItemChanged(
-                                                        position
-                                                    )
-                                                }
-                                            }).show()
-                                    }
+                                R.id.editIv -> {
+                                    EditInquiryHistoryBottomSheet(
+                                        context = context,
+                                        note = inquiryHistoryItem.Note,
+                                        onConfirmClicked = {
+                                            corePishkhan24Api.simpleCallUserServiceQueryNote(
+                                                UserServiceQueryNote.Input(
+                                                    Note = it,
+                                                    QueryUniqueID = inquiryHistoryItem.UniqueID!!
+                                                )
+                                            ) {
+                                                inquiryHistoryRv.adapter?.notifyItemChanged(
+                                                    position
+                                                )
+                                            }
 
-                                    R.id.editIv -> {
-                                        EditInquiryHistoryBottomSheet(
-                                            context = context,
-                                            note = inquiryHistoryItem.Note,
-                                            onConfirmClicked = {
-                                                corePishkhan24Api.simpleCallUserServiceQueryNote(
-                                                    UserServiceQueryNote.Input(
-                                                        Note = it,
-                                                        QueryUniqueID = inquiryHistoryItem.UniqueID!!
-                                                    )
-                                                ) {
-                                                    inquiryHistoryRv.adapter?.notifyItemChanged(
-                                                        position
-                                                    )
-                                                }
+                                        }).show()
+                                }
 
-                                            }).show()
-                                    }
+                                R.id.favoriteIv -> {
+                                    bookmarkInquiryHistory(
+                                        corePishkhan24Api,
+                                        inquiryHistoryItem
+                                    ) {
 
-                                    R.id.favoriteIv -> {
-                                        bookmarkInquiryHistory(
+                                        getInquiryHistory(
+                                            context,
                                             corePishkhan24Api,
-                                            inquiryHistoryItem
-                                        ) {
-                                            item.Favorite = !item.Favorite
-                                            inquiryHistoryRv.adapter?.notifyItemChanged(position)
-                                            // getInquiryHistory()
-                                        }
+                                            serviceName,
+                                            inquiryHistoryRv
+                                        )
                                     }
                                 }
                             }
                         }
-                }
+                    }
             }
-            failure {
-                Log.d("kdhfsgv", it.toString())
-            }
+
         }
     }
 
@@ -298,20 +296,20 @@ object PishkhanSDK {
         corePishkhan24Api: AyanApi,
         servicesPishkhan24Api: AyanApi,
         userTransactionHistoryRv: RecyclerView,
-        onTransactionItemClicked: ((output: BaseResultModel<*>) -> Unit)?
+        onTransactionItemClicked: ((output: BaseResultModel<*>, serviceName: String) -> Unit)?
     ) {
         corePishkhan24Api.simpleCallUserTransactions {
-                it?.let {
-                    setupAdapter(
-                        activity = activity,
-                        list = it.Transactions ?: arrayListOf(),
-                        transactionRv = userTransactionHistoryRv,
-                        corePishkhan24Api = corePishkhan24Api,
-                        servicesPishkhan24Api = servicesPishkhan24Api
-                    ){
-                        onTransactionItemClicked?.invoke(it)
-                    }
+            it?.let {
+                setupAdapter(
+                    activity = activity,
+                    list = it.Transactions ?: arrayListOf(),
+                    transactionRv = userTransactionHistoryRv,
+                    corePishkhan24Api = corePishkhan24Api,
+                    servicesPishkhan24Api = servicesPishkhan24Api
+                ) { output, serviceName ->
+                    onTransactionItemClicked?.invoke(output, serviceName)
                 }
+            }
         }
     }
 
@@ -321,7 +319,7 @@ object PishkhanSDK {
         transactionRv: RecyclerView,
         corePishkhan24Api: AyanApi,
         servicesPishkhan24Api: AyanApi,
-        onTransactionItemClicked: ((output: BaseResultModel<*>) -> Unit)?
+        onTransactionItemClicked: ((output: BaseResultModel<*>, serviceNAme: String) -> Unit)?
     ) {
 
         transactionRv.verticalSetup()
@@ -343,7 +341,10 @@ object PishkhanSDK {
                                         invoiceInfoOutput = invoiceInfoOutput,
                                         servicesPishkhan24Api = servicesPishkhan24Api
                                     ) {
-                                        onTransactionItemClicked?.invoke(it)
+                                        onTransactionItemClicked?.invoke(
+                                            it,
+                                            invoiceInfoOutput.Invoice.Service.Type.Name
+                                        )
                                     }
                                 }
                             }
@@ -353,5 +354,4 @@ object PishkhanSDK {
         }
 
     }
-
 }

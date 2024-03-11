@@ -37,7 +37,6 @@ open class BaseResultModel<T>(
     fun checkPrerequisites(
         ayanActivity: WhyGoogleActivity<*>,
         input: BaseInputModel,
-        product: String? = null,
         checkCompletedCallback: (Any?) -> Unit
     ) {
         if (Prerequisites.isNotNull()) {

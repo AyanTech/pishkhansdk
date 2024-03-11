@@ -1,6 +1,7 @@
 package ir.ayantech.pishkhansdk.model.app_logic
 
 object ProductItemDetail {
+    //Service names
     const val InquiryWaterBills = "v1_InquiryWaterBills"
     const val InquiryElectricBills = "v1_InquiryElectricBills"
 
