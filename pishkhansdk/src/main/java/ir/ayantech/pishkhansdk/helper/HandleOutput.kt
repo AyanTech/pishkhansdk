@@ -5,12 +5,17 @@ import ir.ayantech.networking.simpleCallJusticeSharesPortfolio
 import ir.ayantech.networking.simpleCallSubventionHistory
 import ir.ayantech.networking.simpleCallTrafficFinesCar
 import ir.ayantech.networking.simpleCallTrafficFinesCarSummary
+import ir.ayantech.networking.simpleCallV2BankIbanInfo
+import ir.ayantech.networking.simpleCallV3BankIbanInfo
 import ir.ayantech.pishkhansdk.model.api.InvoiceInfo
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.api.JusticeSharesPortfolio
 import ir.ayantech.pishkhansdk.model.api.SubventionHistory
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCarSummary
+import ir.ayantech.pishkhansdk.model.api.V1BankIbanInfo
+import ir.ayantech.pishkhansdk.model.api.V2BankIbanInfo
+import ir.ayantech.pishkhansdk.model.api.V3BankIbanInfo
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
 import ir.ayantech.pishkhansdk.model.app_logic.Products
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
@@ -29,11 +34,9 @@ object HandleOutput {
                     NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
                     OTPCode = null,
                     PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ),
-                    handleResultCallback = {
-                        handleResultCallback?.invoke(it)
-                    }
-                )
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
             }
 
             Products.subventionHistoryProduct.name -> {
@@ -41,11 +44,9 @@ object HandleOutput {
                     MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
                     OTPCode = null,
                     PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ),
-                    handleResultCallback = {
-                        handleResultCallback?.invoke(it)
-                    }
-                )
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
             }
 
             Products.carTrafficFinesProduct.name -> {
@@ -55,12 +56,9 @@ object HandleOutput {
                     PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
                     OTPCode = null,
                     PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ),
-                    endPoint = EndPoints.TrafficFinesCar,
-                    handleResultCallback = {
-                        handleResultCallback?.invoke(it)
-                    }
-                )
+                ), endPoint = EndPoints.TrafficFinesCar, handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
             }
 
             Products.carTrafficFinesSummaryProduct.name -> {
@@ -68,12 +66,43 @@ object HandleOutput {
                     PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
                     OTPCode = null,
                     PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ),
-                    endPoint = EndPoints.TrafficFinesCarSummary,
-                    handleResultCallback = {
-                        handleResultCallback?.invoke(it)
-                    }
-                )
+                ), endPoint = EndPoints.TrafficFinesCarSummary, handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.ibanByCardNumberProduct.name -> {
+                handleIbanByCardNumberOutput(input = V3BankIbanInfo.Input(
+                    AccountType = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.AccountType }.Value,
+                    CardNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.CardNumber }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.ibanByAccountNumberProduct.name -> {
+                handleIbanByAccountNumberOutput(input = V2BankIbanInfo.Input(
+                    AccountType = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.AccountType }.Value,
+                    AccountNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.AccountNumber }.Value,
+                    Bank = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Bank }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.accountNumberByIbanProduct.name -> {
+                handleAccountNumberByIbanOutput(input = V1BankIbanInfo.Input(
+                    AccountType = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.AccountType }.Value,
+                    Iban = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Iban }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
             }
 
             else -> {}
@@ -141,8 +170,7 @@ object HandleOutput {
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
         PishkhanSDK.serviceApi.simpleCallTrafficFinesCar(
-            input = input as TrafficFinesCar.Input,
-            endPoint = endPoint
+            input = input as TrafficFinesCar.Input, endPoint = endPoint
         ) { output ->
             output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
                 if (it.isNull()) {
@@ -170,8 +198,7 @@ object HandleOutput {
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
         PishkhanSDK.serviceApi.simpleCallTrafficFinesCarSummary(
-            input = input as TrafficFinesCarSummary.Input,
-            endPoint = endPoint
+            input = input as TrafficFinesCarSummary.Input, endPoint = endPoint
         ) { output ->
             output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
                 if (it.isNull()) {
@@ -182,6 +209,81 @@ object HandleOutput {
                             apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
                             input = it,
                             endPoint = endPoint
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleIbanByCardNumberOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCall<V3BankIbanInfo.Output>(
+            input = input as V3BankIbanInfo.Input, endPoint = EndPoints.v3BankIbanInfo
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? V3BankIbanInfo.Input)?.let {
+                        handleIbanByCardNumberOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleIbanByAccountNumberOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCall<V3BankIbanInfo.Output>(
+            input = input as V2BankIbanInfo.Input, endPoint = EndPoints.v2BankIbanInfo
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? V2BankIbanInfo.Input)?.let {
+                        handleIbanByAccountNumberOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleAccountNumberByIbanOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCall<V3BankIbanInfo.Output>(
+            input = input as V1BankIbanInfo.Input, endPoint = EndPoints.v1BankIbanInfo
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? V1BankIbanInfo.Input)?.let {
+                        handleAccountNumberByIbanOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
                         ) {
                             handleResultCallback?.invoke(output)
                         }

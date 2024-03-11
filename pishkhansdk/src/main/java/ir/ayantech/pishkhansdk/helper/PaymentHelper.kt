@@ -4,6 +4,9 @@ import ir.ayantech.ayannetworking.api.AyanCallStatus
 import ir.ayantech.ayannetworking.api.FailureCallback
 import ir.ayantech.networking.simpleCallInvoiceInfo
 import ir.ayantech.networking.simpleCallInvoicePayment
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleAccountNumberByIbanOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleIbanByAccountNumberOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleIbanByCardNumberOutput
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
 import ir.ayantech.pishkhansdk.model.enums.PrerequisitesType
@@ -197,7 +200,6 @@ object PaymentHelper {
 
                 Products.subventionHistoryProduct.name -> {
                     handleSubventionHistoryOutput(
-
                         input = input,
                         handleResultCallback = {
                             handleResultCallback?.invoke(it)
@@ -207,7 +209,6 @@ object PaymentHelper {
 
                 Products.carTrafficFinesProduct.name -> {
                     handleTrafficFinesCarOutput(
-
                         input = input,
                         endPoint = EndPoints.TrafficFinesCar,
                         handleResultCallback = {
@@ -218,7 +219,6 @@ object PaymentHelper {
 
                 Products.carTrafficFinesSummaryProduct.name -> {
                     handleTrafficFinesCarSummaryOutput(
-
                         input = input,
                         endPoint = EndPoints.TrafficFinesCarSummary,
                         handleResultCallback = {
@@ -229,7 +229,6 @@ object PaymentHelper {
 
                 Products.motorTrafficFinesProduct.name -> {
                     handleTrafficFinesCarOutput(
-
                         input = input,
                         endPoint = EndPoints.TrafficFinesMotorcycle,
                         handleResultCallback = {
@@ -240,9 +239,37 @@ object PaymentHelper {
 
                 Products.motorTrafficFinesSummeryProduct.name -> {
                     handleTrafficFinesCarSummaryOutput(
-
                         input = input,
                         endPoint = EndPoints.TrafficFinesMotorcycleSummary,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+                Products.ibanByCardNumberProduct.name -> {
+                    handleIbanByCardNumberOutput(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+
+                Products.ibanByAccountNumberProduct.name -> {
+                    handleIbanByAccountNumberOutput(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+
+                Products.accountNumberByIbanProduct.name -> {
+                    handleAccountNumberByIbanOutput(
+                        input = input,
                         handleResultCallback = {
                             handleResultCallback?.invoke(it)
                         }
@@ -254,266 +281,6 @@ object PaymentHelper {
 
             }
         }
-
-        /*
-
-                        Products.plateNumbersProduct.name -> {
-                            handleVehiclePlateNumbersOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.negativePointProduct.name -> {
-                            handleDrivingLicenseNegativePointOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.exitBanStatusProduct.name -> {
-                            handleExitBanStatusOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.passportStatusProduct.name -> {
-                            handlePassportStatusOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.drivingLicenceStatusProduct.name -> {
-                            handleDrivingLicenseStatusOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.identificationDocumentsStatusCarProduct.name -> {
-                            handleCarDocumentsStatusOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.technicalExaminationCertificateProduct.name -> {
-                            handleTechnicalExaminationCertificateOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.socialSecurityInsuranceMedicalCreditProduct.name -> {
-                            handleMedicalCreditOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.socialSecurityInsuranceRetirementReceiptProduct.name -> {
-                            handleSocialSecuritySalaryOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.socialSecurityInsuranceRetirementProduct.name -> {
-                            handleSocialSecurityRetirementOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.socialSecurityInsuranceHistoryProduct.name -> {
-                            handleSocialSecurityInsuranceHistoryOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.governmentRetirementProduct.name -> {
-                            handleGovernmentRetirementOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.governmentRetirementSalaryReceiptProduct.name -> {
-                            handleGovernmentSalaryOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.waterBillProduct.name -> {
-                            handleWaterBillOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.electricityBillProduct.name -> {
-                            handleElectricityBillOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.gasBillByIdentifierProduct.name -> {
-                            handleGasBillByIdentifierOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.gasBillByParticipateCodeProduct.name -> {
-                            handleGasBillByParticipateCodeOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.landlinePhoneBillProduct.name -> {
-                            handleLandLineBillOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.mobileProduct.name -> {
-                            handleMobileBillOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.subventionHistoryProduct.name -> {
-                            handleSubventionHistoryOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.propertyTollsProduct.name -> {
-                            handlePropertyTollOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.taxiFaresBillProduct.name -> {
-                            handleTaxiFaresBillOutput(
-                                ayanActivity = activity, input = input
-                            )
-                        }
-
-                        Products.freewayTollBillsProduct.name -> {
-                            handleFreewayTollsOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.annualTollCarProductProduct.name -> {
-                            handleAnnualTollOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.trafficPlanTollCarProduct.name -> {
-                            handleTrafficPlanTollOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.transferTaxCarProduct.name -> {
-                            handleTransferTaxCarOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.transferTaxMotorcycleProduct.name -> {
-                            handleTransferTaxMotorcycleOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.postPackageTrackingProduct.name -> {
-                            handlePostPackageOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.sayadChequeProduct.name -> {
-                            handleSayadChekOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.thirdPartyInsuranceProduct.name -> {
-                            handleThirdPartyInsuranceOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.thirdPartyInsuranceStatusProduct.name -> {
-                            handleThirdPartyInsuranceStatusOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.ibanByCardNumberProduct.name -> {
-                            handleCardOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.accountNumberByIbanProduct.name -> {
-                            handleShebaOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.ibanByAccountNumberProduct.name -> {
-                            handleAccountOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.identificationDocumentsStatusMotorcycleProduct.name -> {
-                            handleMotorDocumentsStatusOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.socialSecurityInsuranceMedicalPrescriptionProduct.name -> {
-                            handleSocialSecurityInsuranceMedicalPrescriptionOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.realEstateContractProduct.name -> {
-                            handleRealEstateContractOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.vehicleAuthenticityProductByBarCode.name -> {
-                            handleVehicleAuthenticityOutput(
-                                ayanActivity = activity,
-                                input = input,
-                                payStatus = payStatus,
-                                serviceName = Products.vehicleAuthenticityProductByBarCode.name
-                            )
-                        }
-
-                        Products.vehicleAuthenticityProductByDocumentNumber.name -> {
-                            handleVehicleAuthenticityOutput(
-                                ayanActivity = activity,
-                                input = input,
-                                payStatus = payStatus,
-                                serviceName = Products.vehicleAuthenticityProductByBarCode.name
-                            )
-                        }
-
-                        Products.telecomRegisteredLinesProduct.name -> {
-                            handleTelecomRegisteredLinesOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.livelihoodInformationProduct.name -> {
-                            handleLivelihoodInformationOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }
-
-                        Products.insurancePoliciesProduct.name -> {
-                            handleInsurancePoliciesOutput(
-                                ayanActivity = activity, input = input, payStatus = payStatus
-                            )
-                        }*/
 
     }
 

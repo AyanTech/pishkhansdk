@@ -16,6 +16,9 @@ import ir.ayantech.pishkhansdk.databinding.ActivityMainBinding
 import ir.ayantech.pishkhansdk.helper.PishkhanSDK
 import ir.ayantech.pishkhansdk.bottom_sheets.WaiterBottomSheet
 import ir.ayantech.pishkhansdk.model.api.SubventionHistory
+import ir.ayantech.pishkhansdk.model.api.V1BankIbanInfo
+import ir.ayantech.pishkhansdk.model.app_logic.ProductItemDetail
+import ir.ayantech.pishkhansdk.model.app_logic.Products
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import java.lang.reflect.Modifier
 
@@ -75,6 +78,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
         val ayanCommonCallingStatus = AyanCommonCallStatus {
             failure { failure ->
+                Toast.makeText(this@MainActivity, "result successful1", Toast.LENGTH_LONG).show()
                 when (failure.failureType) {
                     FailureType.LOGIN_REQUIRED -> {
 
@@ -109,18 +113,18 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         binding.inquiryBtn.setOnClickListener {
             if (servicesPishkhan24Api != null && corePishkhan24Api != null) {
                 PishkhanSDK.onInquiryButtonClicked(
-                    inputModel = SubventionHistory.Input(
-                        MobileNumber = "09016140723",
+                    inputModel = V1BankIbanInfo.Input(
+                        AccountType = "سپرده",
+                        Iban = "IR080120020000009332198720",
                         OTPCode = null,
                         PurchaseKey = null
                     ),
-                    product = "v2_InquiryGovernmentSubventionHistory",
+                    product = ProductItemDetail.InquiryAccountNumberByIban,
                     failureCallBack = {
                         Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
                     },
                     handleResultCallback = {
-                        Toast.makeText(this, "result successful1", Toast.LENGTH_LONG)
-                            .show()
+                        Toast.makeText(this, "result successful1", Toast.LENGTH_LONG).show()
                         Log.d("handleOutput", it.Result.toString())
                     }
                 )
@@ -149,8 +153,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         PishkhanSDK.userPaymentIsSuccessful(
             intent = intent,
         ) {
-            Toast.makeText(this, "result successful2", Toast.LENGTH_LONG)
-                .show()
+            Toast.makeText(this, "result successful2", Toast.LENGTH_LONG).show()
             Log.d("handleOutput", it.toString())
         }
     }

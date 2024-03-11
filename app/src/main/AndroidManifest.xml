@@ -30,8 +30,8 @@
                 <data android:scheme="pishkhan24" />
                 <data android:host="deeplink" />
 
-                <data android:scheme="subvention"/>
-                <data android:host="ir.ayantech.subvention"/>
+                <data android:scheme="sheba"/>
+                <data android:host="ir.ayantech.sheba"/>
 
             </intent-filter>
         </activity>

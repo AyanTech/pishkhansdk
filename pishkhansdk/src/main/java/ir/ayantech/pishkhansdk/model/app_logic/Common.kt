@@ -93,3 +93,30 @@ data class Button(
     val Action: Action,
     val Title: String
 )
+
+data class IbanResult(
+    val Bank: Bank?,
+    val ExtraInfo: String?,
+    val Value: String
+)
+
+data class Bank(
+    val AccountDelimiter: String,
+    val AccountDelimiterArray: List<Long>,
+    val IbanFromAccountNumber: Boolean,
+    val IbanFromCardNumber: Boolean,
+    val IbanToAccountNumber: Boolean,
+    val Icon: String,
+    val IsActive: Boolean,
+    val Name: String,
+    val ShowName: String,
+    val IconWhite: String,
+    val ColorCode: String
+)
+
+data class CardInfo(
+    val BankName: String?,
+    val BankIcon: String?,
+    val Number: String?,
+    val Color: String?
+)
