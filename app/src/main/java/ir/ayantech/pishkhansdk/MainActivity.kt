@@ -130,14 +130,14 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
         }
 
-        PishkhanSDK.getInquiryHistory(
+/*        PishkhanSDK.getInquiryHistory(
             context = this,
             corePishkhan24Api = corePishkhan24Api!!,
             serviceName = "v2_InquiryGovernmentSubventionHistory",
             inquiryHistoryRv = binding.historyRv
         ) {
             Log.d("inquiry history", it.toString())
-        }
+        }*/
 
 
         PishkhanSDK.getUserTransactionHistory(

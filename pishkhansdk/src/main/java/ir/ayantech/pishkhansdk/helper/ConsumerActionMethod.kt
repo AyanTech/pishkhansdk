@@ -1,6 +1,5 @@
 package ir.ayantech.pishkhansdk.helper
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -13,6 +12,7 @@ import ir.ayantech.networking.callUserTransactions
 import ir.ayantech.networking.simpleCallUserServiceQueryBookmark
 import ir.ayantech.networking.simpleCallUserServiceQueryDelete
 import ir.ayantech.networking.simpleCallUserServiceQueryNote
+import ir.ayantech.networking.simpleCallUserTransactions
 import ir.ayantech.pishkhansdk.Initializer
 import ir.ayantech.pishkhansdk.PishkhanUser
 import ir.ayantech.pishkhansdk.R
@@ -31,7 +31,6 @@ import ir.ayantech.pishkhansdk.ui.adapter.TransactionAdapter
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.ConfirmationBottomSheet
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.EditInquiryHistoryBottomSheet
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
-import ir.ayantech.whygoogle.helper.formatAmount
 import ir.ayantech.whygoogle.helper.isNull
 import ir.ayantech.whygoogle.helper.openUrl
 import ir.ayantech.whygoogle.helper.verticalSetup
@@ -299,10 +298,9 @@ object PishkhanSDK {
         corePishkhan24Api: AyanApi,
         servicesPishkhan24Api: AyanApi,
         userTransactionHistoryRv: RecyclerView,
-        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)?
+        onTransactionItemClicked: ((output: BaseResultModel<*>) -> Unit)?
     ) {
-        corePishkhan24Api.callUserTransactions {
-            success {
+        corePishkhan24Api.simpleCallUserTransactions {
                 it?.let {
                     setupAdapter(
                         activity = activity,
@@ -311,13 +309,9 @@ object PishkhanSDK {
                         corePishkhan24Api = corePishkhan24Api,
                         servicesPishkhan24Api = servicesPishkhan24Api
                     ){
-                        handleResultCallback?.invoke(it)
+                        onTransactionItemClicked?.invoke(it)
                     }
                 }
-            }
-            failure {
-                Log.d("kdhfsgv", it.toString())
-            }
         }
     }
 
@@ -327,7 +321,7 @@ object PishkhanSDK {
         transactionRv: RecyclerView,
         corePishkhan24Api: AyanApi,
         servicesPishkhan24Api: AyanApi,
-        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)?
+        onTransactionItemClicked: ((output: BaseResultModel<*>) -> Unit)?
     ) {
 
         transactionRv.verticalSetup()
@@ -349,7 +343,7 @@ object PishkhanSDK {
                                         invoiceInfoOutput = invoiceInfoOutput,
                                         servicesPishkhan24Api = servicesPishkhan24Api
                                     ) {
-                                        handleResultCallback?.invoke(it)
+                                        onTransactionItemClicked?.invoke(it)
                                     }
                                 }
                             }
