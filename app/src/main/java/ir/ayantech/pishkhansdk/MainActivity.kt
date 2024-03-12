@@ -17,6 +17,8 @@ import ir.ayantech.pishkhansdk.helper.PishkhanSDK
 import ir.ayantech.pishkhansdk.bottom_sheets.WaiterBottomSheet
 import ir.ayantech.pishkhansdk.model.api.SubventionHistory
 import ir.ayantech.pishkhansdk.model.api.V1BankIbanInfo
+import ir.ayantech.pishkhansdk.model.api.V2BankIbanInfo
+import ir.ayantech.pishkhansdk.model.app_logic.IbanResult
 import ir.ayantech.pishkhansdk.model.app_logic.ProductItemDetail
 import ir.ayantech.pishkhansdk.model.app_logic.Products
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
@@ -113,19 +115,20 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         binding.inquiryBtn.setOnClickListener {
             if (servicesPishkhan24Api != null && corePishkhan24Api != null) {
                 PishkhanSDK.onInquiryButtonClicked(
-                    inputModel = V1BankIbanInfo.Input(
+                    inputModel = V2BankIbanInfo.Input(
                         AccountType = "Deposit",
-                        Iban = "IR080120020000009332198720",
+                        AccountNumber = "9332198720",
+                        Bank = "Mellat",
                         OTPCode = null,
                         PurchaseKey = null
                     ),
-                    product = ProductItemDetail.InquiryAccountNumberByIban,
+                    product = ProductItemDetail.InquiryIbanByAccountNumber,
                     failureCallBack = {
                         Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
                     },
                     handleResultCallback = {
                         Toast.makeText(this, "result successful1", Toast.LENGTH_LONG).show()
-                        Log.d("handleOutput", it.Result.toString())
+                        Log.d("handleOutput", (it.Result as IbanResult).toString())
                     }
                 )
 
@@ -154,7 +157,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             intent = intent,
         ) {
             Toast.makeText(this, "result successful2", Toast.LENGTH_LONG).show()
-            Log.d("handleOutput", it.toString())
+            Log.d("handleOutput", (it.Result as IbanResult).toString())
         }
     }
 }
