@@ -24,14 +24,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="pishkhan24" />
+                <data android:scheme="bankiban" />
                 <data android:host="link" />
 
-                <data android:scheme="pishkhan24" />
+                <data android:scheme="bankiban" />
                 <data android:host="deeplink" />
 
-                <data android:scheme="sheba"/>
-                <data android:host="ir.ayantech.sheba"/>
+                <data android:scheme="bankiban"/>
+                <data android:host="ir.ayantech.bankiban"/>
 
             </intent-filter>
         </activity>

@@ -60,12 +60,12 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         )
 
         PishkhanSDK.initialize(
-            context = this, application = "VasHookSubventionInquiry", origin = "cafebazaar",
+            context = this, application = "shebainquiry", origin = "cafebazaar",
             platform = "android",
             version = "4.0.0",
-            schema = "subvention",
+            schema = "bankiban",
             activity = this,
-            host = "ir.ayantech.subvention",
+            host = "ir.ayantech.bankiban",
             corePishkhan24Api = corePishkhan24Api!!,
             servicesPishkhan24Api = servicesPishkhan24Api!!,
             successCallback = {
@@ -78,7 +78,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
         val ayanCommonCallingStatus = AyanCommonCallStatus {
             failure { failure ->
-                Toast.makeText(this@MainActivity, "result successful1", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@MainActivity, failure.failureMessage, Toast.LENGTH_LONG).show()
                 when (failure.failureType) {
                     FailureType.LOGIN_REQUIRED -> {
 
@@ -114,7 +114,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             if (servicesPishkhan24Api != null && corePishkhan24Api != null) {
                 PishkhanSDK.onInquiryButtonClicked(
                     inputModel = V1BankIbanInfo.Input(
-                        AccountType = "سپرده",
+                        AccountType = "Deposit",
                         Iban = "IR080120020000009332198720",
                         OTPCode = null,
                         PurchaseKey = null
