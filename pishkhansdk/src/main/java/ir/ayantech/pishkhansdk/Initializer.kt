@@ -4,6 +4,7 @@ import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.api.AyanCallStatus
 import ir.ayantech.ayannetworking.api.SimpleCallback
 import ir.ayantech.networking.callUserSessionUpdateInfo
+import ir.ayantech.pishkhansdk.helper.PishkhanSDK
 import ir.ayantech.pishkhansdk.model.api.DeviceRegister
 import ir.ayantech.pishkhansdk.model.api.UserSessionUpdateInfo
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
@@ -22,8 +23,13 @@ object Initializer {
             AyanCallStatus {
                 success {
                     it.response?.Parameters?.Session?.let {
-                        successCallback?.invoke()
                         PishkhanUser.token = it
+                        updateUserSessions(
+                            corePishkhan24Api = PishkhanSDK.coreApi,
+                            origin = origin,
+                            version = version,
+                        )
+                        successCallback?.invoke()
                     }
                 }
                 failure { }

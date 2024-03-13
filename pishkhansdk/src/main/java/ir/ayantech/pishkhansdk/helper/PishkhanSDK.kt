@@ -41,29 +41,26 @@ object PishkhanSDK {
 
     fun initialize(
         context: Context,
-        activity: WhyGoogleActivity<*>,
-        application: String,
-        origin: String,
-        platform: String,
-        version: String,
         schema: String,
         host: String,
         corePishkhan24Api: AyanApi,
         servicesPishkhan24Api: AyanApi,
-        successCallback: SimpleCallback?
     ) {
         PishkhanUser.context = context
         PishkhanUser.schema = schema
         PishkhanUser.host = host
         coreApi = corePishkhan24Api
         serviceApi = servicesPishkhan24Api
-        whyGoogleActivity = activity
+    }
 
-        Initializer.updateUserSessions(
-            corePishkhan24Api = corePishkhan24Api,
-            origin = origin,
-            version = version,
-        )
+    fun handleUserSession(
+        application: String,
+        origin: String,
+        platform: String,
+        activity: WhyGoogleActivity<*>,
+        version: String, successCallback: SimpleCallback?
+    ) {
+        whyGoogleActivity = activity
 
         if (PishkhanUser.token.isEmpty())
             Initializer.deviceRegister(
@@ -71,10 +68,14 @@ object PishkhanSDK {
                 origin = origin,
                 platform = platform,
                 version = version,
-                corePishkhan24Api = corePishkhan24Api,
+                corePishkhan24Api = coreApi,
                 successCallback = successCallback
             )
-
+        else Initializer.updateUserSessions(
+            corePishkhan24Api = coreApi,
+            origin = origin,
+            version = version,
+        )
     }
 
     fun getPishkhanToken(): String = PishkhanUser.token

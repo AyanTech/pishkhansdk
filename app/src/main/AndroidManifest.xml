@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".SDKApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -24,14 +25,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="bankiban" />
+                <data android:scheme="subvention" />
                 <data android:host="link" />
 
-                <data android:scheme="bankiban" />
+                <data android:scheme="subvention" />
                 <data android:host="deeplink" />
 
-                <data android:scheme="bankiban"/>
-                <data android:host="ir.ayantech.bankiban"/>
+                <data android:scheme="subvention"/>
+                <data android:host="ir.ayantech.subvention"/>
 
             </intent-filter>
         </activity>
