@@ -58,7 +58,8 @@ object PishkhanSDK {
         origin: String,
         platform: String,
         activity: WhyGoogleActivity<*>,
-        version: String, successCallback: SimpleCallback?
+        version: String,
+        successCallback: SimpleCallback?
     ) {
         whyGoogleActivity = activity
 
@@ -75,7 +76,9 @@ object PishkhanSDK {
             corePishkhan24Api = coreApi,
             origin = origin,
             version = version,
-        )
+        ) {
+            successCallback?.invoke()
+        }
     }
 
     fun getPishkhanToken(): String = PishkhanUser.token

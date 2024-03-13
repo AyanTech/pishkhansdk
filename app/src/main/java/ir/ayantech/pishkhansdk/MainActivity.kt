@@ -74,7 +74,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             ayanCommonCallingStatus
 
         PishkhanSDK.handleUserSession(
-            application = "shebainquiry", origin = "cafebazaar",
+            application = "subventioninquiry", origin = "cafebazaar",
             platform = "android",
             version = "4.0.0",
             activity = this,
@@ -82,7 +82,6 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
             }
         )
-
 
         if (intent != null)
             handleIntent()
