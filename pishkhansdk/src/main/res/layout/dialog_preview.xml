@@ -5,21 +5,11 @@
     android:layout_height="wrap_content"
     android:clipToPadding="false">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/titleTv"
-        style="@style/header_primary_dark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="@dimen/margin_24"
-        android:text="@string/preview"
-        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/extraInfoRv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/titleTv"
         android:layout_marginTop="@dimen/margin_16"
         android:visibility="gone" />
 
@@ -77,13 +67,13 @@
 
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
+
+    <include
         android:id="@+id/confirmBtn"
-        style="@style/AppButton"
+        layout="@layout/component_button_filled"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_below="@id/costLl"
         android:layout_marginTop="@dimen/margin_12"
-        android:text="@string/confirm_and_continue" />
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

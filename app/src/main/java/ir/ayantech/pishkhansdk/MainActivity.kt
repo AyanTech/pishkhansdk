@@ -13,9 +13,13 @@ import ir.ayantech.ayannetworking.ayanModel.FailureType
 import ir.ayantech.pishkhansdk.databinding.ActivityMainBinding
 import ir.ayantech.pishkhansdk.helper.PishkhanSDK
 import ir.ayantech.pishkhansdk.bottom_sheets.WaiterBottomSheet
+import ir.ayantech.pishkhansdk.model.api.SubventionHistory
 import ir.ayantech.pishkhansdk.model.api.V2BankIbanInfo
 import ir.ayantech.pishkhansdk.model.app_logic.IbanResult
 import ir.ayantech.pishkhansdk.model.app_logic.ProductItemDetail
+import ir.ayantech.pishkhansdk.model.constants.Parameter.AccountNumber
+import ir.ayantech.pishkhansdk.model.constants.Parameter.AccountType
+import ir.ayantech.pishkhansdk.model.constants.Parameter.PurchaseKey
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 
 
@@ -88,14 +92,12 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
         binding.inquiryBtn.setOnClickListener {
             PishkhanSDK.onInquiryButtonClicked(
-                inputModel = V2BankIbanInfo.Input(
-                    AccountType = "Deposit",
-                    AccountNumber = "9332198720",
-                    Bank = "Mellat",
+                inputModel = SubventionHistory.Input(
+                    MobileNumber = "09397799139",
                     OTPCode = null,
                     PurchaseKey = null
                 ),
-                product = ProductItemDetail.InquiryIbanByAccountNumber,
+                product = ProductItemDetail.InquiryGovernmentSubventionHistory,
                 failureCallBack = {
                     Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
                 },
@@ -107,13 +109,13 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
         }
 
-        /*        PishkhanSDK.getInquiryHistory(
-                    context = this,
-                    product = ProductItemDetail.InquiryAccountNumberByIban,
-                    inquiryHistoryRv = binding.historyRv
-                ) {
-                    Log.d("inquiry history", it.toString())
-                }*/
+     /*   PishkhanSDK.getInquiryHistory(
+            context = this,
+            product = ProductItemDetail.InquiryAccountNumberByIban,
+            inquiryHistoryRv = binding.historyRv
+        ) {
+            Log.d("inquiry history", it.toString())
+        }*/
 
 
         /*        PishkhanSDK.getUserTransactionHistory(

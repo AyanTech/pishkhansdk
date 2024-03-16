@@ -29,6 +29,7 @@ import ir.ayantech.pishkhansdk.ui.adapter.TransactionAdapter
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.ConfirmationBottomSheet
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.EditInquiryHistoryBottomSheet
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
+import ir.ayantech.whygoogle.helper.BooleanCallBack
 import ir.ayantech.whygoogle.helper.isNull
 import ir.ayantech.whygoogle.helper.openUrl
 import ir.ayantech.whygoogle.helper.verticalSetup
@@ -197,14 +198,16 @@ object PishkhanSDK {
         product: String,
         context: Context,
         inquiryHistoryRv: RecyclerView,
-        handleInquiryHistoryClick: ((List<ExtraInfo>) -> Unit)? = null
+        handleInquiryHistoryClick: ((inputList: List<ExtraInfo>) -> Unit)? = null,
+        hasInquiryHistory: BooleanCallBack,
     ) {
         serviceName = product
-        coreApi.simpleCallUserServiceQueries(input = UserServiceQueries.Input(Service = serviceName)) {
-            if (it != null) {
+        coreApi.simpleCallUserServiceQueries(input = UserServiceQueries.Input(Service = serviceName)) { historyItems ->
+            if (historyItems != null) {
+                hasInquiryHistory(true)
                 inquiryHistoryRv.verticalSetup()
                 inquiryHistoryRv.adapter =
-                    InquiryHistoryAdapter(it) { item, viewId, position ->
+                    InquiryHistoryAdapter(historyItems) { item, viewId, position ->
                         item?.let { inquiryHistoryItem ->
                             when (viewId) {
                                 R.id.inquiryHistoryRl -> {
@@ -224,9 +227,8 @@ object PishkhanSDK {
                                                     QueryUniqueID = inquiryHistoryItem.UniqueID!!
                                                 )
                                             ) {
-                                                inquiryHistoryRv.adapter?.notifyItemChanged(
-                                                    position
-                                                )
+                                                hasInquiryHistory(historyItems.isEmpty())
+                                                inquiryHistoryRv.adapter?.notifyItemChanged(position)
                                             }
                                         }).show()
                                 }
@@ -242,9 +244,8 @@ object PishkhanSDK {
                                                     QueryUniqueID = inquiryHistoryItem.UniqueID!!
                                                 )
                                             ) {
-                                                inquiryHistoryRv.adapter?.notifyItemChanged(
-                                                    position
-                                                )
+                                                historyItems[position].Note = it
+                                                inquiryHistoryRv.adapter?.notifyItemChanged(position)
                                             }
 
                                         }).show()
@@ -257,13 +258,17 @@ object PishkhanSDK {
                                         getInquiryHistory(
                                             serviceName,
                                             context,
-                                            inquiryHistoryRv
+                                            inquiryHistoryRv,
+                                            handleInquiryHistoryClick,
+                                            hasInquiryHistory
                                         )
                                     }
                                 }
                             }
                         }
                     }
+            } else {
+                hasInquiryHistory(false)
             }
 
         }

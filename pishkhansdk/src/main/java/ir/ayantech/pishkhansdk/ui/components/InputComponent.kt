@@ -92,3 +92,7 @@ fun ComponentInputBinding.changeVisibility(show: Boolean) {
 fun ComponentInputBinding.setAfterTextChangesListener(afterTextChangedCallback: AfterTextChangedCallback) {
     textInputEditText.textChanges(afterTextChangedCallback = afterTextChangedCallback)
 }
+
+fun ComponentInputBinding.setError(text: String?) {
+    textInputLayout.error = text
+}

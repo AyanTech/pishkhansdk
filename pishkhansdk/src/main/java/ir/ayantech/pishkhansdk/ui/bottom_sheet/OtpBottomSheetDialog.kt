@@ -8,8 +8,10 @@ import com.google.android.material.textfield.TextInputLayout
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.databinding.DialogOtpBinding
 import ir.ayantech.pishkhansdk.model.app_logic.OTP
+import ir.ayantech.pishkhansdk.ui.components.changeEnable
 import ir.ayantech.pishkhansdk.ui.components.getText
 import ir.ayantech.pishkhansdk.ui.components.init
+import ir.ayantech.pishkhansdk.ui.components.setAfterTextChangesListener
 import ir.ayantech.pishkhansdk.ui.components.setError
 import ir.ayantech.pishkhansdk.ui.components.setText
 import ir.ayantech.whygoogle.helper.changeVisibility
@@ -37,39 +39,26 @@ class OtpBottomSheetDialog(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        startTimer()
+       // startTimer()
         initViews()
         setupActions()
     }
 
     private fun setupActions() {
         binding.apply {
+/*
             enterOtpCodeLayout.retryTv.setOnClickListener {
                 dismiss()
                 callback(null)
             }
+*/
 
-            closeIv.setOnClickListener {
-                dismiss()
-            }
-
-            confirmCodeBtn.setOnClickListener {
-                when {
-                    enterOtpCodeLayout.getText().length < otp?.Length!! -> {
-                        enterOtpCodeLayout.setError("لطفا کد ارسال شده را وارد کنید.")
-                    }
-
-                    else -> {
-                        callback(enterOtpCodeLayout.outlinedTextField.editText?.text.toString())
-                    }
-                }
-            }
         }
     }
 
     fun setError(failureMessage: String) {
         binding.apply {
-            enterOtpCodeLayout.setError(failureMessage)
+            enterOtpCodeLayout.textInputEditText.setError(failureMessage)
         }
     }
 
@@ -94,15 +83,30 @@ class OtpBottomSheetDialog(
             }
 
             enterOtpCodeLayout.init(
+                context = context,
                 hint = context.getString(R.string.activation_code),
                 maxLength = otp?.Length?.toInt()!!,
-                hasRetryTv = true,
-                endIconMode = TextInputLayout.END_ICON_NONE
             )
+
+            enterOtpCodeLayout.setAfterTextChangesListener {
+                confirmCodeBtn.changeEnable(it.length >= otp.Length.toInt())
+            }
+
+            confirmCodeBtn.init(btnText = "تایید", isEnable = false) {
+                when {
+                    enterOtpCodeLayout.getText().length < otp.Length -> {
+                        enterOtpCodeLayout.setError("لطفا کد ارسال شده را وارد کنید.")
+                    }
+
+                    else -> {
+                        callback(enterOtpCodeLayout.getText())
+                    }
+                }
+            }
         }
     }
 
-    private fun startTimer() {
+/*    private fun startTimer() {
         object : CountDownTimer((otp?.Timer?.toLong()!!), 1000) {
             override fun onFinish() {
                 trying {
@@ -124,5 +128,5 @@ class OtpBottomSheetDialog(
                 }
             }
         }.start()
-    }
+    }*/
 }

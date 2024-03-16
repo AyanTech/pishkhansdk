@@ -11,10 +11,8 @@ import androidx.viewbinding.ViewBinding
 import com.google.android.material.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import ir.ayantech.pishkhansdk.databinding.BottomSheetBaseBinding
+import ir.ayantech.pishkhansdk.databinding.PishkhansdkBottomSheetBaseBinding
 import ir.ayantech.whygoogle.helper.SimpleCallBack
-import ir.ayantech.whygoogle.helper.changeVisibility
-import ir.ayantech.whygoogle.helper.isNotNull
 import ir.ayantech.whygoogle.helper.viewBinding
 
 abstract class BaseBottomSheet<T : ViewBinding>(context: Context) : BottomSheetDialog(context) {
@@ -35,7 +33,7 @@ abstract class BaseBottomSheet<T : ViewBinding>(context: Context) : BottomSheetD
     open val hasCloseOption = true
     abstract val title: String?
 
-    var parentBinding: BottomSheetBaseBinding? = null
+    var parentBinding: PishkhansdkBottomSheetBaseBinding? = null
 
     fun accessViews(block: T.() -> Unit) {
         binding.apply {
@@ -58,7 +56,7 @@ abstract class BaseBottomSheet<T : ViewBinding>(context: Context) : BottomSheetD
 
         window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_RTL
 
-        parentBinding = BottomSheetBaseBinding.inflate(layoutInflater)
+        parentBinding = PishkhansdkBottomSheetBaseBinding.inflate(layoutInflater)
         parentBinding?.containerFl?.addView(binding.root)
         parentBinding?.root?.let { setContentView(it) }
         window?.setLayout(MATCH_PARENT, MATCH_PARENT)

@@ -7,6 +7,7 @@ import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.databinding.DialogPreviewBinding
 import ir.ayantech.pishkhansdk.model.api.InvoiceRegister
 import ir.ayantech.pishkhansdk.ui.adapter.SimpleKeyValueAdapter
+import ir.ayantech.pishkhansdk.ui.components.init
 import ir.ayantech.whygoogle.helper.*
 
 class PreviewBottomSheetDialog(
@@ -31,7 +32,7 @@ class PreviewBottomSheetDialog(
 
     private fun setupActions() {
         binding.apply {
-            confirmBtn.setOnClickListener {
+            confirmBtn.init("تایید و ادامه") {
                 dismiss()
                 confirmBtnClicked()
             }
@@ -46,7 +47,7 @@ class PreviewBottomSheetDialog(
             rulesTv.changeVisibility(invoiceOutput.TermsAndConditions.isNotNull())
             rulesTv.text = invoiceOutput.TermsAndConditions
 
-            titleTv.changeVisibility(invoiceOutput.Invoice.Service.Summary.isNotNull())
+            parentBinding?.titleTv?.changeVisibility(invoiceOutput.Invoice.Service.Summary.isNotNull())
             extraInfoRv.changeVisibility(invoiceOutput.Invoice.Service.Summary.isNotNull())
 
             extraInfoRv.verticalSetup()

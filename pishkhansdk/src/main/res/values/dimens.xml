@@ -66,4 +66,27 @@
     <dimen name="edittext_stroke_width">1dp</dimen>
     <dimen name="edittext_height">43dp</dimen>
 
+    <dimen name="text_bold_1">30dp</dimen>
+    <dimen name="text_bold_2">26dp</dimen>
+    <dimen name="text_bold_3">22dp</dimen>
+    <dimen name="text_bold_4">18dp</dimen>
+    <dimen name="text_bold_5">14dp</dimen>
+    <dimen name="text_bold_6">12dp</dimen>
+    <dimen name="text_bold_7">11dp</dimen>
+    <dimen name="text_bold_8">8dp</dimen>
+
+    <dimen name="text_medium_1">14dp</dimen>
+    <dimen name="text_medium_2">12dp</dimen>
+    <dimen name="text_medium_3">11dp</dimen>
+    <dimen name="text_medium_4">10dp</dimen>
+    <dimen name="text_regular_1">14dp</dimen>
+    <dimen name="text_regular_2">12dp</dimen>
+    <dimen name="text_regular_3">11dp</dimen>
+    <dimen name="text_regular_4">10dp</dimen>
+    <dimen name="text_regular_5">9dp</dimen>
+    <dimen name="text_light_1">12dp</dimen>
+    <dimen name="text_light_2">11dp</dimen>
+    <dimen name="text_light_3">10dp</dimen>
+    <dimen name="text_light_4">9dp</dimen>
+
 </resources>
