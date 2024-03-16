@@ -13,12 +13,13 @@ android {
         minSdk 21
         targetSdk 34
         versionCode 1
-        versionName "0.1.9"
+        versionName "0.1.10"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures {
         viewBinding true
+        dataBinding true
     }
     buildTypes {
         debug {
@@ -44,6 +45,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.databinding:databinding-ktx:8.2.2'
 
     //-----------------------------------Ayan----------------------
     implementation 'com.github.shadowalker77:whygoogle:0.8.2'
@@ -77,7 +79,7 @@ afterEvaluate {
                 artifactId = 'pishkhansdk'
 
                 // Version Library Name (Example : "1.0.0")
-                version = '0.1.9'
+                version = '0.1.10'
             }
         }
     }
