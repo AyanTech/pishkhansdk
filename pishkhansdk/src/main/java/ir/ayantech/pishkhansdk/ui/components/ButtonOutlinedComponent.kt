@@ -9,8 +9,8 @@ import android.view.View
 import androidx.core.content.ContextCompat.getColor
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.databinding.ComponentButtonOutlinedBinding
-import ir.ayantech.pishkhansdk.helper.getDimension
-import ir.ayantech.pishkhansdk.helper.getDimensionInt
+import ir.ayantech.pishkhansdk.helper.extensions.getDimension
+import ir.ayantech.pishkhansdk.helper.extensions.getDimensionInt
 import ir.ayantech.whygoogle.helper.changeVisibility
 
 

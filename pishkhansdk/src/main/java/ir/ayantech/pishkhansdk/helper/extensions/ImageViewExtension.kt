@@ -1,4 +1,4 @@
-package ir.ayantech.pishkhansdk.helper
+package ir.ayantech.pishkhansdk.helper.extensions
 
 import android.graphics.PorterDuff
 import androidx.appcompat.widget.AppCompatImageView

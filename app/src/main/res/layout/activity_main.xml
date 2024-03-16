@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
-    android:background="@color/primary_header"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
     <FrameLayout
@@ -14,13 +14,13 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true">
 
-        <Button
+        <include
             android:id="@+id/inquiryBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            layout="@layout/component_button_filled"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:text="inquiryBtn" />
+            android:layout_margin="10dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/historyRv"

@@ -6,7 +6,6 @@ import android.os.Build
 import android.text.InputType
 import android.view.View
 import android.view.View.OnTouchListener
-import android.view.inputmethod.EditorInfo
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
@@ -14,15 +13,12 @@ import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.updatePadding
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.databinding.ComponentInputBinding
+import ir.ayantech.pishkhansdk.helper.extensions.AfterTextChangedCallback
 import ir.ayantech.pishkhansdk.helper.extensions.placeCursorToEnd
 import ir.ayantech.pishkhansdk.helper.extensions.setMaxLength
 import ir.ayantech.pishkhansdk.helper.extensions.textChanges
-import ir.ayantech.pishkhansdk.helper.getDimensionInt
-import ir.ayantech.subventioninquiry.helper.AfterTextChangedCallback
-import ir.ayantech.whygoogle.activity.WhyGoogleActivity
-import ir.ayantech.whygoogle.helper.BooleanCallBack
+import ir.ayantech.pishkhansdk.helper.extensions.getDimensionInt
 import ir.ayantech.whygoogle.helper.SimpleCallBack
-import ir.ayantech.whygoogle.helper.StringCallBack
 import ir.ayantech.whygoogle.helper.changeVisibility
 
 @SuppressLint("ClickableViewAccessibility")

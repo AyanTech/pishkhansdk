@@ -20,6 +20,7 @@ import ir.ayantech.pishkhansdk.model.app_logic.ProductItemDetail
 import ir.ayantech.pishkhansdk.model.constants.Parameter.AccountNumber
 import ir.ayantech.pishkhansdk.model.constants.Parameter.AccountType
 import ir.ayantech.pishkhansdk.model.constants.Parameter.PurchaseKey
+import ir.ayantech.pishkhansdk.ui.components.init
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 
 
@@ -90,10 +91,10 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         if (intent != null)
             handleIntent()
 
-        binding.inquiryBtn.setOnClickListener {
+        binding.inquiryBtn.init("استعلام", btnOnClick = {
             PishkhanSDK.onInquiryButtonClicked(
                 inputModel = SubventionHistory.Input(
-                    MobileNumber = "09397799139",
+                    MobileNumber = "09395099494",
                     OTPCode = null,
                     PurchaseKey = null
                 ),
@@ -106,16 +107,16 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                     Log.d("handleOutput", (it.Result as IbanResult).toString())
                 }
             )
+        })
 
-        }
 
-     /*   PishkhanSDK.getInquiryHistory(
-            context = this,
-            product = ProductItemDetail.InquiryAccountNumberByIban,
-            inquiryHistoryRv = binding.historyRv
-        ) {
-            Log.d("inquiry history", it.toString())
-        }*/
+        /*   PishkhanSDK.getInquiryHistory(
+               context = this,
+               product = ProductItemDetail.InquiryAccountNumberByIban,
+               inquiryHistoryRv = binding.historyRv
+           ) {
+               Log.d("inquiry history", it.toString())
+           }*/
 
 
         /*        PishkhanSDK.getUserTransactionHistory(

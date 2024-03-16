@@ -2,7 +2,7 @@ package ir.ayantech.pishkhansdk.ui.components
 
 import ir.ayantech.pishkhansdk.databinding.ComponentDirectDebitCardBinding
 import ir.ayantech.pishkhansdk.helper.extensions.textColor
-import ir.ayantech.pishkhansdk.helper.setTint
+import ir.ayantech.pishkhansdk.helper.extensions.setTint
 
 fun ComponentDirectDebitCardBinding.init(
     title: String,
