@@ -94,7 +94,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         binding.inquiryBtn.init("استعلام", btnOnClick = {
             PishkhanSDK.onInquiryButtonClicked(
                 inputModel = SubventionHistory.Input(
-                    MobileNumber = "09395099494",
+                    MobileNumber = "09397799139",
                     OTPCode = null,
                     PurchaseKey = null
                 ),
@@ -110,13 +110,14 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         })
 
 
-        /*   PishkhanSDK.getInquiryHistory(
+
+         PishkhanSDK.getInquiryHistory(
                context = this,
-               product = ProductItemDetail.InquiryAccountNumberByIban,
+               product = ProductItemDetail.InquiryGovernmentSubventionHistory,
                inquiryHistoryRv = binding.historyRv
            ) {
                Log.d("inquiry history", it.toString())
-           }*/
+           }
 
 
         /*        PishkhanSDK.getUserTransactionHistory(
@@ -131,7 +132,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             intent = intent,
         ) {
             Toast.makeText(this, "result successful2", Toast.LENGTH_LONG).show()
-            Log.d("handleOutput", (it.Result as IbanResult).toString())
+            Log.d("handleOutput", (it.Result as SubventionHistory.Result).toString())
         }
     }
 

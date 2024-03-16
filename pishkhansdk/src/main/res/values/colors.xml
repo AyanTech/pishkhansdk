@@ -44,8 +44,8 @@
     <color name="pishkhansdk_helper_text_color">#111E24</color>
     <color name="pishkhansdk_text_color_hint">#BDBDBD</color>
     <color name="pishkhansdk_text_color_inquiry_history">#424242</color>
-    <color name="pishkhansdk_is_favorite_icon_color">#00BAF2</color>
-    <color name="pishkhansdk_is_not_favorite_icon_color">#FFFFFF</color>
+    <color name="pishkhansdk_is_favorite_icon_color">@color/color_primary</color>
+    <color name="pishkhansdk_is_not_favorite_icon_color">#BDBDBD</color>
     <color name="pishkhansdk_bottom_sheet_title_color">#000000</color>
 
 

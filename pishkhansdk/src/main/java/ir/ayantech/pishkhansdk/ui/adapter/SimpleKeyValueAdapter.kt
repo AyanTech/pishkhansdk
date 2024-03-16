@@ -12,12 +12,11 @@ import ir.ayantech.whygoogle.adapter.OnItemClickListener
 
 class SimpleKeyValueAdapter(
     items: List<ExtraInfo>,
-    private val product: String? = null,
     private val highlight: Boolean = true,
     private val highlightColor: Int = R.color.color_secondary_alpha5,
     private val startHighlightFromZero: Boolean = true,
-    private val keyTvResId: Int = R.style.text_normal_grey700,
-    private val valueTvResId: Int = R.style.text_normal_primary_dark,
+    private val keyTvResId: Int = R.style.key_text_style,
+    private val valueTvResId: Int = R.style.value_text_style,
     onItemClickListener: OnItemClickListener<ExtraInfo>? = null
 ) : CommonAdapter<ExtraInfo, PishkhansdkComponentTableRowsBinding>(items, onItemClickListener) {
 

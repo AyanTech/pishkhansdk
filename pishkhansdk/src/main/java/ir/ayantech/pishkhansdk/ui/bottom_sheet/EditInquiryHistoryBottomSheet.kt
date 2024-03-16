@@ -29,10 +29,6 @@ class EditInquiryHistoryBottomSheet(
         super.onCreate()
 
         accessViews {
-            note?.let {
-                dataInputComponent.setText(it)
-            }
-
             cancelBtnComponent.init(
                 context = context,
                 btnText = getString(R.string.cancel)
@@ -50,6 +46,10 @@ class EditInquiryHistoryBottomSheet(
             ) {
                 onConfirmClicked(dataInputComponent.getText())
                 dismiss()
+            }
+
+            note?.let {
+                dataInputComponent.setText(it)
             }
         }
     }

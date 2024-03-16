@@ -2,9 +2,7 @@ package ir.ayantech.pishkhansdk.ui.bottom_sheet
 
 import android.content.Context
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.LayoutInflater
-import com.google.android.material.textfield.TextInputLayout
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.databinding.DialogOtpBinding
 import ir.ayantech.pishkhansdk.model.app_logic.OTP
@@ -16,7 +14,6 @@ import ir.ayantech.pishkhansdk.ui.components.setError
 import ir.ayantech.pishkhansdk.ui.components.setText
 import ir.ayantech.whygoogle.helper.changeVisibility
 import ir.ayantech.whygoogle.helper.isNotNull
-import ir.ayantech.whygoogle.helper.trying
 
 class OtpBottomSheetDialog(
     context: Context,
@@ -27,8 +24,8 @@ class OtpBottomSheetDialog(
     override val binder: (LayoutInflater) -> DialogOtpBinding
         get() = DialogOtpBinding::inflate
 
-    override val title: String?
-        get() = ""
+    override val title: String
+        get() = "تایید رمز عبور یک بار مصرف"
 
     val otpValidation = otp?.Validation
 

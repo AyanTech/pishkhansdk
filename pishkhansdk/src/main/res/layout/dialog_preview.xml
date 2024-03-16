@@ -16,6 +16,7 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/rulesTitleTv"
         style="@style/header_primary_dark"
+        android:textColor="@color/gray1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/extraInfoRv"
@@ -61,6 +62,7 @@
             android:id="@+id/payableAmountTv"
             style="@style/header_primary_dark"
             android:layout_width="0dp"
+            android:textColor="@color/gray1"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="left" />
