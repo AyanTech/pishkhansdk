@@ -24,7 +24,7 @@
 
         <include
             android:id="@+id/cancelBtnComponent"
-            layout="@layout/component_button_outlined"
+            layout="@layout/pishkhansdk_component_button_outlined"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_8"
@@ -32,7 +32,7 @@
 
         <include
             android:id="@+id/confirmBtnComponent"
-            layout="@layout/component_button_filled"
+            layout="@layout/pishkhansdk_component_button_filled"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_8"

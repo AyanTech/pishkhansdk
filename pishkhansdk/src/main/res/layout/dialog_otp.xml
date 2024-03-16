@@ -39,7 +39,7 @@
 
     <include
         android:id="@+id/enterOtpCodeLayout"
-        layout="@layout/component_input"
+        layout="@layout/pishkhansdk_component_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/secondDescriptionLayout"
@@ -47,7 +47,7 @@
 
     <include
         android:id="@+id/confirmCodeBtn"
-        layout="@layout/component_button_filled"
+        layout="@layout/pishkhansdk_component_button_filled"
         android:layout_width="match_parent"
         android:layout_below="@id/enterOtpCodeLayout"
         android:layout_marginTop="@dimen/margin_24"

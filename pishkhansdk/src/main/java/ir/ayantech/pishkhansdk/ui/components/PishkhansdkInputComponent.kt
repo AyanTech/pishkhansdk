@@ -12,7 +12,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.updatePadding
 import ir.ayantech.pishkhansdk.R
-import ir.ayantech.pishkhansdk.databinding.ComponentInputBinding
+import ir.ayantech.pishkhansdk.databinding.PishkhansdkComponentInputBinding
 import ir.ayantech.pishkhansdk.helper.extensions.AfterTextChangedCallback
 import ir.ayantech.pishkhansdk.helper.extensions.placeCursorToEnd
 import ir.ayantech.pishkhansdk.helper.extensions.setMaxLength
@@ -22,7 +22,7 @@ import ir.ayantech.whygoogle.helper.SimpleCallBack
 import ir.ayantech.whygoogle.helper.changeVisibility
 
 @SuppressLint("ClickableViewAccessibility")
-fun ComponentInputBinding.init(
+fun PishkhansdkComponentInputBinding.init(
     context: Context,
     hint: String? = null,
     text: String? = null,
@@ -71,24 +71,24 @@ fun ComponentInputBinding.init(
 }
 
 
-fun ComponentInputBinding.getText() = textInputEditText.text?.toString() ?: ""
+fun PishkhansdkComponentInputBinding.getText() = textInputEditText.text?.toString() ?: ""
 
-fun ComponentInputBinding.setText(text: String?) {
+fun PishkhansdkComponentInputBinding.setText(text: String?) {
     textInputEditText.setText(text)
 }
 
-fun ComponentInputBinding.placeCursorToEnd() {
+fun PishkhansdkComponentInputBinding.placeCursorToEnd() {
     textInputEditText.placeCursorToEnd()
 }
 
-fun ComponentInputBinding.changeVisibility(show: Boolean) {
+fun PishkhansdkComponentInputBinding.changeVisibility(show: Boolean) {
     root.changeVisibility(show = show)
 }
 
-fun ComponentInputBinding.setAfterTextChangesListener(afterTextChangedCallback: AfterTextChangedCallback) {
+fun PishkhansdkComponentInputBinding.setAfterTextChangesListener(afterTextChangedCallback: AfterTextChangedCallback) {
     textInputEditText.textChanges(afterTextChangedCallback = afterTextChangedCallback)
 }
 
-fun ComponentInputBinding.setError(text: String?) {
+fun PishkhansdkComponentInputBinding.setError(text: String?) {
     textInputLayout.error = text
 }

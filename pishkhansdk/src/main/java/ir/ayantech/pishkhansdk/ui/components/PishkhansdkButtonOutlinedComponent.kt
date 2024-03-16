@@ -8,13 +8,13 @@ import android.util.StateSet
 import android.view.View
 import androidx.core.content.ContextCompat.getColor
 import ir.ayantech.pishkhansdk.R
-import ir.ayantech.pishkhansdk.databinding.ComponentButtonOutlinedBinding
+import ir.ayantech.pishkhansdk.databinding.PishkhansdkComponentButtonOutlinedBinding
 import ir.ayantech.pishkhansdk.helper.extensions.getDimension
 import ir.ayantech.pishkhansdk.helper.extensions.getDimensionInt
 import ir.ayantech.whygoogle.helper.changeVisibility
 
 
-fun ComponentButtonOutlinedBinding.init(
+fun PishkhansdkComponentButtonOutlinedBinding.init(
     context: Context,
     btnText: String,
     tint: Int? = null,
@@ -48,16 +48,16 @@ fun ComponentButtonOutlinedBinding.init(
     }
 }
 
-fun ComponentButtonOutlinedBinding.changeEnable(
+fun PishkhansdkComponentButtonOutlinedBinding.changeEnable(
     enable: Boolean
 ) {
     outlinedButton.isEnabled = enable
 }
 
-fun ComponentButtonOutlinedBinding.changeVisibility(isVisible: Boolean) {
+fun PishkhansdkComponentButtonOutlinedBinding.changeVisibility(isVisible: Boolean) {
     outlinedButton.changeVisibility(show = isVisible)
 }
 
-fun ComponentButtonOutlinedBinding.setText(text: String) {
+fun PishkhansdkComponentButtonOutlinedBinding.setText(text: String) {
     outlinedButton.text = text
 }

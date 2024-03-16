@@ -2,11 +2,11 @@ package ir.ayantech.pishkhansdk.ui.components
 
 import android.os.SystemClock
 import android.view.View
-import ir.ayantech.pishkhansdk.databinding.ComponentButtonFilledBinding
+import ir.ayantech.pishkhansdk.databinding.PishkhansdkComponentButtonFilledBinding
 
 private var mLastClickTime: Long = 0
 
-fun ComponentButtonFilledBinding.init(
+fun PishkhansdkComponentButtonFilledBinding.init(
     btnText: String,
     isEnable: Boolean = true,
     btnOnClick: View.OnClickListener? = null
@@ -24,14 +24,14 @@ fun ComponentButtonFilledBinding.init(
     filledButton.isSelected = true
 }
 
-fun ComponentButtonFilledBinding.changeEnable(
+fun PishkhansdkComponentButtonFilledBinding.changeEnable(
     enable: Boolean
 ) {
     filledButton.isEnabled = enable
 }
 
-fun ComponentButtonFilledBinding.setText(text: String?) {
+fun PishkhansdkComponentButtonFilledBinding.setText(text: String?) {
     filledButton.text = text
 }
 
-fun ComponentButtonFilledBinding.getText() = filledButton.text.toString()
+fun PishkhansdkComponentButtonFilledBinding.getText() = filledButton.text.toString()

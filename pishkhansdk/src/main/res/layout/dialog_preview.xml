@@ -70,7 +70,7 @@
 
     <include
         android:id="@+id/confirmBtn"
-        layout="@layout/component_button_filled"
+        layout="@layout/pishkhansdk_component_button_filled"
         android:layout_width="match_parent"
         android:layout_below="@id/costLl"
         android:layout_marginTop="@dimen/margin_12"
