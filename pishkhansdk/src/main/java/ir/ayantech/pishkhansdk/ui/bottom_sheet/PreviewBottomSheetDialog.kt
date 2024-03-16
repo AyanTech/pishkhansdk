@@ -55,8 +55,6 @@ class PreviewBottomSheetDialog(
                 SimpleKeyValueAdapter(
                     serviceSummery,
                     startHighlightFromZero = false,
-                    keyTvResId = R.style.description_grey700,
-                    valueTvResId = R.style.description_primary_dark
                 )
             }
         }
