@@ -82,7 +82,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             ayanCommonCallingStatus
 
         PishkhanSDK.handleUserSession(
-            application = "pishkhan24", origin = "cafebazaar",
+            application = "subvention", origin = "cafebazaar",
             platform = "android",
             version = "4.0.0",
             activity = this,
@@ -96,12 +96,12 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
         binding.inquiryBtn.init("استعلام", btnOnClick = {
             PishkhanSDK.onInquiryButtonClicked(
-                inputModel = BankChequeStatusSayad.Input(
-                    ChequeNumber = "8380000035356250",
+                inputModel = SubventionHistory.Input(
+                    MobileNumber = "09395099494",
                     OTPCode = null,
                     PurchaseKey = null
                 ),
-                product = ProductItemDetail.InquirySayadCheque,
+                product = ProductItemDetail.InquiryGovernmentSubventionHistory,
                 failureCallBack = {
                     Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
                 },
@@ -114,13 +114,13 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
 
 
-         PishkhanSDK.getInquiryHistory(
-               context = this,
-               product = ProductItemDetail.InquirySayadCheque,
-               inquiryHistoryRv = binding.historyRv
-           ) {
-               Log.d("inquiry history", it.toString())
-           }
+        PishkhanSDK.getInquiryHistory(
+            context = this,
+            product = ProductItemDetail.InquiryGovernmentSubventionHistory,
+            inquiryHistoryRv = binding.historyRv
+        ) {
+            Log.d("inquiry history", it.toString())
+        }
 
 
         /*        PishkhanSDK.getUserTransactionHistory(
@@ -135,7 +135,10 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             intent = intent,
         ) {
             Toast.makeText(this, "result successful2", Toast.LENGTH_LONG).show()
-            Log.d("handleOutput", (it.Result as PostPackagesStatus.PackageTrackingStatusResult).toString())
+            Log.d(
+                "handleOutput",
+                (it.Result as PostPackagesStatus.PackageTrackingStatusResult).toString()
+            )
         }
     }
 
