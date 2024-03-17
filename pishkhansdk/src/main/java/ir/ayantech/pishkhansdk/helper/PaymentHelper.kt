@@ -1,10 +1,12 @@
 package ir.ayantech.pishkhansdk.helper
 
+import android.os.Build.VERSION_CODES.P
 import ir.ayantech.ayannetworking.api.AyanCallStatus
 import ir.ayantech.ayannetworking.api.FailureCallback
 import ir.ayantech.networking.simpleCallInvoiceInfo
 import ir.ayantech.networking.simpleCallInvoicePayment
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleAccountNumberByIbanOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleBankChequeStatusSayadOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleIbanByAccountNumberOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleIbanByCardNumberOutput
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
@@ -17,6 +19,7 @@ import ir.ayantech.pishkhansdk.model.api.InvoiceRegister
 import ir.ayantech.pishkhansdk.model.app_logic.OTP
 import ir.ayantech.pishkhansdk.model.app_logic.createCallBackLink
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleJusticeSharesPortfolioOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handlePostPackageTrackingOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleSubventionHistoryOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficFinesCarSummaryOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficFinesCarOutput
@@ -269,6 +272,24 @@ object PaymentHelper {
 
                 Products.accountNumberByIbanProduct.name -> {
                     handleAccountNumberByIbanOutput(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+                Products.postPackageTrackingProduct.name -> {
+                    handlePostPackageTrackingOutput(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+                Products.sayadChequeProduct.name -> {
+                    handleBankChequeStatusSayadOutput(
                         input = input,
                         handleResultCallback = {
                             handleResultCallback?.invoke(it)

@@ -1,15 +1,19 @@
 package ir.ayantech.pishkhansdk.helper
 
 
+import ir.ayantech.networking.simpleCallBankChequeStatusSayad
 import ir.ayantech.networking.simpleCallJusticeSharesPortfolio
+import ir.ayantech.networking.simpleCallPostPackagesStatus
 import ir.ayantech.networking.simpleCallSubventionHistory
 import ir.ayantech.networking.simpleCallTrafficFinesCar
 import ir.ayantech.networking.simpleCallTrafficFinesCarSummary
 import ir.ayantech.networking.simpleCallV2BankIbanInfo
 import ir.ayantech.networking.simpleCallV3BankIbanInfo
+import ir.ayantech.pishkhansdk.model.api.BankChequeStatusSayad
 import ir.ayantech.pishkhansdk.model.api.InvoiceInfo
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.api.JusticeSharesPortfolio
+import ir.ayantech.pishkhansdk.model.api.PostPackagesStatus
 import ir.ayantech.pishkhansdk.model.api.SubventionHistory
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCarSummary
@@ -98,6 +102,26 @@ object HandleOutput {
                 handleAccountNumberByIbanOutput(input = V1BankIbanInfo.Input(
                     AccountType = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.AccountType }.Value,
                     Iban = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Iban }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.postPackageTrackingProduct.name -> {
+                handlePostPackageTrackingOutput(input = PostPackagesStatus.Input(
+                    TrackingCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.TrackingCode }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.sayadChequeProduct.name -> {
+                handleBankChequeStatusSayadOutput(input = BankChequeStatusSayad.Input(
+                    ChequeNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.ChequeNumber }.Value,
                     OTPCode = null,
                     PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
                 ), handleResultCallback = {
@@ -282,6 +306,56 @@ object HandleOutput {
                 } else {
                     (it as? V1BankIbanInfo.Input)?.let {
                         handleAccountNumberByIbanOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handlePostPackageTrackingOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallPostPackagesStatus(
+            input = input as PostPackagesStatus.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? PostPackagesStatus.Input)?.let {
+                        handlePostPackageTrackingOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleBankChequeStatusSayadOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallBankChequeStatusSayad(
+            input = input as BankChequeStatusSayad.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? BankChequeStatusSayad.Input)?.let {
+                        handleBankChequeStatusSayadOutput(
                             apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
                             input = it,
                         ) {

@@ -91,19 +91,11 @@
 -keep public class ir.ayantech.pushnotification.** { *; }
 -keep public class ir.ayantech.pushsdk.** { *; }
 -keep public class ir.ayantech.versioncontrol.** { *; }
--keep public class ir.ayantech.ghabzino.model.** { *; }
--keep public class ir.ayantech.ghabzino.shaparak.api.** { *; }
--keep public class ir.ayantech.ghabzino.shaparak.model.** { *; }
--keep public class ir.ayantech.ghabzino.helper.AnalyticsHelper.** { *; }
-#-keep public class ir.ayantech.ghabzino.GhabzinoApplication
-#-keep public class ir.ayantech.ghabzino.storage.** {*;}
 #-------------------------------Needed-----------------------------
 -keep public class * extends ir.ayantech.whygoogle.** { *; }
 -keepclassmembernames class androidx.recyclerview.widget.RecyclerView { *; }
 -keepclassmembers class androidx.recyclerview.widget.RecyclerView { *; }
 #-keep public class ir.ayantech.whygoogle.activity.SwipableWhyGoogleActivity
--keep public class * extends ir.ayantech.ghabzino.ui.base.BaseBottomSheet
-#-keep public class * extends ir.ayantech.ghabzino.ui.base.AyanDialog
 
 ##---------------Begin: proguard configuration for Gson  ----------
 # Gson uses generic type information stored in a class file when working with fields. Proguard
@@ -224,21 +216,12 @@
 -assumenosideeffects class android.util.Log{*;}
 
 
-##---------------Begin: proguard configuration for glide  ----------
--keep public class * implements com.bumptech.glide.module.GlideModule
--keep public class * extends com.bumptech.glide.module.AppGlideModule
--keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
-  **[] $VALUES;
-  public *;
-}
 ##---------------End: proguard configuration for glide  ----------
 
 -keep class com.batch. { *; }
 -keep class com.google.android.gms. { *; }
 -keep class android.support.v7.app. { *; }
 -keep class android.support.v4. { *; }
--dontwarn com.batch.android.mediation.**
--dontwarn com.batch.android.BatchPushService
 
 -dontwarn com.google.android.gms.**
 -keepclasseswithmembers class com.camerakit.preview.CameraSurfaceView {
@@ -264,8 +247,6 @@
 -keep class * extends com.google.gson.reflect.TypeToken
 -keep public class * implements java.lang.reflect.Type
 
--dontwarn com.batch.android.mediation.**
--dontwarn com.batch.android.BatchPushService
 
 -dontwarn okhttp3.
 -dontwarn okio.
@@ -335,10 +316,7 @@
 -dontwarn kotlin.Unit
 
 # Top-level functions that can only be used by Kotlin.
--dontwarn retrofit2.-KotlinExtensions
-##---------------End: proguard configuration for Retrofit  ----------
 
-##---------------Begin: proguard configuration for okhttp3  ----------
 # JSR 305 annotations are for embedding nullability information.
 -dontwarn javax.annotation.**
 
@@ -362,23 +340,11 @@
 -dontwarn com.batch.android.mediation.**
 -dontwarn com.batch.android.BatchPushService
 
--dontwarn com.android.billingclient.
--dontwarn net.jhoobin.jhub.
-
 
 
 -dontwarn com.android.billingclient.**
 -dontwarn net.jhoobin.jhub.**
 
-
--dontwarn okhttp3.
--dontwarn okio.
--dontwarn javax.annotation.
-# A resource is loaded with a relative path so the package of this class must be preserved.
--keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
-
--dontwarn java.lang.invoke
--dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 
 
 ##---------------Begin: proguard configuration for admob  ----------

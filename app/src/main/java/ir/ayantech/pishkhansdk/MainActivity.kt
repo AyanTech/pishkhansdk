@@ -13,6 +13,8 @@ import ir.ayantech.ayannetworking.ayanModel.FailureType
 import ir.ayantech.pishkhansdk.databinding.ActivityMainBinding
 import ir.ayantech.pishkhansdk.helper.PishkhanSDK
 import ir.ayantech.pishkhansdk.bottom_sheets.WaiterBottomSheet
+import ir.ayantech.pishkhansdk.model.api.BankChequeStatusSayad
+import ir.ayantech.pishkhansdk.model.api.PostPackagesStatus
 import ir.ayantech.pishkhansdk.model.api.SubventionHistory
 import ir.ayantech.pishkhansdk.model.api.V2BankIbanInfo
 import ir.ayantech.pishkhansdk.model.app_logic.IbanResult
@@ -20,6 +22,7 @@ import ir.ayantech.pishkhansdk.model.app_logic.ProductItemDetail
 import ir.ayantech.pishkhansdk.model.constants.Parameter.AccountNumber
 import ir.ayantech.pishkhansdk.model.constants.Parameter.AccountType
 import ir.ayantech.pishkhansdk.model.constants.Parameter.PurchaseKey
+import ir.ayantech.pishkhansdk.model.constants.Parameter.TrackingCode
 import ir.ayantech.pishkhansdk.ui.components.init
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 
@@ -79,7 +82,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             ayanCommonCallingStatus
 
         PishkhanSDK.handleUserSession(
-            application = "subventioninquiry", origin = "cafebazaar",
+            application = "pishkhan24", origin = "cafebazaar",
             platform = "android",
             version = "4.0.0",
             activity = this,
@@ -93,18 +96,18 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
         binding.inquiryBtn.init("استعلام", btnOnClick = {
             PishkhanSDK.onInquiryButtonClicked(
-                inputModel = SubventionHistory.Input(
-                    MobileNumber = "09397799139",
+                inputModel = BankChequeStatusSayad.Input(
+                    ChequeNumber = "8380000035356250",
                     OTPCode = null,
                     PurchaseKey = null
                 ),
-                product = ProductItemDetail.InquiryGovernmentSubventionHistory,
+                product = ProductItemDetail.InquirySayadCheque,
                 failureCallBack = {
                     Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
                 },
                 handleResultCallback = {
                     Toast.makeText(this, "result successful1", Toast.LENGTH_LONG).show()
-                    Log.d("handleOutput", (it.Result as IbanResult).toString())
+                    Log.d("handleOutput", (it.Result as BankChequeStatusSayad.Result).toString())
                 }
             )
         })
@@ -113,7 +116,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
          PishkhanSDK.getInquiryHistory(
                context = this,
-               product = ProductItemDetail.InquiryGovernmentSubventionHistory,
+               product = ProductItemDetail.InquirySayadCheque,
                inquiryHistoryRv = binding.historyRv
            ) {
                Log.d("inquiry history", it.toString())
@@ -132,7 +135,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             intent = intent,
         ) {
             Toast.makeText(this, "result successful2", Toast.LENGTH_LONG).show()
-            Log.d("handleOutput", (it.Result as SubventionHistory.Result).toString())
+            Log.d("handleOutput", (it.Result as PostPackagesStatus.PackageTrackingStatusResult).toString())
         }
     }
 
