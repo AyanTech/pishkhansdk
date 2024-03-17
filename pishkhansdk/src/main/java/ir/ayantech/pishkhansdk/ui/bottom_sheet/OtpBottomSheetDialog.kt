@@ -96,6 +96,7 @@ class OtpBottomSheetDialog(
                     }
 
                     else -> {
+                        dismiss()
                         callback(enterOtpCodeLayout.getText())
                     }
                 }
