@@ -43,7 +43,7 @@
             android:layout_weight="0.5"
             android:gravity="start|center_vertical"
             android:padding="@dimen/margin_2"
-            android:rotation="-90"
+            android:rotation="180"
             app:srcCompat="@drawable/ic_keyboard_arrow_down" />
 
 

@@ -1,5 +1,6 @@
 package ir.ayantech.pishkhansdk.ui.components
 
+import android.view.View
 import ir.ayantech.pishkhansdk.databinding.PishkhansdkComponentTransactionBinding
 import ir.ayantech.pishkhansdk.helper.extensions.textColor
 import ir.ayantech.pishkhansdk.helper.extensions.setTint
