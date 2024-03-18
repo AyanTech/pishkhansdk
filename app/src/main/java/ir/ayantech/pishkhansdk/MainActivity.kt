@@ -97,7 +97,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         binding.inquiryBtn.init("استعلام", btnOnClick = {
             PishkhanSDK.onInquiryButtonClicked(
                 inputModel = SubventionHistory.Input(
-                    MobileNumber = "09395099494",
+                    MobileNumber = "09397799139",
                     OTPCode = null,
                     PurchaseKey = null
                 ),
@@ -113,21 +113,22 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         })
 
 
+        /*
+                PishkhanSDK.getInquiryHistory(
+                    context = this,
+                    product = ProductItemDetail.InquiryGovernmentSubventionHistory,
+                    inquiryHistoryRv = binding.historyRv
+                ) {
+                    Log.d("inquiry history", it.toString())
+                }
+        */
 
-        PishkhanSDK.getInquiryHistory(
-            context = this,
-            product = ProductItemDetail.InquiryGovernmentSubventionHistory,
-            inquiryHistoryRv = binding.historyRv
-        ) {
-            Log.d("inquiry history", it.toString())
+
+        PishkhanSDK.getUserTransactionHistory(
+            userTransactionHistoryRv = binding.historyRv
+        ) { output, serviceName ->
+            Log.d("hsdbcakf", "${output.Result}   $serviceName")
         }
-
-
-        /*        PishkhanSDK.getUserTransactionHistory(
-                    userTransactionHistoryRv = binding.historyRv
-                ) { output, serviceName ->
-                    Log.d("hsdbcakf", "${output.Result}   $serviceName")
-                }*/
     }
 
     private fun handleIntent() {

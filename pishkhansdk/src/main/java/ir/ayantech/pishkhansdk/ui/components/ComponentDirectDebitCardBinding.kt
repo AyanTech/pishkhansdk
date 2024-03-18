@@ -1,10 +1,10 @@
 package ir.ayantech.pishkhansdk.ui.components
 
-import ir.ayantech.pishkhansdk.databinding.ComponentDirectDebitCardBinding
+import ir.ayantech.pishkhansdk.databinding.PishkhansdkComponentTransactionBinding
 import ir.ayantech.pishkhansdk.helper.extensions.textColor
 import ir.ayantech.pishkhansdk.helper.extensions.setTint
 
-fun ComponentDirectDebitCardBinding.init(
+fun PishkhansdkComponentTransactionBinding.init(
     title: String,
     amount: String,
     description: String,
@@ -18,14 +18,14 @@ fun ComponentDirectDebitCardBinding.init(
     dateTv.text = date
 }
 
-fun ComponentDirectDebitCardBinding.setDescriptionTextColor(color: Int) {
+fun PishkhansdkComponentTransactionBinding.setDescriptionTextColor(color: Int) {
     descriptionTv.textColor(color)
 }
 
-fun ComponentDirectDebitCardBinding.setArrowIvTint(color: Int) {
+fun PishkhansdkComponentTransactionBinding.setArrowIvTint(color: Int) {
     arrowIv.setTint(color)
 }
 
-fun ComponentDirectDebitCardBinding.setRightIndicatorIvTint(color: Int) {
+fun PishkhansdkComponentTransactionBinding.setRightIndicatorIvTint(color: Int) {
     rightIndicatorIv.setTint(color)
 }

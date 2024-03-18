@@ -13,10 +13,12 @@
 
     <style name="key_text_style" parent="text_normal">
         <item name="android:textColor">@color/gray2</item>
+        <item name="android:textSize">@dimen/margin_11</item>
     </style>
 
     <style name="value_text_style" parent="text_normal">
         <item name="android:textColor">@color/gray1</item>
+        <item name="android:textSize">@dimen/margin_11</item>
     </style>
 
     <style name="text_normal_secondary" parent="text_normal">

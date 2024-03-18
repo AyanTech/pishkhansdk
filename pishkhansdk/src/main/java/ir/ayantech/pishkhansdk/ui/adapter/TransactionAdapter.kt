@@ -3,7 +3,7 @@ package ir.ayantech.pishkhansdk.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import ir.ayantech.pishkhansdk.R
-import ir.ayantech.pishkhansdk.databinding.ComponentDirectDebitCardBinding
+import ir.ayantech.pishkhansdk.databinding.PishkhansdkComponentTransactionBinding
 import ir.ayantech.pishkhansdk.helper.extensions.getFormattedPersianDateTime
 import ir.ayantech.pishkhansdk.model.api.UserTransactions
 import ir.ayantech.pishkhansdk.ui.components.init
@@ -19,13 +19,13 @@ import ir.ayantech.whygoogle.helper.isNull
 class TransactionAdapter(
     items: List<UserTransactions.Transaction>,
     onItemClickListener: OnItemClickListener<UserTransactions.Transaction>
-) : CommonAdapter<UserTransactions.Transaction, ComponentDirectDebitCardBinding>(
+) : CommonAdapter<UserTransactions.Transaction, PishkhansdkComponentTransactionBinding>(
     items,
     onItemClickListener
 ) {
 
     override fun onBindViewHolder(
-        holder: CommonViewHolder<UserTransactions.Transaction, ComponentDirectDebitCardBinding>,
+        holder: CommonViewHolder<UserTransactions.Transaction, PishkhansdkComponentTransactionBinding>,
         position: Int
     ) {
         super.onBindViewHolder(holder, position)
@@ -63,6 +63,6 @@ class TransactionAdapter(
 
 
 
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> ComponentDirectDebitCardBinding
-        get() = ComponentDirectDebitCardBinding::inflate
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> PishkhansdkComponentTransactionBinding
+        get() = PishkhansdkComponentTransactionBinding::inflate
 }
