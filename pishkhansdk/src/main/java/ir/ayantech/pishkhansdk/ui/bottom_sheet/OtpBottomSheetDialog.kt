@@ -2,6 +2,8 @@ package ir.ayantech.pishkhansdk.ui.bottom_sheet
 
 import android.content.Context
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.text.InputType
 import android.view.LayoutInflater
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.databinding.DialogOtpBinding
@@ -14,6 +16,9 @@ import ir.ayantech.pishkhansdk.ui.components.setError
 import ir.ayantech.pishkhansdk.ui.components.setText
 import ir.ayantech.whygoogle.helper.changeVisibility
 import ir.ayantech.whygoogle.helper.isNotNull
+import ir.ayantech.whygoogle.helper.repeatTryingUntil
+import ir.ayantech.whygoogle.helper.trying
+import kotlin.math.roundToLong
 
 class OtpBottomSheetDialog(
     context: Context,
@@ -27,8 +32,6 @@ class OtpBottomSheetDialog(
     override val title: String
         get() = "تایید رمز عبور یک بار مصرف"
 
-    val otpValidation = otp?.Validation
-
     init {
         setCancelable(false)
         setCanceledOnTouchOutside(false)
@@ -36,7 +39,7 @@ class OtpBottomSheetDialog(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       // startTimer()
+        startTimer()
         initViews()
         setupActions()
     }
@@ -82,6 +85,7 @@ class OtpBottomSheetDialog(
             enterOtpCodeLayout.init(
                 context = context,
                 hint = context.getString(R.string.activation_code),
+                inputType = InputType.TYPE_CLASS_NUMBER,
                 maxLength = otp?.Length?.toInt()!!,
             )
 
@@ -104,27 +108,29 @@ class OtpBottomSheetDialog(
         }
     }
 
-/*    private fun startTimer() {
-        object : CountDownTimer((otp?.Timer?.toLong()!!), 1000) {
-            override fun onFinish() {
-                trying {
-                    binding.apply {
-                        enterOtpCodeLayout.retryTv.isEnabled = true
-                        enterOtpCodeLayout.retryTv.text = context.getString(R.string.resend)
-                    }
-                }
-            }
+  private fun startTimer() {
+      repeatTryingUntil({ otp?.Timer != null }) {
+          object : CountDownTimer((otp?.Timer!!).roundToLong(), 1000) {
+              override fun onFinish() {
+                  trying {
+                      accessViews {
+                          retryTv.isEnabled = true
+                          retryTv.text = getString(R.string.resend)
+                      }
+                  }
+              }
 
-            override fun onTick(p0: Long) {
-                try {
-                    binding.apply {
-                        enterOtpCodeLayout.retryTv.isEnabled = false
-                        enterOtpCodeLayout.retryTv.text = "${p0 / 1000} ثانیه"
-                    }
-                } catch (e: Exception) {
+              override fun onTick(p0: Long) {
+                  try {
+                      accessViews {
+                          retryTv.isEnabled = false
+                          retryTv.text = "${p0 / 1000} ثانیه تا دریافت مجدد کد تایید "
+                      }
+                  } catch (e: Exception) {
 
-                }
-            }
-        }.start()
-    }*/
+                  }
+              }
+          }.start()
+      }
+    }
 }

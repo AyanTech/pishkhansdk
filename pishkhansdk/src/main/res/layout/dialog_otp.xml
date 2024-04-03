@@ -54,4 +54,17 @@
         android:layout_marginTop="@dimen/margin_24"
         android:layout_height="wrap_content" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/retryTv"
+        style="@style/text_normal"
+        android:textColor="@color/gray4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:layout_below="@id/confirmCodeBtn"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="@string/resend" />
+
+
 </RelativeLayout>

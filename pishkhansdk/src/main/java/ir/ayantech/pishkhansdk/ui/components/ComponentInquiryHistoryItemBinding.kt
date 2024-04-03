@@ -11,6 +11,10 @@ fun PishkhansdkComponentInquiryHistoryItemBinding.init(
 ) {
     titleTv.text = title
     descriptionTv.text = description
+
+    titleTv.isSelected = true
+    descriptionTv.isSelected = true
+
     favoriteIv.setTint(
         if (isFavorite) R.color.pishkhansdk_is_favorite_icon_color
         else R.color.pishkhansdk_is_not_favorite_icon_color

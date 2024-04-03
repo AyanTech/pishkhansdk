@@ -4,7 +4,7 @@
     <style name="text_normal">
         <item name="fontFamily">@font/iransansx_fa_num_regular</item>
         <item name="android:fontFamily">@font/iransansx_fa_num_regular</item>
-        <item name="android:textSize">@dimen/text_regular_6</item>
+        <item name="android:textSize">@dimen/margin_13</item>
     </style>
 
     <style name="text_normal_primary_dark" parent="text_normal">
@@ -173,7 +173,7 @@
     </style>
 
     <style name="Text3Regular" parent="TextRegular">
-        <item name="android:textSize">@dimen/text_regular_3</item>
+        <item name="android:textSize">@dimen/margin_14</item>
     </style>
 
     <style name="Text4Regular" parent="TextRegular">

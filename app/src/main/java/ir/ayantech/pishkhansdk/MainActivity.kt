@@ -113,22 +113,24 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         })
 
 
-        /*
-                PishkhanSDK.getInquiryHistory(
-                    context = this,
-                    product = ProductItemDetail.InquiryGovernmentSubventionHistory,
-                    inquiryHistoryRv = binding.historyRv
-                ) {
-                    Log.d("inquiry history", it.toString())
-                }
-        */
 
-
-        PishkhanSDK.getUserTransactionHistory(
-            userTransactionHistoryRv = binding.historyRv
-        ) { output, serviceName ->
-            Log.d("hsdbcakf", "${output.Result}   $serviceName")
+        PishkhanSDK.getInquiryHistory(
+            context = this,
+            product = ProductItemDetail.InquiryGovernmentSubventionHistory,
+            inquiryHistoryRv = binding.historyRv
+        ) {
+            Log.d("inquiry history", it.toString())
         }
+
+
+        /*       PishkhanSDK.getUserTransactionHistory(
+                   userTransactionHistoryRv = binding.historyRv,
+                   hasTransactionHistory = {
+
+                   }
+               ) { output, serviceName ->
+                   Log.d("hsdbcakf", "${output.Result}   $serviceName")
+               }*/
     }
 
     private fun handleIntent() {

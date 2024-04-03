@@ -290,16 +290,20 @@ object PishkhanSDK {
 
     fun getUserTransactionHistory(
         userTransactionHistoryRv: RecyclerView,
+        hasTransactionHistory: BooleanCallBack,
         onTransactionItemClicked: ((output: BaseResultModel<*>, serviceName: String) -> Unit)?
     ) {
         coreApi.simpleCallUserTransactions {
-            it?.let {
+            if (it?.Transactions != null) {
+                hasTransactionHistory(true)
                 setupAdapter(
-                    list = it.Transactions ?: arrayListOf(),
+                    list = it.Transactions,
                     transactionRv = userTransactionHistoryRv,
                 ) { output, serviceName ->
                     onTransactionItemClicked?.invoke(output, serviceName)
                 }
+            } else {
+                hasTransactionHistory(false)
             }
         }
     }
