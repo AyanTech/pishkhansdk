@@ -32,8 +32,8 @@ class SDKApplication : Application() {
 
         servicesAyanApi = AyanApi(
             context = this,
-         //   getUserToken = { PishkhanSDK.getPishkhanToken() },
-           getUserToken = {"1AEDF1D7398E4C6A92D8FE2DA77789D1" },
+           getUserToken = { PishkhanSDK.getPishkhanToken() },
+        //   getUserToken = {"1AEDF1D7398E4C6A92D8FE2DA77789D1" },
             defaultBaseUrl = "https://services.pishkhan24.ayantech.ir/webservices/services.svc/",
             timeout = 120,
             logLevel = if (BuildConfig.BUILD_TYPE == "debug") LogLevel.LOG_ALL else LogLevel.DO_NOT_LOG,
@@ -43,8 +43,8 @@ class SDKApplication : Application() {
 
         coreAyanApi = AyanApi(
             context = this,
-          //  getUserToken = { PishkhanSDK.getPishkhanToken() },
-           getUserToken = { "1AEDF1D7398E4C6A92D8FE2DA77789D1" },
+            getUserToken = { PishkhanSDK.getPishkhanToken() },
+          // getUserToken = { "1AEDF1D7398E4C6A92D8FE2DA77789D1" },
             defaultBaseUrl = "https://core.pishkhan24.ayantech.ir/webservices/core.svc/",
             timeout = 120,
             logLevel = if (BuildConfig.BUILD_TYPE == "debug") LogLevel.LOG_ALL else LogLevel.DO_NOT_LOG,
@@ -54,8 +54,8 @@ class SDKApplication : Application() {
 
         PishkhanSDK.initialize(
             context = this,
-            schema = "pishkhan24",
-            host = "ir.ayantech.pishkhan24",
+            schema = "subvention",
+            host = "ir.ayantech.subvention",
             corePishkhan24Api = coreAyanApi!!,
             servicesPishkhan24Api = servicesAyanApi!!,
         )

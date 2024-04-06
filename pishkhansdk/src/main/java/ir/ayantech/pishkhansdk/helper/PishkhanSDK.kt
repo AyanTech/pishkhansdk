@@ -294,13 +294,15 @@ object PishkhanSDK {
         onTransactionItemClicked: ((output: BaseResultModel<*>, serviceName: String) -> Unit)?
     ) {
         coreApi.simpleCallUserTransactions {
-            if (it?.Transactions != null) {
+            if (!it?.Transactions.isNullOrEmpty()) {
                 hasTransactionHistory(true)
-                setupAdapter(
-                    list = it.Transactions,
-                    transactionRv = userTransactionHistoryRv,
-                ) { output, serviceName ->
-                    onTransactionItemClicked?.invoke(output, serviceName)
+                it?.Transactions?.let { transactionList ->
+                    setupAdapter(
+                        list = transactionList,
+                        transactionRv = userTransactionHistoryRv,
+                    ) { output, serviceName ->
+                        onTransactionItemClicked?.invoke(output, serviceName)
+                    }
                 }
             } else {
                 hasTransactionHistory(false)

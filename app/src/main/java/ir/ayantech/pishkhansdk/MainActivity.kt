@@ -13,6 +13,7 @@ import ir.ayantech.ayannetworking.ayanModel.FailureType
 import ir.ayantech.pishkhansdk.databinding.ActivityMainBinding
 import ir.ayantech.pishkhansdk.helper.PishkhanSDK
 import ir.ayantech.pishkhansdk.bottom_sheets.WaiterBottomSheet
+import ir.ayantech.pishkhansdk.helper.PishkhanSDK.serviceName
 import ir.ayantech.pishkhansdk.model.api.BankChequeStatusSayad
 import ir.ayantech.pishkhansdk.model.api.PostPackagesStatus
 import ir.ayantech.pishkhansdk.model.api.SubventionHistory
@@ -123,14 +124,14 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         }
 
 
-        /*       PishkhanSDK.getUserTransactionHistory(
+             PishkhanSDK.getUserTransactionHistory(
                    userTransactionHistoryRv = binding.historyRv,
                    hasTransactionHistory = {
-
+                       Log.d("hsdbcakf", if (it) "دارد" else "ندارد")
                    }
                ) { output, serviceName ->
-                   Log.d("hsdbcakf", "${output.Result}   $serviceName")
-               }*/
+                 //  Log.d("hsdbcakf", "${output.Result}   $serviceName")
+               }
     }
 
     private fun handleIntent() {
