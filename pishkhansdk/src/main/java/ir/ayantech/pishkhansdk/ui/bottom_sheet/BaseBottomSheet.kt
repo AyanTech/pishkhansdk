@@ -56,7 +56,7 @@ abstract class BaseBottomSheet<T : ViewBinding>(context: Context) : BottomSheetD
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_RTL
+        window?.decorView?.layoutDirection = View.LAYOUT_DIRECTION_LOCALE
 
         parentBinding = PishkhansdkBottomSheetBaseBinding.inflate(layoutInflater)
         parentBinding?.closeIv?.changeVisibility(show = hasCloseOption)
