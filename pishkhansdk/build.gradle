@@ -13,7 +13,7 @@ android {
         minSdk 21
         targetSdk 34
         versionCode 1
-        versionName "0.1.18"
+        versionName "0.1.19"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -51,7 +51,7 @@ dependencies {
     implementation 'com.github.ayantech:versioncontrol:0.6.2'
     //------------- ''------------------Networking--------------------------------
     implementation 'com.github.shadowalker77:networking:1.6.1'
-    implementation 'com.github.shadowalker77:generator:0.3.0'
+    compileOnly('com.github.shadowalker77:generator:0.3.0')
     kapt 'com.github.shadowalker77:generator:0.3.0'
 
     implementation 'com.github.samanzamani:PersianDate:1.6.1'
@@ -79,7 +79,7 @@ afterEvaluate {
                 artifactId = 'pishkhansdk'
 
                 // Version Library Name (Example : "1.0.0")
-                version = '0.1.18'
+                version = '0.1.19'
             }
         }
     }
