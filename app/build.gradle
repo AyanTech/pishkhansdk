@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -49,6 +50,8 @@ dependencies {
     implementation project(":pishkhansdk")
     implementation 'com.github.shadowalker77:whygoogle:0.8.2'
     implementation 'com.github.shadowalker77:networking:1.6.1'
+    implementation 'com.github.shadowalker77:generator:0.3.0'
+    kapt 'com.github.shadowalker77:generator:0.3.0'
 
     implementation 'com.airbnb.android:lottie:6.0.0'
 

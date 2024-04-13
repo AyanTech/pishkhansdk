@@ -78,4 +78,6 @@ object EndPoints {
     const val UserServiceQueryNote = "v1/UserServiceQueryNote"
     const val UserSessionUpdateInfo = "v1/UserSessionUpdateInfo"
     const val UserTransactions = "v1/UserTransactions"
+    const val LoginByOTP = "v1/LoginByOTP"
+
 }

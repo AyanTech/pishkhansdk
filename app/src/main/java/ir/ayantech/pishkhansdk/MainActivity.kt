@@ -13,10 +13,13 @@ import ir.ayantech.ayannetworking.ayanModel.FailureType
 import ir.ayantech.pishkhansdk.databinding.ActivityMainBinding
 import ir.ayantech.pishkhansdk.helper.PishkhanSDK
 import ir.ayantech.pishkhansdk.bottom_sheets.WaiterBottomSheet
+import ir.ayantech.pishkhansdk.helper.PishkhanSDK.login
 import ir.ayantech.pishkhansdk.helper.PishkhanSDK.serviceName
 import ir.ayantech.pishkhansdk.model.api.BankChequeStatusSayad
 import ir.ayantech.pishkhansdk.model.api.PostPackagesStatus
 import ir.ayantech.pishkhansdk.model.api.SubventionHistory
+import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
+import ir.ayantech.pishkhansdk.model.api.TrafficFinesCarSummary
 import ir.ayantech.pishkhansdk.model.api.V2BankIbanInfo
 import ir.ayantech.pishkhansdk.model.app_logic.IbanResult
 import ir.ayantech.pishkhansdk.model.app_logic.ProductItemDetail
@@ -24,6 +27,7 @@ import ir.ayantech.pishkhansdk.model.constants.Parameter.AccountNumber
 import ir.ayantech.pishkhansdk.model.constants.Parameter.AccountType
 import ir.ayantech.pishkhansdk.model.constants.Parameter.PurchaseKey
 import ir.ayantech.pishkhansdk.model.constants.Parameter.TrackingCode
+import ir.ayantech.pishkhansdk.ui.components.getText
 import ir.ayantech.pishkhansdk.ui.components.init
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 
@@ -83,7 +87,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             ayanCommonCallingStatus
 
         PishkhanSDK.handleUserSession(
-            application = "subvention", origin = "cafebazaar",
+            application = "VasHookSubventionInquiry", origin = "cafebazaar",
             platform = "android",
             version = "4.0.0",
             activity = this,
@@ -96,9 +100,14 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             handleIntent()
 
         binding.inquiryBtn.init("استعلام", btnOnClick = {
+/*            login("09395099494", null, loginIsSuccessful = {
+                Toast.makeText(PishkhanUser.context, "loginnn", Toast.LENGTH_LONG)
+                    .show()
+            })*/
+
             PishkhanSDK.onInquiryButtonClicked(
                 inputModel = SubventionHistory.Input(
-                    MobileNumber = "09397799139",
+                    MobileNumber = "09395099494",
                     OTPCode = null,
                     PurchaseKey = null
                 ),
@@ -108,40 +117,72 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                 },
                 handleResultCallback = {
                     Toast.makeText(this, "result successful1", Toast.LENGTH_LONG).show()
-                    Log.d("handleOutput", (it.Result as BankChequeStatusSayad.Result).toString())
+                    Log.d(
+                        "handleOutput",
+                        (it.Result as SubventionHistory.Result).toString()
+                    )
                 }
             )
+
+
         })
 
+        binding.inquiryBtn2.init("لاگین", btnOnClick = {
+            login("09395099494", binding.enterOtpCodeLayout.getText(), confirmOtpIsSuccessful = {
+                Toast.makeText(PishkhanUser.context, "confirmmmm", Toast.LENGTH_LONG)
+                    .show()
+            })
+        })
+
+        /*            PishkhanSDK.onInquiryButtonClicked(
+                        inputModel = TrafficFinesCarSummary.Input(
+                            PlateNumber = "71-و-741-40",
+                            OTPCode = null,
+                            PurchaseKey = null
+                        ),
+                        product = ProductItemDetail.InquiryTrafficFinesCarSummary,
+                        failureCallBack = {
+                            Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
+                        },
+                        handleResultCallback = {
+                            Toast.makeText(this, "result successful1", Toast.LENGTH_LONG).show()
+                            Log.d(
+                                "handleOutput",
+                                (it.Result as TrafficFinesCarSummary.TrafficFinesCarSummaryResult).toString()
+                            )
+                        }
+                    )*/
 
 
-        PishkhanSDK.getInquiryHistory(
-            context = this,
-            product = ProductItemDetail.InquiryGovernmentSubventionHistory,
-            inquiryHistoryRv = binding.historyRv
-        ) {
-            Log.d("inquiry history", it.toString())
-        }
+        /*        PishkhanSDK.getInquiryHistory(
+                    context = this,
+                    product = ProductItemDetail.InquiryTrafficFinesCarSummary,
+                    inquiryHistoryRv = binding.historyRv
+                ) {
+                    Log.d("inquiry history", it.toString())
+                }
 
 
-             PishkhanSDK.getUserTransactionHistory(
-                   userTransactionHistoryRv = binding.historyRv,
-                   hasTransactionHistory = {
-                       Log.d("hsdbcakf", if (it) "دارد" else "ندارد")
-                   }
-               ) { output, serviceName ->
-                 //  Log.d("hsdbcakf", "${output.Result}   $serviceName")
-               }
+                PishkhanSDK.getUserTransactionHistory(
+                    userTransactionHistoryRv = binding.historyRv,
+                    hasTransactionHistory = {
+                        Log.d("hsdbcakf", if (it) "دارد" else "ندارد")
+                    }
+                ) { output, serviceName ->
+                    //  Log.d("hsdbcakf", "${output.Result}   $serviceName")
+                }*/
+
     }
+
 
     private fun handleIntent() {
         PishkhanSDK.userPaymentIsSuccessful(
             intent = intent,
-        ) {
+        ) { output, serviceName ->
             Toast.makeText(this, "result successful2", Toast.LENGTH_LONG).show()
             Log.d(
                 "handleOutput",
-                (it.Result as PostPackagesStatus.PackageTrackingStatusResult).toString()
+                (output.Result as SubventionHistory.Result).toString()
             )
         }
     }

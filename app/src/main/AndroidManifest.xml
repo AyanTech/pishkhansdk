@@ -26,11 +26,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="subvention" />
-                <data android:host="link" />
-
-                <data android:scheme="subvention" />
-                <data android:host="deeplink" />
 
                 <data android:scheme="subvention"/>
                 <data android:host="ir.ayantech.subvention"/>

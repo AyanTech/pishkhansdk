@@ -2,10 +2,13 @@ package ir.ayantech.pishkhansdk.helper
 
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.api.FailureCallback
 import ir.ayantech.ayannetworking.api.SimpleCallback
+import ir.ayantech.ayannetworking.api.SuccessCallback
+import ir.ayantech.networking.simpleCallLoginByOTP
 import ir.ayantech.networking.simpleCallUserServiceQueries
 import ir.ayantech.networking.simpleCallUserServiceQueryBookmark
 import ir.ayantech.networking.simpleCallUserServiceQueryDelete
@@ -14,6 +17,7 @@ import ir.ayantech.networking.simpleCallUserTransactions
 import ir.ayantech.pishkhansdk.Initializer
 import ir.ayantech.pishkhansdk.PishkhanUser
 import ir.ayantech.pishkhansdk.R
+import ir.ayantech.pishkhansdk.model.api.LoginByOTP
 import ir.ayantech.pishkhansdk.model.api.UserServiceQueries
 import ir.ayantech.pishkhansdk.model.api.UserServiceQueryBookmark
 import ir.ayantech.pishkhansdk.model.api.UserServiceQueryDelete
@@ -24,15 +28,19 @@ import ir.ayantech.pishkhansdk.model.constants.Constant
 import ir.ayantech.pishkhansdk.model.app_logic.CallbackDataModel
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
 import ir.ayantech.pishkhansdk.model.app_logic.ExtraInfo
+import ir.ayantech.pishkhansdk.model.app_logic.OTP
 import ir.ayantech.pishkhansdk.ui.adapter.InquiryHistoryAdapter
 import ir.ayantech.pishkhansdk.ui.adapter.TransactionAdapter
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.ConfirmationBottomSheet
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.EditInquiryHistoryBottomSheet
+import ir.ayantech.pishkhansdk.ui.bottom_sheet.OtpBottomSheetDialog
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import ir.ayantech.whygoogle.helper.BooleanCallBack
+import ir.ayantech.whygoogle.helper.isNotNull
 import ir.ayantech.whygoogle.helper.isNull
 import ir.ayantech.whygoogle.helper.openUrl
 import ir.ayantech.whygoogle.helper.verticalSetup
+import kotlinx.coroutines.NonCancellable.start
 
 object PishkhanSDK {
     lateinit var coreApi: AyanApi
@@ -64,15 +72,14 @@ object PishkhanSDK {
     ) {
         whyGoogleActivity = activity
 
-        if (PishkhanUser.token.isEmpty())
-            Initializer.deviceRegister(
-                application = application,
-                origin = origin,
-                platform = platform,
-                version = version,
-                corePishkhan24Api = coreApi,
-                successCallback = successCallback
-            )
+        if (PishkhanUser.token.isEmpty()) Initializer.deviceRegister(
+            application = application,
+            origin = origin,
+            platform = platform,
+            version = version,
+            corePishkhan24Api = coreApi,
+            successCallback = successCallback
+        )
         else Initializer.updateUserSessions(
             corePishkhan24Api = coreApi,
             origin = origin,
@@ -91,19 +98,16 @@ object PishkhanSDK {
     ) {
         serviceName = product
 
-        PaymentHelper.invoiceRegister(
-            inputModel = inputModel,
-            failureCallBack = {
-                failureCallBack?.invoke(it)
-            },
-            handleResultCallback = {
-                handleResultCallback?.invoke(it)
-            })
+        PaymentHelper.invoiceRegister(inputModel = inputModel, failureCallBack = {
+            failureCallBack?.invoke(it)
+        }, handleResultCallback = {
+            handleResultCallback?.invoke(it)
+        })
     }
 
     fun userPaymentIsSuccessful(
         intent: Intent,
-        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+        handleResultCallback: ((output: BaseResultModel<*>, serviceName: String) -> Unit)? = null
     ) {
 
         intent.data?.toString()?.let {
@@ -127,11 +131,14 @@ object PishkhanSDK {
                 channelName = items.firstOrNull { it.startsWith("channelName") }?.split("=")
                     ?.get(1),
             )
+
             handleIntent(
                 callbackDataModel = callbackDataModel,
                 intent = intent,
             ) {
-                handleResultCallback?.invoke(it)
+                handleResultCallback?.invoke(
+                    it, items.firstOrNull { it.startsWith("serviceName") }?.split("=")?.get(1) ?: ""
+                )
             }
         }
     }
@@ -151,8 +158,7 @@ object PishkhanSDK {
                     //Payment has been successfully so invoice result is checking to call service api, invoiceInfoOutput is passing for service api call
                     //service is free
                     if (invoiceInfoOutput.PaymentChannels.isNull()) {
-                        HandleOutput.handleOutputResult(
-                            invoiceInfoOutput = invoiceInfoOutput,
+                        HandleOutput.handleOutputResult(invoiceInfoOutput = invoiceInfoOutput,
                             handleResultCallback = {
                                 handleResultCallback?.invoke(it)
                             })
@@ -165,8 +171,7 @@ object PishkhanSDK {
                             //means that user has paid online
                             if (callbackDataModel.paymentStatus == Constant.paid || callbackDataModel.paymentStatus == Constant.Settle) {
                                 //should call service result api and show result page
-                                HandleOutput.handleOutputResult(
-                                    invoiceInfoOutput = invoiceInfoOutput,
+                                HandleOutput.handleOutputResult(invoiceInfoOutput = invoiceInfoOutput,
                                     handleResultCallback = {
                                         handleResultCallback?.invoke(it)
                                     })
@@ -215,27 +220,25 @@ object PishkhanSDK {
                                 }
 
                                 R.id.deleteIv -> {
-                                    ConfirmationBottomSheet(
-                                        context = context, onConfirmClicked = {
-                                            ((inquiryHistoryRv.adapter as InquiryHistoryAdapter).items as ArrayList).removeAt(
-                                                position
-                                            )
-                                            inquiryHistoryRv.adapter?.notifyItemRemoved(position)
+                                    ConfirmationBottomSheet(context = context, onConfirmClicked = {
+                                        ((inquiryHistoryRv.adapter as InquiryHistoryAdapter).items as ArrayList).removeAt(
+                                            position
+                                        )
+                                        inquiryHistoryRv.adapter?.notifyItemRemoved(position)
 
-                                            coreApi.simpleCallUserServiceQueryDelete(
-                                                UserServiceQueryDelete.Input(
-                                                    QueryUniqueID = inquiryHistoryItem.UniqueID!!
-                                                )
-                                            ) {
-                                                hasInquiryHistory(historyItems.isEmpty())
-                                                inquiryHistoryRv.adapter?.notifyItemChanged(position)
-                                            }
-                                        }).show()
+                                        coreApi.simpleCallUserServiceQueryDelete(
+                                            UserServiceQueryDelete.Input(
+                                                QueryUniqueID = inquiryHistoryItem.UniqueID!!
+                                            )
+                                        ) {
+                                            hasInquiryHistory(historyItems.isEmpty())
+                                            inquiryHistoryRv.adapter?.notifyItemChanged(position)
+                                        }
+                                    }).show()
                                 }
 
                                 R.id.editIv -> {
-                                    EditInquiryHistoryBottomSheet(
-                                        context = context,
+                                    EditInquiryHistoryBottomSheet(context = context,
                                         note = inquiryHistoryItem.Note,
                                         onConfirmClicked = {
                                             coreApi.simpleCallUserServiceQueryNote(
@@ -275,8 +278,7 @@ object PishkhanSDK {
     }
 
     private fun bookmarkInquiryHistory(
-        inquiryHistoryItem: UserServiceQueries.InquiryHistory,
-        successCallback: SimpleCallback
+        inquiryHistoryItem: UserServiceQueries.InquiryHistory, successCallback: SimpleCallback
     ) {
         coreApi.simpleCallUserServiceQueryBookmark(
             UserServiceQueryBookmark.Input(
@@ -317,8 +319,7 @@ object PishkhanSDK {
     ) {
 
         transactionRv.verticalSetup()
-        transactionRv.adapter = TransactionAdapter(list)
-        { item, viewId, position ->
+        transactionRv.adapter = TransactionAdapter(list) { item, viewId, position ->
             item?.let {
                 if (it.Reference?.startsWith("http") == true) {
                     it.Reference.openUrl(whyGoogleActivity)
@@ -333,8 +334,7 @@ object PishkhanSDK {
                                         invoiceInfoOutput = invoiceInfoOutput,
                                     ) {
                                         onTransactionItemClicked?.invoke(
-                                            it,
-                                            invoiceInfoOutput.Invoice.Service.Type.Name
+                                            it, invoiceInfoOutput.Invoice.Service.Type.Name
                                         )
                                     }
                                 }
@@ -344,5 +344,37 @@ object PishkhanSDK {
             }
         }
 
+    }
+
+    fun login(
+        phoneNumber: String,
+        otp: String? = null,
+        loginIsSuccessful: SuccessCallback<LoginByOTP.Output>? = null,
+        confirmOtpIsSuccessful: SuccessCallback<LoginByOTP.Output>? = null,
+    ) {
+        coreApi.simpleCallLoginByOTP(
+            input = LoginByOTP.Input(
+                OTPCode = otp, Username = phoneNumber
+            )
+        ) { output ->
+            output?.let {
+                if (it.OTP.isNotNull()) {
+                    loginIsSuccessful?.invoke(output)
+                } else {
+                    PishkhanUser.isUserSubscribed = true
+                    PishkhanUser.phoneNumber = phoneNumber
+                    confirmOtpIsSuccessful?.invoke(output)
+                }
+            }
+        }
+    }
+
+    fun logout(successfulLogout: SimpleCallback) {
+        PishkhanUser.token = ""
+        PishkhanUser.phoneNumber = ""
+        PishkhanUser.prefix = ""
+        PishkhanUser.host = ""
+        PishkhanUser.schema = ""
+        PishkhanUser.isUserSubscribed = false
     }
 }
