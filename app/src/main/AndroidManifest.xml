@@ -27,8 +27,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
 
-                <data android:scheme="subvention"/>
-                <data android:host="ir.ayantech.subvention"/>
+                <data android:scheme="finesdetail"/>
+                <data android:host="ir.ayantech.finesdetail"/>
 
             </intent-filter>
         </activity>

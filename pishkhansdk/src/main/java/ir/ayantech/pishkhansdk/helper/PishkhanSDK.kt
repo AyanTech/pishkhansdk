@@ -376,5 +376,6 @@ object PishkhanSDK {
         PishkhanUser.host = ""
         PishkhanUser.schema = ""
         PishkhanUser.isUserSubscribed = false
+        successfulLogout()
     }
 }

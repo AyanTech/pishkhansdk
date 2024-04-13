@@ -87,9 +87,9 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             ayanCommonCallingStatus
 
         PishkhanSDK.handleUserSession(
-            application = "VasHookSubventionInquiry", origin = "cafebazaar",
+            application = "VasHookTrafficFinesInquiry", origin = "cafebazaar",
             platform = "android",
-            version = "4.0.0",
+            version = "20.0.0",
             activity = this,
             successCallback = {
 
@@ -100,18 +100,18 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             handleIntent()
 
         binding.inquiryBtn.init("استعلام", btnOnClick = {
-/*            login("09395099494", null, loginIsSuccessful = {
+           login("09395099494", null, loginIsSuccessful = {
                 Toast.makeText(PishkhanUser.context, "loginnn", Toast.LENGTH_LONG)
                     .show()
-            })*/
+            })
 
-            PishkhanSDK.onInquiryButtonClicked(
-                inputModel = SubventionHistory.Input(
-                    MobileNumber = "09395099494",
+/*            PishkhanSDK.onInquiryButtonClicked(
+                inputModel =TrafficFinesCarSummary.Input(
+                    PlateNumber = "09395099494",
                     OTPCode = null,
                     PurchaseKey = null
                 ),
-                product = ProductItemDetail.InquiryGovernmentSubventionHistory,
+                product = ProductItemDetail.InquiryTrafficFinesCarSummary,
                 failureCallBack = {
                     Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
                 },
@@ -122,7 +122,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                         (it.Result as SubventionHistory.Result).toString()
                     )
                 }
-            )
+            )*/
 
 
         })
