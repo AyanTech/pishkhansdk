@@ -2,7 +2,6 @@ package ir.ayantech.pishkhansdk
 
 import android.app.Application
 import android.content.Context
-import com.alirezabdn.whyfinal.BuildConfig
 import com.google.gson.GsonBuilder
 import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.ayanModel.LogLevel
@@ -32,12 +31,11 @@ class SDKApplication : Application() {
 
         servicesAyanApi = AyanApi(
             context = this,
-           getUserToken = { PishkhanSDK.getPishkhanToken() },
-        //   getUserToken = {"1AEDF1D7398E4C6A92D8FE2DA77789D1" },
+            getUserToken = { PishkhanSDK.getPishkhanToken() },
+            //   getUserToken = {"1AEDF1D7398E4C6A92D8FE2DA77789D1" },
             defaultBaseUrl = "https://services.pishkhan24.ayantech.ir/webservices/services.svc/",
             timeout = 120,
-          //  logLevel = if (BuildConfig.BUILD_TYPE == "debug") LogLevel.LOG_ALL else LogLevel.DO_NOT_LOG,
-            logLevel =  LogLevel.LOG_ALL ,
+            logLevel = if (BuildConfig.BUILD_TYPE == "debug") LogLevel.LOG_ALL else LogLevel.DO_NOT_LOG,
             gson = gson
         )
 
@@ -45,19 +43,18 @@ class SDKApplication : Application() {
         coreAyanApi = AyanApi(
             context = this,
             getUserToken = { PishkhanSDK.getPishkhanToken() },
-          // getUserToken = { "1AEDF1D7398E4C6A92D8FE2DA77789D1" },
+            // getUserToken = { "1AEDF1D7398E4C6A92D8FE2DA77789D1" },
             defaultBaseUrl = "https://core.pishkhan24.ayantech.ir/webservices/core.svc/",
             timeout = 120,
-            //logLevel = if (BuildConfig.BUILD_TYPE == "debug") LogLevel.LOG_ALL else LogLevel.DO_NOT_LOG,
-            logLevel =  LogLevel.LOG_ALL ,
+            logLevel = if (BuildConfig.BUILD_TYPE == "debug") LogLevel.LOG_ALL else LogLevel.DO_NOT_LOG,
             gson = gson
         )
 
 
         PishkhanSDK.initialize(
             context = this,
-            schema = "subvention",
-            host = "ir.ayantech.subvention",
+            schema = "finesdetail",
+            host = "ir.ayantech.finesdetail",
             corePishkhan24Api = coreAyanApi!!,
             servicesPishkhan24Api = servicesAyanApi!!,
         )
