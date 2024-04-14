@@ -5,9 +5,11 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import ir.ayantech.ayannetworking.api.AyanApi
+import ir.ayantech.ayannetworking.api.ChangeStatusCallback
 import ir.ayantech.ayannetworking.api.FailureCallback
 import ir.ayantech.ayannetworking.api.SimpleCallback
 import ir.ayantech.ayannetworking.api.SuccessCallback
+import ir.ayantech.networking.callUserServiceQueries
 import ir.ayantech.networking.simpleCallLoginByOTP
 import ir.ayantech.networking.simpleCallUserServiceQueries
 import ir.ayantech.networking.simpleCallUserServiceQueryBookmark
@@ -205,75 +207,94 @@ object PishkhanSDK {
         inquiryHistoryRv: RecyclerView,
         handleInquiryHistoryClick: ((inputList: List<ExtraInfo>) -> Unit)? = null,
         hasInquiryHistory: BooleanCallBack,
+        failureCallBack: FailureCallback?,
+        changeStatusCallback: ChangeStatusCallback?
     ) {
         serviceName = product
-        coreApi.simpleCallUserServiceQueries(input = UserServiceQueries.Input(Service = serviceName)) { historyItems ->
-            if (historyItems != null) {
-                hasInquiryHistory(true)
-                inquiryHistoryRv.verticalSetup()
-                inquiryHistoryRv.adapter =
-                    InquiryHistoryAdapter(historyItems) { item, viewId, position ->
-                        item?.let { inquiryHistoryItem ->
-                            when (viewId) {
-                                R.id.inquiryHistoryRl -> {
-                                    handleInquiryHistoryClick?.invoke(inquiryHistoryItem.Parameters)
-                                }
+        coreApi.callUserServiceQueries(input = UserServiceQueries.Input(Service = serviceName)) {
+            useCommonFailureCallback = false
+            useCommonChangeStatusCallback = false
+            success { historyItems ->
+                if (historyItems != null) {
+                    hasInquiryHistory(true)
+                    inquiryHistoryRv.verticalSetup()
+                    inquiryHistoryRv.adapter =
+                        InquiryHistoryAdapter(historyItems) { item, viewId, position ->
+                            item?.let { inquiryHistoryItem ->
+                                when (viewId) {
+                                    R.id.inquiryHistoryRl -> {
+                                        handleInquiryHistoryClick?.invoke(inquiryHistoryItem.Parameters)
+                                    }
 
-                                R.id.deleteIv -> {
-                                    ConfirmationBottomSheet(context = context, onConfirmClicked = {
-                                        ((inquiryHistoryRv.adapter as InquiryHistoryAdapter).items as ArrayList).removeAt(
-                                            position
-                                        )
-                                        inquiryHistoryRv.adapter?.notifyItemRemoved(position)
-
-                                        coreApi.simpleCallUserServiceQueryDelete(
-                                            UserServiceQueryDelete.Input(
-                                                QueryUniqueID = inquiryHistoryItem.UniqueID!!
-                                            )
-                                        ) {
-                                            hasInquiryHistory(historyItems.isEmpty())
-                                            inquiryHistoryRv.adapter?.notifyItemChanged(position)
-                                        }
-                                    }).show()
-                                }
-
-                                R.id.editIv -> {
-                                    EditInquiryHistoryBottomSheet(context = context,
-                                        note = inquiryHistoryItem.Note,
-                                        onConfirmClicked = {
-                                            coreApi.simpleCallUserServiceQueryNote(
-                                                UserServiceQueryNote.Input(
-                                                    Note = it,
-                                                    QueryUniqueID = inquiryHistoryItem.UniqueID!!
+                                    R.id.deleteIv -> {
+                                        ConfirmationBottomSheet(
+                                            context = context,
+                                            onConfirmClicked = {
+                                                ((inquiryHistoryRv.adapter as InquiryHistoryAdapter).items as ArrayList).removeAt(
+                                                    position
                                                 )
-                                            ) {
-                                                historyItems[position].Note = it
-                                                inquiryHistoryRv.adapter?.notifyItemChanged(position)
-                                            }
+                                                inquiryHistoryRv.adapter?.notifyItemRemoved(position)
 
-                                        }).show()
-                                }
+                                                coreApi.simpleCallUserServiceQueryDelete(
+                                                    UserServiceQueryDelete.Input(
+                                                        QueryUniqueID = inquiryHistoryItem.UniqueID!!
+                                                    )
+                                                ) {
+                                                    hasInquiryHistory(historyItems.isEmpty())
+                                                    inquiryHistoryRv.adapter?.notifyItemChanged(
+                                                        position
+                                                    )
+                                                }
+                                            }).show()
+                                    }
 
-                                R.id.favoriteIv -> {
-                                    bookmarkInquiryHistory(
-                                        inquiryHistoryItem
-                                    ) {
-                                        getInquiryHistory(
-                                            serviceName,
-                                            context,
-                                            inquiryHistoryRv,
-                                            handleInquiryHistoryClick,
-                                            hasInquiryHistory
-                                        )
+                                    R.id.editIv -> {
+                                        EditInquiryHistoryBottomSheet(context = context,
+                                            note = inquiryHistoryItem.Note,
+                                            onConfirmClicked = {
+                                                coreApi.simpleCallUserServiceQueryNote(
+                                                    UserServiceQueryNote.Input(
+                                                        Note = it,
+                                                        QueryUniqueID = inquiryHistoryItem.UniqueID!!
+                                                    )
+                                                ) {
+                                                    historyItems[position].Note = it
+                                                    inquiryHistoryRv.adapter?.notifyItemChanged(
+                                                        position
+                                                    )
+                                                }
+
+                                            }).show()
+                                    }
+
+                                    R.id.favoriteIv -> {
+                                        bookmarkInquiryHistory(
+                                            inquiryHistoryItem
+                                        ) {
+                                            getInquiryHistory(
+                                                serviceName,
+                                                context,
+                                                inquiryHistoryRv,
+                                                handleInquiryHistoryClick,
+                                                hasInquiryHistory,
+                                                failureCallBack,
+                                                changeStatusCallback
+                                            )
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-            } else {
-                hasInquiryHistory(false)
+                } else {
+                    hasInquiryHistory(false)
+                }
             }
-
+            changeStatusCallback {
+                changeStatusCallback?.invoke(it)
+            }
+            failure {
+                failureCallBack?.invoke(it)
+            }
         }
     }
 

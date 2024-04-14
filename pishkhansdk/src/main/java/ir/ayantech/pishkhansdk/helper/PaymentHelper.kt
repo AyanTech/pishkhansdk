@@ -141,7 +141,7 @@ object PaymentHelper {
     private fun openOnlinePaymentUrl(
         invoiceOutput: InvoiceRegister.Output,
     ) {
-        invoiceOutput.PaymentChannels?.get(0)?.Gateways?.let { gateways ->
+        invoiceOutput.PaymentChannels?.find { it.Type.Name == "OnlinePayment" }?.Gateways?.let { gateways ->
             invoicePayment(
                 callBack = CallbackDataModel(
                     sourcePage = "factor",
@@ -150,7 +150,7 @@ object PaymentHelper {
                     selectedGateway = null,
                     useCredit = "false",
                     serviceName = invoiceOutput.Invoice.Service.Type.Name,
-                    channelName = invoiceOutput.PaymentChannels[0].Type.Name
+                    channelName = "OnlinePayment"
                 ).createCallBackLink(),
                 gateway = gateways[0].Type.Name,
                 purchaseKey = invoiceOutput.Invoice.PurchaseKey,
