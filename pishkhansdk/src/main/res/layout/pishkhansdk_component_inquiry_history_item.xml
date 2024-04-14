@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/inquiryHistoryRl"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/margin_48"
+    android:layout_marginTop="@dimen/margin_12"
+    android:background="@drawable/back_white_radius8"
+    android:backgroundTint="@color/white"
+    android:paddingHorizontal="@dimen/margin_16"
+    android:paddingVertical="@dimen/margin_8">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/favoriteIv"
+        android:layout_width="@dimen/margin_24"
+        android:layout_height="@dimen/margin_24"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/ic_star" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/titleTv"
+        style="@style/text_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/margin_8"
+        android:layout_toStartOf="@id/editIv"
+        android:layout_toEndOf="@id/favoriteIv"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center|start"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:textColor="@color/pishkhansdk_text_color_inquiry_history"
+        android:textSize="@dimen/margin_12"
+        tools:text="تیتر تست" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/descriptionTv"
+        style="@style/text_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleTv"
+        android:layout_marginStart="@dimen/margin_8"
+        android:layout_toStartOf="@id/editIv"
+        android:layout_toEndOf="@id/favoriteIv"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center|start"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:textAlignment="viewStart"
+        android:textColor="@color/pishkhansdk_text_color_inquiry_history"
+        android:textDirection="anyRtl"
+        android:textSize="@dimen/margin_11"
+        tools:text="توضیحات تست" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/editIv"
+        android:layout_width="@dimen/margin_20"
+        android:layout_height="@dimen/margin_20"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/margin_12"
+        android:layout_toStartOf="@id/deleteIv"
+        app:srcCompat="@drawable/ic_edit" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/deleteIv"
+        android:layout_width="@dimen/margin_20"
+        android:layout_height="@dimen/margin_20"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/ic_trash" />
+
+</RelativeLayout>

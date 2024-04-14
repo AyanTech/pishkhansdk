@@ -2,13 +2,13 @@ package ir.ayantech.pishkhansdk.ui.components
 
 import androidx.core.widget.TextViewCompat
 import ir.ayantech.pishkhansdk.R
-import ir.ayantech.pishkhansdk.databinding.ComponentTableRowsBinding
+import ir.ayantech.pishkhansdk.databinding.PishkhansdkComponentTableRowsBinding
 import ir.ayantech.pishkhansdk.helper.extensions.simpleUnify
 import ir.ayantech.pishkhansdk.helper.extensions.textColor
 import ir.ayantech.whygoogle.helper.SimpleCallBack
 import ir.ayantech.whygoogle.helper.changeVisibility
 
-fun ComponentTableRowsBinding.init(
+fun PishkhansdkComponentTableRowsBinding.init(
     key: String,
     value: String? = null,
     keyTvResId: Int,

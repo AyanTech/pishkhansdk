@@ -1,4 +1,4 @@
-package ir.ayantech.pishkhansdk.ui.dialogs
+package ir.ayantech.pishkhansdk.ui.bottom_sheet
 
 import android.content.Context
 import android.os.Bundle
@@ -7,17 +7,21 @@ import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.databinding.DialogPreviewBinding
 import ir.ayantech.pishkhansdk.model.api.InvoiceRegister
 import ir.ayantech.pishkhansdk.ui.adapter.SimpleKeyValueAdapter
+import ir.ayantech.pishkhansdk.ui.components.init
 import ir.ayantech.whygoogle.helper.*
 
-class PreviewDialog(
+class PreviewBottomSheetDialog(
     context: Context,
     var invoiceOutput: InvoiceRegister.Output,
     var showAmountSection: Boolean,
     val confirmBtnClicked: SimpleCallBack
-) : AyanDialog<DialogPreviewBinding>(context) {
+) : BaseBottomSheet<DialogPreviewBinding>(context) {
 
     override val binder: (LayoutInflater) -> DialogPreviewBinding
         get() = DialogPreviewBinding::inflate
+
+    override val title: String
+        get() = "پیش نمایش"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +32,7 @@ class PreviewDialog(
 
     private fun setupActions() {
         binding.apply {
-            confirmBtn.setOnClickListener {
+            confirmBtn.init("تایید و ادامه") {
                 dismiss()
                 confirmBtnClicked()
             }
@@ -43,7 +47,7 @@ class PreviewDialog(
             rulesTv.changeVisibility(invoiceOutput.TermsAndConditions.isNotNull())
             rulesTv.text = invoiceOutput.TermsAndConditions
 
-            titleTv.changeVisibility(invoiceOutput.Invoice.Service.Summary.isNotNull())
+            parentBinding?.titleTv?.changeVisibility(invoiceOutput.Invoice.Service.Summary.isNotNull())
             extraInfoRv.changeVisibility(invoiceOutput.Invoice.Service.Summary.isNotNull())
 
             extraInfoRv.verticalSetup()
@@ -51,8 +55,6 @@ class PreviewDialog(
                 SimpleKeyValueAdapter(
                     serviceSummery,
                     startHighlightFromZero = false,
-                    keyTvResId = R.style.description_grey700,
-                    valueTvResId = R.style.description_primary_dark
                 )
             }
         }

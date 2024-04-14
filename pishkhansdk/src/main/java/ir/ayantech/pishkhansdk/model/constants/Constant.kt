@@ -7,8 +7,6 @@ import ir.ayantech.whygoogle.helper.PreferencesManager
 @SuppressLint("StaticFieldLeak")
 object Constant {
     lateinit var context: Context
-    const val DEEP_LINK_PREFIX = "pishkhan24:"
-    const val PREFIX = "pishkhan24://ir.ayantech.pishkhan24?"
     const val callBackDataModel = "callBackDataModel"
 
     const val paid = "Paid"

@@ -1,38 +1,59 @@
 package ir.ayantech.pishkhansdk
 
-import android.util.Log
 import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.api.AyanCallStatus
+import ir.ayantech.ayannetworking.api.SimpleCallback
+import ir.ayantech.networking.callUserSessionUpdateInfo
+import ir.ayantech.networking.simpleCallUserSessionUpdateInfo
+import ir.ayantech.pishkhansdk.helper.PishkhanSDK
 import ir.ayantech.pishkhansdk.model.api.DeviceRegister
+import ir.ayantech.pishkhansdk.model.api.UserSessionUpdateInfo
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
 
 object Initializer {
 
     fun deviceRegister(
-        Application: String,
-        Origin: String,
-        Platform: String,
-        Version: String,
-        corePishkhan24Api: AyanApi
+        application: String,
+        origin: String,
+        platform: String,
+        version: String,
+        corePishkhan24Api: AyanApi,
+        successCallback: SimpleCallback?
     ) {
-        corePishkhan24Api.ayanCall<DeviceRegister.Output>(
-            AyanCallStatus {
-                success {
-                    it.response?.Parameters?.Session?.let {
-                        Log.d("hfssdg",it)
-                        PishkhanUser.token = it
-                    }
+        corePishkhan24Api.simpleCall<DeviceRegister.Output>(
+            endPoint = EndPoints.DeviceRegister, input = DeviceRegister.Input(
+                Application = application,
+                Origin = origin,
+                Platform = platform,
+                Version = version
+            )
+        ) { output ->
+            output?.Session?.let {
+                PishkhanUser.token = it
+                updateUserSessions(
+                    corePishkhan24Api = PishkhanSDK.coreApi,
+                    origin = origin,
+                    version = version,
+                ) {
+                    successCallback?.invoke()
                 }
-                failure { }
-            },
-            EndPoints.DeviceRegister,
-            DeviceRegister.Input(
-                Application = Application,
-                Origin = Origin,
-                Platform = Platform,
-                Version = Version
-            ),
-            hasIdentity = false
-        )
+
+            }
+        }
+    }
+
+    fun updateUserSessions(
+        corePishkhan24Api: AyanApi,
+        origin: String,
+        version: String,
+        successCallback: SimpleCallback?
+    ) {
+        corePishkhan24Api.simpleCallUserSessionUpdateInfo(
+            input = UserSessionUpdateInfo.Input(
+                Origin = origin, Version = version
+            )
+        ) {
+            successCallback?.invoke()
+        }
     }
 }

@@ -1,30 +1,56 @@
 package ir.ayantech.pishkhansdk
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
-import com.alirezabdn.whyfinal.BuildConfig
-import com.google.gson.GsonBuilder
 import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.api.AyanCommonCallStatus
 import ir.ayantech.ayannetworking.api.CallingState
 import ir.ayantech.ayannetworking.ayanModel.FailureType
-import ir.ayantech.ayannetworking.ayanModel.LogLevel
 import ir.ayantech.pishkhansdk.databinding.ActivityMainBinding
-import ir.ayantech.pishkhansdk.helper.extensions.PishkhanSDK
+import ir.ayantech.pishkhansdk.helper.PishkhanSDK
+import ir.ayantech.pishkhansdk.bottom_sheets.WaiterBottomSheet
 import ir.ayantech.pishkhansdk.model.api.SubventionHistory
-import ir.ayantech.pishkhansdk.ui.bottom_sheets.WaiterBottomSheet
+import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
+import ir.ayantech.pishkhansdk.model.api.TrafficFinesCarSummary
+import ir.ayantech.pishkhansdk.model.app_logic.ProductItemDetail
+import ir.ayantech.pishkhansdk.ui.components.getText
+import ir.ayantech.pishkhansdk.ui.components.init
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
-import java.lang.reflect.Modifier
 
 
 class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
-    private var servicesPishkhan24Api: AyanApi? = null
-    private var corePishkhan24Api: AyanApi? = null
     private var waiterBottomSheet: WaiterBottomSheet? = null
+    val ayanCommonCallingStatus = AyanCommonCallStatus {
+        failure { failure ->
+            Toast.makeText(this@MainActivity, failure.failureMessage, Toast.LENGTH_LONG).show()
+            when (failure.failureType) {
+                FailureType.LOGIN_REQUIRED -> {
+
+                }
+
+                FailureType.CANCELED -> {
+                }
+
+                else -> {
+
+                }
+            }
+        }
+        changeStatus {
+            when (it) {
+                CallingState.NOT_USED -> waiterBottomSheet?.hideDialog()
+                CallingState.LOADING -> waiterBottomSheet?.showDialog()
+                CallingState.FAILED -> waiterBottomSheet?.hideDialog()
+                CallingState.SUCCESSFUL -> waiterBottomSheet?.hideDialog()
+            }
+        }
+    }
+
 
     override val binder: (LayoutInflater) -> ActivityMainBinding
         get() = ActivityMainBinding::inflate
@@ -33,112 +59,142 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val gson = GsonBuilder()
-            .excludeFieldsWithModifiers(Modifier.TRANSIENT)
-            .create()
-
-        servicesPishkhan24Api = AyanApi(
-            context = this,
-            //getUserToken = { PishkhanSDK.getPishkhanToken() },
-            getUserToken = { "B258B6B796CB46A0B84B4695355A5B96" },
-            defaultBaseUrl = "https://services.pishkhan24.ayantech.ir/webservices/services.svc/",
-            timeout = 120,
-            logLevel = if (BuildConfig.BUILD_TYPE == "debug") LogLevel.LOG_ALL else LogLevel.DO_NOT_LOG,
-            gson = gson
-        )
-
-        corePishkhan24Api = AyanApi(
-            context = this,
-            //getUserToken = { PishkhanSDK.getPishkhanToken() },
-            getUserToken = { "B258B6B796CB46A0B84B4695355A5B96" },
-            defaultBaseUrl = "https://core.pishkhan24.ayantech.ir/webservices/core.svc/",
-            timeout = 120,
-            logLevel = if (BuildConfig.BUILD_TYPE == "debug") LogLevel.LOG_ALL else LogLevel.DO_NOT_LOG,
-            gson = gson
-        )
-
-        PishkhanSDK.initialize(
-            context = this, Application = "pishkhan24", Origin = "myket",
-            Platform = "android",
-            Version = "6.2.1",
-            corePishkhan24Api = corePishkhan24Api!!
-        )
-
-
-
-        waiterBottomSheet = WaiterBottomSheet(this)
-
-        val ayanCommonCallingStatus = AyanCommonCallStatus {
-            failure { failure ->
-                when (failure.failureType) {
-                    FailureType.LOGIN_REQUIRED -> {
-
-                    }
-
-                    FailureType.CANCELED -> {
-                    }
-
-                    else -> {
-
-                    }
-                }
-            }
-            changeStatus {
-                when (it) {
-                    CallingState.NOT_USED -> waiterBottomSheet?.hideDialog()
-                    CallingState.LOADING -> waiterBottomSheet?.showDialog()
-                    CallingState.FAILED -> waiterBottomSheet?.hideDialog()
-                    CallingState.SUCCESSFUL -> waiterBottomSheet?.hideDialog()
-                }
-            }
-        }
-
-
-        servicesPishkhan24Api?.commonCallStatus =
+        (application as? SDKApplication)?.coreAyanApi?.commonCallStatus =
             ayanCommonCallingStatus
-        corePishkhan24Api?.commonCallStatus =
+        (application as? SDKApplication)?.servicesAyanApi?.commonCallStatus =
             ayanCommonCallingStatus
+
+        val corePishkhan24Api: AyanApi = (applicationContext as? SDKApplication)?.coreAyanApi!!
+        val servicesPishkhan24Api: AyanApi =
+            (applicationContext as? SDKApplication)?.servicesAyanApi!!
+
+
+        waiterBottomSheet = WaiterBottomSheet(this, "")
+
+        servicesPishkhan24Api.commonCallStatus =
+            ayanCommonCallingStatus
+        corePishkhan24Api.commonCallStatus =
+            ayanCommonCallingStatus
+
+        PishkhanSDK.handleUserSession(
+            application = "VasHookSubventionInquiry", origin = "cafebazaar",
+            platform = "android",
+            version = "4.0.0",
+            activity = this,
+            successCallback = {
+
+            }
+        )
 
         if (intent != null)
             handleIntent()
 
-        binding.inquiryBtn.setOnClickListener {
-            if (servicesPishkhan24Api != null && corePishkhan24Api != null) {
-                PishkhanSDK.onInquiryButtonClicked(
-                    activity = this,
-                    inputModel = SubventionHistory.Input(
-                        MobileNumber = "09016140723", OTPCode = null,
-                        PurchaseKey = null
-                    ),
-                    serviceName = "v2_InquiryGovernmentSubventionHistory",
-                    servicesPishkhan24Api = servicesPishkhan24Api!!,
-                    corePishkhan24Api = corePishkhan24Api!!,
-                    failureCallBack = {
-                        Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
-                    },
-                    handleResultCallback = {
-                        Toast.makeText(this, "result successful", Toast.LENGTH_LONG)
-                            .show()
-                        Log.d("handleOutput", it?.Result.toString())
-                    }
-                )
-            }
+        binding.inquiryBtn2.init("لاگین", btnOnClick = {
 
+/*            PishkhanSDK.login("09158678539", null, loginIsSuccessful = {
+                Toast.makeText(PishkhanUser.context, "loginnn", Toast.LENGTH_LONG)
+                    .show()
+            })*/
+
+            PishkhanSDK.onInquiryButtonClicked(
+                inputModel = SubventionHistory.Input(
+                    MobileNumber = "09016140723",
+                    OTPCode = binding.enterOtpCodeLayout.getText(),
+                    PurchaseKey = null
+                ),
+                product = ProductItemDetail.InquiryGovernmentSubventionHistory,
+                failureCallBack = {
+                    Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
+                },
+                handleResultCallback = {
+                    Toast.makeText(this, "result successful1", Toast.LENGTH_LONG).show()
+                    Log.d(
+                        "handleOutput",
+                        (it.Result as TrafficFinesCar.TrafficFineResult).toString()
+                    )
+                })
+        })
+
+        binding.inquiryBtn.init("استعلام", btnOnClick = {
+/*            PishkhanSDK.login(
+                "09158678539",
+                binding.enterOtpCodeLayout.getText(),
+                confirmOtpIsSuccessful = {
+                    Toast.makeText(PishkhanUser.context, "confirmmmm", Toast.LENGTH_LONG)
+                        .show()
+                })*/
+
+            PishkhanSDK.onInquiryButtonClicked(
+                inputModel = SubventionHistory.Input(
+                    MobileNumber = "09016140723",
+                    OTPCode = null,
+                    PurchaseKey = null
+                ),
+                product = ProductItemDetail.InquiryGovernmentSubventionHistory,
+                failureCallBack = {
+                    Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
+                },
+                handleResultCallback = {
+                    Toast.makeText(this, "result successful1", Toast.LENGTH_LONG).show()
+                    Log.d(
+                        "handleOutput",
+                        (it.Result as TrafficFinesCar.TrafficFineResult).toString()
+                    )
+                })
+
+        })
+
+
+        /*        PishkhanSDK.getInquiryHistory(
+                    context = this,
+                    product = ProductItemDetail.InquiryTrafficFinesCarSummary,
+                    inquiryHistoryRv = binding.historyRv,
+                    hasInquiryHistory = {
+
+                    },
+                    handleInquiryHistoryClick = {
+                        //User has clicked on item list
+                    },
+                    failureCallBack = {
+                        //Custom failure
+                    },
+                    changeStatusCallback = {
+                        //Custom change status
+                    }
+                )*/
+
+
+
+        PishkhanSDK.getUserTransactionHistory(
+            userTransactionHistoryRv = binding.historyRv,
+            hasTransactionHistory = {
+                Log.d("hsdbcakf", if (it) "دارد" else "ندارد")
+            }
+        ) { output, serviceName ->
+             Log.d("hsdbcakf", "${output.Result}   $serviceName")
+        }
+
+    }
+
+
+    private fun handleIntent() {
+        PishkhanSDK.userPaymentIsSuccessful(
+            intent = intent,
+        ) { output, serviceName ->
+            Toast.makeText(this, "result successful2", Toast.LENGTH_LONG).show()
+            Log.d(
+                "handleOutput",
+                (output.Result as TrafficFinesCar.TrafficFineResult).toString()
+            )
         }
     }
 
-    private fun handleIntent() {
-        if (servicesPishkhan24Api != null && corePishkhan24Api != null) {
-            PishkhanSDK.userPaymentIsSuccessful(
-                intent = intent,
-                corePishkhan24Api = corePishkhan24Api!!,
-                servicesPishkhan24Api = servicesPishkhan24Api!!,
-                activity = this
-            ) {
-                Toast.makeText(this, "result successful", Toast.LENGTH_LONG)
-                    .show()
-                Log.d("handleOutput", it.Result.toString())
-            }
-        }
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        (application as SDKApplication).coreAyanApi?.commonCallStatus =
+            ayanCommonCallingStatus
+        (application as SDKApplication).servicesAyanApi?.commonCallStatus =
+            ayanCommonCallingStatus
+
     }
 }

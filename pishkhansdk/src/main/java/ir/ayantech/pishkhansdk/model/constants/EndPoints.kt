@@ -3,13 +3,12 @@ package ir.ayantech.pishkhansdk.model.constants
 object EndPoints {
 
     //services
-    const val InvoiceRegister = "v1/InvoiceRegister"
     const val JusticeSharesPortfolio = "v1/JusticeSharesPortfolio"
     const val TrafficFinesCar = "v1/TrafficFinesCar"
     const val TrafficFinesImages = "v1/TrafficFinesImages"
-    const val TrafficFinesCarNoDetails = "v1/TrafficFinesCarNoDetails"
+    const val TrafficFinesCarSummary = "v1/TrafficFinesCarNoDetails"
     const val TrafficFinesMotorcycle = "v1/TrafficFinesMotorcycle"
-    const val TrafficFinesMotorcycleNoDetails = "v1/TrafficFinesMotorcycleNoDetails"
+    const val TrafficFinesMotorcycleSummary = "v1/TrafficFinesMotorcycleNoDetails"
     const val TopUpOperators = "v1/TopUpOperators"
     const val TopUpProducts = "v1/TopUpProducts"
     const val VehiclePlateNumbers = "v1/VehiclePlateNumbers"
@@ -54,7 +53,6 @@ object EndPoints {
     const val TransferTaxCar = "v1/TransferTaxCar"
     const val TransferTaxMotorcycle = "v1/TransferTaxMotorcycle"
     const val PostPackagesStatus = "v1/PostPackagesStatus"
-    const val UserTransactions = "v1/UserTransactions"
     const val BankChequeStatusSayad = "v1/BankChequeStatusSayad"
     const val VehicleThirdPartyInsurance = "v1/VehicleThirdPartyInsurance"
     const val VehicleThirdPartyInsuranceStatus = "v1/VehicleThirdPartyInsuranceStatus"
@@ -73,6 +71,13 @@ object EndPoints {
     const val InvoicePayment = "v1/InvoicePayment"
     const val InvoiceInfo = "v1/InvoiceInfo"
     const val DeviceRegister = "v1/DeviceRegister"
-
+    const val InvoiceRegister = "v1/InvoiceRegister"
+    const val UserServiceQueries = "v1/UserServiceQueries"
+    const val UserServiceQueryBookmark = "v1/UserServiceQueryBookmark"
+    const val UserServiceQueryDelete = "v1/UserServiceQueryDelete"
+    const val UserServiceQueryNote = "v1/UserServiceQueryNote"
+    const val UserSessionUpdateInfo = "v1/UserSessionUpdateInfo"
+    const val UserTransactions = "v1/UserTransactions"
+    const val LoginByOTP = "v1/LoginByOTP"
 
 }

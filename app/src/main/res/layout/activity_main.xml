@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray4"
     tools:context=".MainActivity">
 
     <FrameLayout
@@ -12,13 +13,47 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true">
 
-        <Button
+        <include
             android:id="@+id/inquiryBtn"
+            layout="@layout/pishkhansdk_component_button_filled"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:text="inquiryBtn" />
+            android:layout_margin="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_12"
+            android:orientation="vertical">
+
+
+            <include
+                android:id="@+id/enterOtpCodeLayout"
+                layout="@layout/pishkhansdk_component_input"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24" />
+
+            <include
+                android:id="@+id/inquiryBtn2"
+                layout="@layout/pishkhansdk_component_button_filled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/historyRv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_8"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/margin_2"
+            android:paddingBottom="@dimen/margin_10" />
+
 
     </FrameLayout>
 

@@ -8,6 +8,7 @@
     <color name="orange">#FF8B07</color>
     <color name="color_background">#F3F6FF</color>
     <color name="white">#FFFFFF</color>
+    <color name="green">#2ECB6D</color>
 
     <color name="grey">#616161</color>
     <color name="grey_2">#EAEAEA</color>
@@ -35,12 +36,44 @@
     <color name="primary_header_details">#16232B</color>
 
 
-    <color name="button_text_color">#111E24</color>
-    <color name="inquiry_button_color">#2ECB6D</color>
-    <color name="cursor_color_text_input_edit_text">#00BAF2</color>
-    <color name="hint_text_color">#00BAF2</color>
-    <color name="box_stroke_error_color">#EC1B0F</color>
-    <color name="helper_text_color">#111E24</color>
-    <color name="text_color_hint">#BDBDBD</color>
+    <color name="pishkhansdk_button_text_color">#111E24</color>
+    <color name="pishkhansdk_inquiry_button_color">#2ECB6D</color>
+    <color name="pishkhansdk_cursor_color_text_input_edit_text">#00BAF2</color>
+    <color name="pishkhansdk_hint_text_color">#00BAF2</color>
+    <color name="pishkhansdk_box_stroke_error_color">#EC1B0F</color>
+    <color name="pishkhansdk_helper_text_color">#111E24</color>
+    <color name="pishkhansdk_text_color_hint">#BDBDBD</color>
+    <color name="pishkhansdk_text_color_inquiry_history">#424242</color>
+    <color name="pishkhansdk_is_favorite_icon_color">@color/color_primary</color>
+    <color name="pishkhansdk_is_not_favorite_icon_color">#BDBDBD</color>
+    <color name="pishkhansdk_bottom_sheet_title_color">#000000</color>
 
+
+    <color name="gray1">#212121</color>
+    <color name="gray2">#424242</color>
+    <color name="gray3">#616161</color>
+    <color name="gray4">#555555</color>
+    <color name="gray5">#757575</color>
+    <color name="gray6">#BDBDBD</color>
+    <color name="gray7">#D8D8D8</color>
+    <color name="gray8">#F3F3F3</color>
+    <color name="gray9">#FAFAFA</color>
+    <color name="transparent">@android:color/transparent</color>
+    <color name="button_filled_background_solid_enable">@color/color_primary</color>
+    <color name="button_filled_background_solid_disable">@color/gray7</color>
+    <color name="button_textColor_enable">@color/white</color>
+    <color name="button_textColor_disable">@color/gray5</color>
+    <color name="button_outlined_background_solid">@color/transparent</color>
+    <color name="button_outlined_background_stroke_enable">@color/color_primary</color>
+    <color name="button_outlined_background_stroke_disable">@color/gray7</color>
+    <color name="edittext_background_solid_enable">@color/gray8</color>
+    <color name="edittext_background_solid_disable">@color/gray9</color>
+    <color name="edittext_background_stroke_enable">@color/gray6</color>
+    <color name="edittext_background_stroke_disable">@color/gray7</color>
+    <color name="edittext_textColor_enable">@color/gray4</color>
+    <color name="edittext_textColor_disable">@color/gray6</color>
+    <color name="background_subvention_result_top_card">#313236</color>
+    <color name="row_key_value_back_even_position">@color/gray8</color>
+    <color name="row_key_value_back_odd_position">@color/white</color>
+    <color name="state_error">#ED254E</color>
 </resources>

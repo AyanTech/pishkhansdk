@@ -10,10 +10,10 @@ android {
     compileSdk 34
 
     defaultConfig {
-        minSdk 24
+        minSdk 21
         targetSdk 34
         versionCode 1
-        versionName "0.0.8"
+        versionName "0.1.24"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -51,8 +51,13 @@ dependencies {
     implementation 'com.github.ayantech:versioncontrol:0.6.2'
     //------------- ''------------------Networking--------------------------------
     implementation 'com.github.shadowalker77:networking:1.6.1'
-    implementation 'com.github.shadowalker77:generator:0.3.0'
+    compileOnly('com.github.shadowalker77:generator:0.3.0')
     kapt 'com.github.shadowalker77:generator:0.3.0'
+
+    implementation 'com.github.samanzamani:PersianDate:1.6.1'
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+    implementation 'com.intuit.ssp:ssp-android:1.1.0'
+
 }
 
 afterEvaluate {
@@ -71,12 +76,11 @@ afterEvaluate {
 
                 // Library Name / Module Name (Example : "androidfirstlib")
                 // NOTE : Different ArtifactId For Each Library / Module, So That Each Library Is Not Overwritten
-                artifactId = "pishkhan-sdk"
+                artifactId = 'pishkhansdk'
 
                 // Version Library Name (Example : "1.0.0")
-                version = "0.0.8"
+                version = '0.1.24'
             }
         }
     }
 }
-

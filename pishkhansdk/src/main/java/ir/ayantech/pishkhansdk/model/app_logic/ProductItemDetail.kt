@@ -1,6 +1,7 @@
 package ir.ayantech.pishkhansdk.model.app_logic
 
 object ProductItemDetail {
+    //Service names
     const val InquiryWaterBills = "v1_InquiryWaterBills"
     const val InquiryElectricBills = "v1_InquiryElectricBills"
 
@@ -28,9 +29,9 @@ object ProductItemDetail {
     const val InquiryThirdPartyInsuranceCar = "v1_InquiryVehicleThirdPartyInsurance"
     const val InquiryThirdPartyInsuranceCarStatus = "v1_InquiryVehicleThirdPartyInsuranceStatus"
     const val InquiryTrafficFinesCar = "v1_InquiryTrafficFinesCar"
-    const val InquiryTrafficFinesCarNoDetails = "v1_InquiryTrafficFinesCarNoDetails"
+    const val InquiryTrafficFinesCarSummary = "v1_InquiryTrafficFinesCarSummary"
     const val InquiryTrafficFinesMotorcycle = "v1_InquiryTrafficFinesMotorcycle"
-    const val InquiryTrafficFinesMotorcycleNoDetails = "v1_InquiryTrafficFinesMotorcycleNoDetails"
+    const val InquiryTrafficFinesMotorcycleSummary = "v1_InquiryTrafficFinesMotorcycleSummary"
     const val InquiryMunicipalityTaxiFaresBills = "v1_InquiryMunicipalityTaxiFaresBills"
     const val InquiryTransferTaxCar = "v1_InquiryTransferTaxCar"
     const val InquiryTransferTaxMotorcycle = "v1_InquiryTransferTaxMotorcycle"
@@ -103,8 +104,8 @@ fun String.getProductShowName() = when (this) {
     ProductItemDetail.THIRD_PARTY_INSURANCE,
     ProductItemDetail.InquiryThirdPartyInsuranceCar -> "بیمه شخص ثالث"
     ProductItemDetail.InquiryThirdPartyInsuranceCarStatus -> "بیمه شخص ثالث بدون جزئیات"
-    ProductItemDetail.InquiryTrafficFinesCarNoDetails -> "خلافی تجمیعی خودرو"
-    ProductItemDetail.InquiryTrafficFinesMotorcycleNoDetails -> "خلافی تجمیعی موتور"
+    ProductItemDetail.InquiryTrafficFinesCarSummary -> "خلافی تجمیعی خودرو"
+    ProductItemDetail.InquiryTrafficFinesMotorcycleSummary -> "خلافی تجمیعی موتور"
     ProductItemDetail.InquiryMunicipalityTaxiFaresBills -> "کرایه تاکسی"
     ProductItemDetail.InquiryTransferTaxCar -> "مالیات انتقال خودرو"
     ProductItemDetail.InquiryTransferTaxMotorcycle -> "مالیات انتقال موتور"
@@ -145,4 +146,3 @@ fun String.getProductShowName() = when (this) {
 
     else -> "محصول جدید!"
 }
-

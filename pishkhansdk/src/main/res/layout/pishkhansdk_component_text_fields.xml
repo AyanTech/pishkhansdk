@@ -9,7 +9,7 @@
 
     <include
         android:id="@+id/iconButtonLayout"
-        layout="@layout/component_icon_button"
+        layout="@layout/pishkhansdk_component_icon_button"
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:layout_alignParentEnd="true"

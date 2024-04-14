@@ -1,84 +1,154 @@
 package ir.ayantech.pishkhansdk.helper
 
-import android.widget.Toast
-import ir.ayantech.ayannetworking.api.AyanApi
-import ir.ayantech.networking.callJusticeSharesPortfolio
-import ir.ayantech.networking.callSubventionHistory
-import ir.ayantech.networking.callTrafficFinesCar
-import ir.ayantech.networking.callTrafficFinesCarNoDetails
+
+import ir.ayantech.networking.simpleCallBankChequeStatusSayad
+import ir.ayantech.networking.simpleCallJusticeSharesPortfolio
+import ir.ayantech.networking.simpleCallPostPackagesStatus
+import ir.ayantech.networking.simpleCallSubventionHistory
+import ir.ayantech.networking.simpleCallTrafficFinesCar
+import ir.ayantech.networking.simpleCallTrafficFinesCarSummary
+import ir.ayantech.networking.simpleCallV2BankIbanInfo
+import ir.ayantech.networking.simpleCallV3BankIbanInfo
+import ir.ayantech.pishkhansdk.model.api.BankChequeStatusSayad
 import ir.ayantech.pishkhansdk.model.api.InvoiceInfo
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.api.JusticeSharesPortfolio
+import ir.ayantech.pishkhansdk.model.api.PostPackagesStatus
 import ir.ayantech.pishkhansdk.model.api.SubventionHistory
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
-import ir.ayantech.pishkhansdk.model.api.TrafficFinesCarNoDetails
+import ir.ayantech.pishkhansdk.model.api.TrafficFinesCarSummary
+import ir.ayantech.pishkhansdk.model.api.V1BankIbanInfo
+import ir.ayantech.pishkhansdk.model.api.V2BankIbanInfo
+import ir.ayantech.pishkhansdk.model.api.V3BankIbanInfo
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
 import ir.ayantech.pishkhansdk.model.app_logic.Products
+import ir.ayantech.pishkhansdk.model.constants.EndPoints
 import ir.ayantech.pishkhansdk.model.constants.Parameter
-import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import ir.ayantech.whygoogle.helper.isNull
 
 object HandleOutput {
 
     fun handleOutputResult(
-        activity: WhyGoogleActivity<*>,
         invoiceInfoOutput: InvoiceInfo.Output,
-        servicesPishkhan24Api: AyanApi,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
         when (invoiceInfoOutput.Invoice.Service.Type.Name) {
             Products.justiceSharesProduct.name -> {
-                handleJusticeSharesPortfolioOutput(
-                    activity = activity, input = JusticeSharesPortfolio.Input(
-                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
-                        OTPCode = null,
-                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                    ), servicesPishkhan24Api = servicesPishkhan24Api,
-                    handleResultCallback = {
-                        handleResultCallback?.invoke(it)
-                    }
-                )
+                handleJusticeSharesPortfolioOutput(input = JusticeSharesPortfolio.Input(
+                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
             }
 
             Products.subventionHistoryProduct.name -> {
-                handleSubventionHistoryOutput(
-                    activity = activity, input = SubventionHistory.Input(
-                        MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
-                        OTPCode = null,
-                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                    ), servicesPishkhan24Api = servicesPishkhan24Api,
-                    handleResultCallback = {
-                        handleResultCallback?.invoke(it)
-                    }
-                )
+                handleSubventionHistoryOutput(input = SubventionHistory.Input(
+                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
             }
 
             Products.carTrafficFinesProduct.name -> {
-                handleTrafficFinesCarOutput(
-                    activity = activity, input = TrafficFinesCar.Input(
-                        MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
-                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
-                        PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
-                        OTPCode = null,
-                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                    ), servicesPishkhan24Api = servicesPishkhan24Api,
-                    handleResultCallback = {
-                        handleResultCallback?.invoke(it)
-                    }
-                )
+                handleTrafficFinesCarOutput(input = TrafficFinesCar.Input(
+                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), endPoint = EndPoints.TrafficFinesCar, handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
             }
 
-            Products.carTrafficFinesNoDetailsProduct.name -> {
-                handleTrafficFinesCarNoDetailsOutput(
-                    activity = activity, input = TrafficFinesCarNoDetails.Input(
-                        PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
-                        OTPCode = null,
-                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                    ), servicesPishkhan24Api = servicesPishkhan24Api,
-                    handleResultCallback = {
-                        handleResultCallback?.invoke(it)
-                    }
-                )
+            Products.carTrafficFinesSummaryProduct.name -> {
+                handleTrafficFinesCarSummaryOutput(input = TrafficFinesCarSummary.Input(
+                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), endPoint = EndPoints.TrafficFinesCarSummary, handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.motorTrafficFinesProduct.name -> {
+                handleTrafficFinesCarOutput(input = TrafficFinesCar.Input(
+                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), endPoint = EndPoints.TrafficFinesMotorcycle, handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.motorTrafficFinesSummeryProduct.name -> {
+                handleTrafficFinesCarSummaryOutput(input = TrafficFinesCarSummary.Input(
+                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), endPoint = EndPoints.TrafficFinesMotorcycleSummary, handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.ibanByCardNumberProduct.name -> {
+                handleIbanByCardNumberOutput(input = V3BankIbanInfo.Input(
+                    AccountType = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.AccountType }.Value,
+                    CardNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.CardNumber }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.ibanByAccountNumberProduct.name -> {
+                handleIbanByAccountNumberOutput(input = V2BankIbanInfo.Input(
+                    AccountType = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.AccountType }.Value,
+                    AccountNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.AccountNumber }.Value,
+                    Bank = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Bank }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.accountNumberByIbanProduct.name -> {
+                handleAccountNumberByIbanOutput(input = V1BankIbanInfo.Input(
+                    AccountType = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.AccountType }.Value,
+                    Iban = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Iban }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.postPackageTrackingProduct.name -> {
+                handlePostPackageTrackingOutput(input = PostPackagesStatus.Input(
+                    TrackingCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.TrackingCode }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.sayadChequeProduct.name -> {
+                handleBankChequeStatusSayadOutput(input = BankChequeStatusSayad.Input(
+                    ChequeNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.ChequeNumber }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
             }
 
             else -> {}
@@ -88,139 +158,234 @@ object HandleOutput {
     }
 
     fun handleJusticeSharesPortfolioOutput(
-        activity: WhyGoogleActivity<*>,
         apiCalledFromTransactionsFragment: Boolean = false,
         input: BaseInputModel,
-        servicesPishkhan24Api: AyanApi,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
-        servicesPishkhan24Api.callJusticeSharesPortfolio(
+        PishkhanSDK.serviceApi.simpleCallJusticeSharesPortfolio(
             input = input as JusticeSharesPortfolio.Input
-        ) {
-            success { output ->
-                output?.checkPrerequisites(activity, input) {
-                    if (it.isNull()) {
-                        handleResultCallback?.invoke(output)
-                    } else {
-                        (it as? JusticeSharesPortfolio.Input)?.let {
-                            handleJusticeSharesPortfolioOutput(
-                                activity = activity,
-                                apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
-                                input = it,
-                                servicesPishkhan24Api = servicesPishkhan24Api
-                            ) {
-                                handleResultCallback?.invoke(output)
-                            }
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? JusticeSharesPortfolio.Input)?.let {
+                        handleJusticeSharesPortfolioOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
                         }
                     }
                 }
             }
-            failure {
-                Toast.makeText(activity, "failure: $it", Toast.LENGTH_LONG).show()
-            }
+
+
         }
     }
 
     fun handleSubventionHistoryOutput(
-        activity: WhyGoogleActivity<*>,
         apiCalledFromTransactionsFragment: Boolean = false,
         input: BaseInputModel,
-        servicesPishkhan24Api: AyanApi,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
-        servicesPishkhan24Api.callSubventionHistory(
+        PishkhanSDK.serviceApi.simpleCallSubventionHistory(
             input = input as SubventionHistory.Input
-        ) {
-            success { output ->
-                output?.checkPrerequisites(activity, input) {
-                    if (it.isNull()) {
-                        handleResultCallback?.invoke(output)
-                    } else {
-                        (it as? SubventionHistory.Input)?.let {
-                            handleSubventionHistoryOutput(
-                                activity = activity,
-                                apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
-                                input = it,
-                                servicesPishkhan24Api = servicesPishkhan24Api
-                            ) {
-                                handleResultCallback?.invoke(output)
-                            }
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? SubventionHistory.Input)?.let {
+                        handleSubventionHistoryOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
                         }
                     }
                 }
-            }
-            failure {
-                Toast.makeText(activity, "failure: $it", Toast.LENGTH_LONG).show()
             }
         }
     }
 
     fun handleTrafficFinesCarOutput(
-        activity: WhyGoogleActivity<*>,
         apiCalledFromTransactionsFragment: Boolean = false,
         input: BaseInputModel,
-        servicesPishkhan24Api: AyanApi,
+        endPoint: String,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
-        servicesPishkhan24Api.callTrafficFinesCar(
-            input = input as TrafficFinesCar.Input
-        ) {
-            success { output ->
-                output?.checkPrerequisites(activity, input) {
-                    if (it.isNull()) {
-                        handleResultCallback?.invoke(output)
-                    } else {
-                        (it as? TrafficFinesCar.Input)?.let {
-                            handleTrafficFinesCarOutput(
-                                activity = activity,
-                                apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
-                                input = it,
-                                servicesPishkhan24Api = servicesPishkhan24Api
-                            ) {
-                                handleResultCallback?.invoke(output)
-                            }
+        PishkhanSDK.serviceApi.simpleCallTrafficFinesCar(
+            input = input as TrafficFinesCar.Input, endPoint = endPoint
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? TrafficFinesCar.Input)?.let {
+                        handleTrafficFinesCarOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                            endPoint = endPoint
+                        ) {
+                            handleResultCallback?.invoke(output)
                         }
                     }
                 }
             }
-            failure {
-                Toast.makeText(activity, "failure: $it", Toast.LENGTH_LONG).show()
+
+        }
+    }
+
+    fun handleTrafficFinesCarSummaryOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        endPoint: String,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallTrafficFinesCarSummary(
+            input = input as TrafficFinesCarSummary.Input, endPoint = endPoint
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? TrafficFinesCarSummary.Input)?.let {
+                        handleTrafficFinesCarSummaryOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                            endPoint = endPoint
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
             }
         }
     }
 
-    fun handleTrafficFinesCarNoDetailsOutput(
-        activity: WhyGoogleActivity<*>,
+    fun handleIbanByCardNumberOutput(
         apiCalledFromTransactionsFragment: Boolean = false,
         input: BaseInputModel,
-        servicesPishkhan24Api: AyanApi,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
-        servicesPishkhan24Api.callTrafficFinesCarNoDetails(
-            input = input as TrafficFinesCarNoDetails.Input
-        ) {
-            success { output ->
-                output?.checkPrerequisites(activity, input) {
-                    if (it.isNull()) {
-                        handleResultCallback?.invoke(output)
-                    } else {
-                        (it as? TrafficFinesCarNoDetails.Input)?.let {
-                            handleTrafficFinesCarNoDetailsOutput(
-                                activity = activity,
-                                apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
-                                input = it,
-                                servicesPishkhan24Api = servicesPishkhan24Api
-                            ) {
-                                handleResultCallback?.invoke(output)
-                            }
+        PishkhanSDK.serviceApi.simpleCall<V3BankIbanInfo.Output>(
+            input = input as V3BankIbanInfo.Input, endPoint = EndPoints.v3BankIbanInfo
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? V3BankIbanInfo.Input)?.let {
+                        handleIbanByCardNumberOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
                         }
                     }
                 }
             }
-            failure {
-                Toast.makeText(activity, "failure: $it", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun handleIbanByAccountNumberOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCall<V3BankIbanInfo.Output>(
+            input = input as V2BankIbanInfo.Input, endPoint = EndPoints.v2BankIbanInfo
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? V2BankIbanInfo.Input)?.let {
+                        handleIbanByAccountNumberOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleAccountNumberByIbanOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCall<V3BankIbanInfo.Output>(
+            input = input as V1BankIbanInfo.Input, endPoint = EndPoints.v1BankIbanInfo
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? V1BankIbanInfo.Input)?.let {
+                        handleAccountNumberByIbanOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handlePostPackageTrackingOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallPostPackagesStatus(
+            input = input as PostPackagesStatus.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? PostPackagesStatus.Input)?.let {
+                        handlePostPackageTrackingOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleBankChequeStatusSayadOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallBankChequeStatusSayad(
+            input = input as BankChequeStatusSayad.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? BankChequeStatusSayad.Input)?.let {
+                        handleBankChequeStatusSayadOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
             }
         }
     }
 }
-

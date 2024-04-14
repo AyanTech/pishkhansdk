@@ -2,39 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:clipToPadding="false"
-    android:paddingStart="@dimen/margin_16"
-    android:paddingTop="@dimen/margin_16"
-    android:paddingEnd="@dimen/margin_16"
-    android:paddingBottom="@dimen/margin_24">
+    android:clipToPadding="false">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/closeIv"
-        android:padding="@dimen/margin_4"
-        android:tint="@color/color_primary"
-        android:layout_width="@dimen/margin_32"
-        app:srcCompat="@drawable/ic_close_bordered"
-        android:layout_alignParentEnd="true"
-        android:layout_height="@dimen/margin_32"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/titleTv"
-        android:layout_below="@id/closeIv"
-        style="@style/header_primary_dark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:text="@string/confirm_code" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/descriptionTv"
-        style="@style/text_normal_primary_dark"
+        style="@style/Text3Regular"
+        android:textSize="@dimen/margin_13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/titleTv"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="@dimen/margin_8" />
+        android:layout_marginTop="@dimen/margin_8"
+        android:textColor="@color/gray4" />
 
     <LinearLayout
         android:id="@+id/secondDescriptionLayout"
@@ -46,7 +25,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/secondDescriptionTitleTv"
-            style="@style/text_normal_primary_dark"
+            style="@style/Text3Regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -61,19 +40,31 @@
 
     <include
         android:id="@+id/enterOtpCodeLayout"
-        layout="@layout/component_text_fields"
+        layout="@layout/pishkhansdk_component_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/secondDescriptionLayout"
         android:layout_marginTop="@dimen/margin_24" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <include
         android:id="@+id/confirmCodeBtn"
-        style="@style/AppButton"
+        layout="@layout/pishkhansdk_component_button_filled"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_below="@id/enterOtpCodeLayout"
         android:layout_marginTop="@dimen/margin_24"
-        android:text="@string/confirm" />
+        android:layout_height="wrap_content" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/retryTv"
+        style="@style/text_normal"
+        android:textColor="@color/gray4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:layout_below="@id/confirmCodeBtn"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="@string/resend" />
+
 
 </RelativeLayout>

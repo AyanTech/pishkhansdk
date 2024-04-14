@@ -2,13 +2,23 @@
 <resources>
 
     <style name="text_normal">
-        <item name="fontFamily">@font/regular</item>
-        <item name="android:fontFamily">@font/regular</item>
-        <item name="android:textSize">@dimen/text_12</item>
+        <item name="fontFamily">@font/iransansx_fa_num_regular</item>
+        <item name="android:fontFamily">@font/iransansx_fa_num_regular</item>
+        <item name="android:textSize">@dimen/margin_13</item>
     </style>
 
     <style name="text_normal_primary_dark" parent="text_normal">
         <item name="android:textColor">@color/color_primary_dark</item>
+    </style>
+
+    <style name="key_text_style" parent="text_normal">
+        <item name="android:textColor">@color/gray2</item>
+        <item name="android:textSize">@dimen/margin_11</item>
+    </style>
+
+    <style name="value_text_style" parent="text_normal">
+        <item name="android:textColor">@color/gray1</item>
+        <item name="android:textSize">@dimen/margin_11</item>
     </style>
 
     <style name="text_normal_secondary" parent="text_normal">
@@ -20,9 +30,9 @@
     </style>
 
     <style name="header">
-        <item name="fontFamily">@font/bold</item>
-        <item name="android:fontFamily">@font/bold</item>
-        <item name="android:textSize">@dimen/text_12</item>
+        <item name="fontFamily">@font/iransansx_fa_num_bold</item>
+        <item name="android:fontFamily">@font/iransansx_fa_num_bold</item>
+        <item name="android:textSize">@dimen/text_regular_6</item>
     </style>
 
     <style name="header_primary_dark" parent="header">
@@ -30,9 +40,13 @@
     </style>
 
     <style name="description">
-        <item name="fontFamily">@font/regular</item>
-        <item name="android:fontFamily">@font/regular</item>
-        <item name="android:textSize">@dimen/text_11</item>
+        <item name="fontFamily">@font/iransansx_fa_num_regular</item>
+        <item name="android:fontFamily">@font/iransansx_fa_num_regular</item>
+        <item name="android:textSize">@dimen/text_regular_1</item>
+    </style>
+
+    <style name="description_secondary" parent="description">
+        <item name="android:textColor">@color/color_secondary</item>
     </style>
 
     <style name="description_grey700" parent="description">
@@ -44,9 +58,9 @@
     </style>
 
     <style name="text_button">
-        <item name="fontFamily">@font/regular</item>
-        <item name="android:fontFamily">@font/regular</item>
-        <item name="android:textSize">@dimen/text_10</item>
+        <item name="fontFamily">@font/iransansx_fa_num_regular</item>
+        <item name="android:fontFamily">@font/iransansx_fa_num_regular</item>
+        <item name="android:textSize">@dimen/text_regular_3</item>
         <item name="android:textColor">@color/color_secondary</item>
     </style>
 
@@ -55,11 +69,167 @@
     </style>
 
     <style name="text_normal_green" parent="text_normal">
-        <item name="android:textColor">@color/inquiry_button_color</item>
+        <item name="android:textColor">@color/pishkhansdk_inquiry_button_color</item>
     </style>
 
     <style name="text_button_secondary" parent="text_button">
         <item name="android:textColor">@color/color_secondary</item>
+    </style>
+
+    <style name="GlobalTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusBottomEnd">@dimen/edittext_radius</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/edittext_radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/edittext_radius</item>
+        <item name="boxCornerRadiusTopStart">@dimen/edittext_radius</item>
+        <item name="boxStrokeWidth">@dimen/edittext_stroke_width</item>
+        <item name="boxStrokeWidthFocused">@dimen/edittext_stroke_width</item>
+        <item name="boxStrokeErrorColor">@color/state_error</item>
+        <item name="errorTextColor">@color/state_error</item>
+        <item name="boxStrokeColor">@color/background_edittext_stroke_enable_disable</item>
+        <item name="boxBackgroundColor">@color/background_edittext_solid_enable_disable</item>
+        <item name="hintEnabled">false</item>
+        <item name="errorIconDrawable">@null</item>
+    </style>
+
+    <style name="GlobalTextInputEditText" parent="text_normal">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_color_edittext_enable_disable</item>
+        <item name="android:textColorHint">@color/text_color_edittext_enable_disable</item>
+        <item name="android:paddingTop">@dimen/margin_4</item>
+        <item name="android:paddingBottom">@dimen/margin_4</item>
+        <item name="android:textDirection">anyRtl</item>
+        <item name="android:textCursorDrawable">@drawable/cursor</item>
+    </style>
+
+    <style name="TextBold">
+        <item name="fontFamily">@font/iransansx_fa_num_bold</item>
+        <item name="android:fontFamily">@font/iransansx_fa_num_bold</item>
+    </style>
+
+    <style name="Text1Bold" parent="TextBold">
+        <item name="android:textSize">@dimen/text_bold_1</item>
+    </style>
+
+    <style name="Text2Bold" parent="TextBold">
+        <item name="android:textSize">@dimen/text_bold_2</item>
+    </style>
+
+    <style name="Text3Bold" parent="TextBold">
+        <item name="android:textSize">@dimen/text_bold_3</item>
+    </style>
+
+    <style name="Text4Bold" parent="TextBold">
+        <item name="android:textSize">@dimen/text_bold_4</item>
+    </style>
+
+    <style name="Text5Bold" parent="TextBold">
+        <item name="android:textSize">@dimen/text_bold_5</item>
+    </style>
+
+    <style name="Text6Bold" parent="TextBold">
+        <item name="android:textSize">@dimen/text_bold_6</item>
+    </style>
+
+    <style name="Text7Bold" parent="TextBold">
+        <item name="android:textSize">@dimen/text_bold_7</item>
+    </style>
+
+    <style name="Text8Bold" parent="TextBold">
+        <item name="android:textSize">@dimen/text_bold_8</item>
+    </style>
+
+    <style name="TextMedium">
+        <item name="fontFamily">@font/iransansx_fa_num_medium</item>
+        <item name="android:fontFamily">@font/iransansx_fa_num_medium</item>
+    </style>
+
+    <style name="Text1Medium" parent="TextMedium">
+        <item name="android:textSize">@dimen/text_medium_1</item>
+    </style>
+
+    <style name="Text2Medium" parent="TextMedium">
+        <item name="android:textSize">@dimen/text_medium_2</item>
+    </style>
+
+    <style name="Text3Medium" parent="TextMedium">
+        <item name="android:textSize">@dimen/text_medium_3</item>
+    </style>
+
+    <style name="Text4Medium" parent="TextMedium">
+        <item name="android:textSize">@dimen/text_medium_4</item>
+    </style>
+
+    <style name="TextRegular">
+        <item name="fontFamily">@font/iransansx_fa_num_regular</item>
+        <item name="android:fontFamily">@font/iransansx_fa_num_regular</item>
+    </style>
+
+    <style name="Text1Regular" parent="TextRegular">
+        <item name="android:textSize">@dimen/text_regular_1</item>
+    </style>
+
+    <style name="Text2Regular" parent="TextRegular">
+        <item name="android:textSize">@dimen/text_regular_2</item>
+    </style>
+
+    <style name="Text3Regular" parent="TextRegular">
+        <item name="android:textSize">@dimen/margin_14</item>
+    </style>
+
+    <style name="Text4Regular" parent="TextRegular">
+        <item name="android:textSize">@dimen/text_regular_4</item>
+    </style>
+
+    <style name="Text5Regular" parent="TextRegular">
+        <item name="android:textSize">@dimen/text_regular_5</item>
+    </style>
+
+    <style name="TextLight">
+        <item name="fontFamily">@font/iransansx_fa_num_light</item>
+        <item name="android:fontFamily">@font/iransansx_fa_num_light</item>
+    </style>
+
+    <style name="Text1Light" parent="TextLight">
+        <item name="android:textSize">@dimen/text_light_1</item>
+    </style>
+
+    <style name="Text2Light" parent="TextLight">
+        <item name="android:textSize">@dimen/text_light_2</item>
+    </style>
+
+    <style name="Text3Light" parent="TextLight">
+        <item name="android:textSize">@dimen/text_light_3</item>
+    </style>
+
+    <style name="Text4Light" parent="TextLight">
+        <item name="android:textSize">@dimen/text_light_4</item>
+    </style>
+
+    <style name="Title" parent="Text5Bold">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TitleLarge" parent="Text8Bold">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TitleRegular" parent="Text3Regular">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TitleMedium" parent="Text2Medium">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TitleLight" parent="Text3Light">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ButtonTextStyle" parent="Text6Bold">
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:singleLine">true</item>
     </style>
 
 </resources>
