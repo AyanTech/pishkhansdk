@@ -99,23 +99,23 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 */
             PishkhanSDK.onInquiryButtonClicked(
                 inputModel = TrafficFinesCar.Input(
-                PlateNumber = "71-و-741-40",
-                NationalCode = "0923063544",
-                MobileNumber = "09356078900",
-                OTPCode = binding.enterOtpCodeLayout.getText(),
-                PurchaseKey = null
-            ),
-            product = ProductItemDetail.InquiryTrafficFinesCar,
-            failureCallBack = {
-                Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
-            },
-            handleResultCallback = {
-                Toast.makeText(this, "result successful1", Toast.LENGTH_LONG).show()
-                Log.d(
-                    "handleOutput",
-                    (it.Result as TrafficFinesCar.TrafficFineResult).toString()
-                )
-            })
+                    PlateNumber = "137-93573",
+                    NationalCode = "0010872116",
+                    MobileNumber = "09372189844",
+                    OTPCode = binding.enterOtpCodeLayout.getText(),
+                    PurchaseKey = null
+                ),
+                product = ProductItemDetail.InquiryTrafficFinesMotorcycle,
+                failureCallBack = {
+                    Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
+                },
+                handleResultCallback = {
+                    Toast.makeText(this, "result successful1", Toast.LENGTH_LONG).show()
+                    Log.d(
+                        "handleOutput",
+                        (it.Result as TrafficFinesCar.TrafficFineResult).toString()
+                    )
+                })
         })
 
         binding.inquiryBtn.init("استعلام", btnOnClick = {
@@ -126,14 +126,12 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
             Log.d("kjhbfaf", PishkhanUser.token)
             PishkhanSDK.onInquiryButtonClicked(
-                inputModel = TrafficFinesCar.Input(
-                    PlateNumber = "71-و-741-40",
-                    NationalCode = "0923063544",
-                    MobileNumber = "09356078900",
+                inputModel = TrafficFinesCarSummary.Input(
+                    PlateNumber = "137-93573",
                     OTPCode = null,
                     PurchaseKey = null
                 ),
-                product = ProductItemDetail.InquiryTrafficFinesCar,
+                product = ProductItemDetail.InquiryTrafficFinesMotorcycleSummary,
                 failureCallBack = {
                     Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
                 },
@@ -176,7 +174,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             Toast.makeText(this, "result successful2", Toast.LENGTH_LONG).show()
             Log.d(
                 "handleOutput",
-                (output.Result as  TrafficFinesCar.TrafficFineResult).toString()
+                (output.Result as TrafficFinesCar.TrafficFineResult).toString()
             )
         }
     }

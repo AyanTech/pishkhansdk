@@ -8,7 +8,7 @@ object EndPoints {
     const val TrafficFinesImages = "v1/TrafficFinesImages"
     const val TrafficFinesCarSummary = "v1/TrafficFinesCarNoDetails"
     const val TrafficFinesMotorcycle = "v1/TrafficFinesMotorcycle"
-    const val TrafficFinesMotorcycleSummary = "TrafficFinesMotorcycleNoDetails"
+    const val TrafficFinesMotorcycleSummary = "v1/TrafficFinesMotorcycleNoDetails"
     const val TopUpOperators = "v1/TopUpOperators"
     const val TopUpProducts = "v1/TopUpProducts"
     const val VehiclePlateNumbers = "v1/VehiclePlateNumbers"

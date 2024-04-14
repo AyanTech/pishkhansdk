@@ -75,6 +75,28 @@ object HandleOutput {
                 })
             }
 
+            Products.motorTrafficFinesProduct.name -> {
+                handleTrafficFinesCarOutput(input = TrafficFinesCar.Input(
+                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), endPoint = EndPoints.TrafficFinesMotorcycle, handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.motorTrafficFinesSummeryProduct.name -> {
+                handleTrafficFinesCarSummaryOutput(input = TrafficFinesCarSummary.Input(
+                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), endPoint = EndPoints.TrafficFinesMotorcycleSummary, handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
             Products.ibanByCardNumberProduct.name -> {
                 handleIbanByCardNumberOutput(input = V3BankIbanInfo.Input(
                     AccountType = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.AccountType }.Value,
