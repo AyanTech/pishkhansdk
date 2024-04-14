@@ -60,6 +60,7 @@ object PishkhanSDK {
         PishkhanUser.context = context
         PishkhanUser.schema = schema
         PishkhanUser.host = host
+        PishkhanUser.prefix = "${PishkhanUser.schema}://${PishkhanUser.host}?"
         coreApi = corePishkhan24Api
         serviceApi = servicesPishkhan24Api
     }
@@ -393,9 +394,6 @@ object PishkhanSDK {
     fun logout(successfulLogout: SimpleCallback) {
         PishkhanUser.token = ""
         PishkhanUser.phoneNumber = ""
-        PishkhanUser.prefix = ""
-        PishkhanUser.host = ""
-        PishkhanUser.schema = ""
         PishkhanUser.isUserSubscribed = false
         successfulLogout()
     }
