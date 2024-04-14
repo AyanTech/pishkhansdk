@@ -146,23 +146,34 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         })
 
 
-        /*        PishkhanSDK.getInquiryHistory(
-                    context = this,
-                    product = ProductItemDetail.InquiryTrafficFinesCarSummary,
-                    inquiryHistoryRv = binding.historyRv
-                ) {
-                    Log.d("inquiry history", it.toString())
-                }
+        PishkhanSDK.getInquiryHistory(
+            context = this,
+            product = ProductItemDetail.InquiryTrafficFinesCarSummary,
+            inquiryHistoryRv = binding.historyRv,
+            hasInquiryHistory = {
 
+            },
+            handleInquiryHistoryClick = {
+                //User has clicked on item list
+            },
+            failureCallBack = {
+                //Custom failure
+            },
+            changeStatusCallback = {
+                //Custom change status
+            }
+        )
 
-                PishkhanSDK.getUserTransactionHistory(
-                    userTransactionHistoryRv = binding.historyRv,
-                    hasTransactionHistory = {
-                        Log.d("hsdbcakf", if (it) "دارد" else "ندارد")
-                    }
-                ) { output, serviceName ->
-                    //  Log.d("hsdbcakf", "${output.Result}   $serviceName")
-                }*/
+        /*
+
+                        PishkhanSDK.getUserTransactionHistory(
+                            userTransactionHistoryRv = binding.historyRv,
+                            hasTransactionHistory = {
+                                Log.d("hsdbcakf", if (it) "دارد" else "ندارد")
+                            }
+                        ) { output, serviceName ->
+                            //  Log.d("hsdbcakf", "${output.Result}   $serviceName")
+                        }*/
 
     }
 

@@ -205,8 +205,8 @@ object PishkhanSDK {
         product: String,
         context: Context,
         inquiryHistoryRv: RecyclerView,
-        handleInquiryHistoryClick: ((inputList: List<ExtraInfo>) -> Unit)? = null,
         hasInquiryHistory: BooleanCallBack,
+        handleInquiryHistoryClick: ((inputList: List<ExtraInfo>) -> Unit)? = null,
         failureCallBack: FailureCallback?,
         changeStatusCallback: ChangeStatusCallback?
     ) {
@@ -275,8 +275,8 @@ object PishkhanSDK {
                                                 serviceName,
                                                 context,
                                                 inquiryHistoryRv,
-                                                handleInquiryHistoryClick,
                                                 hasInquiryHistory,
+                                                handleInquiryHistoryClick,
                                                 failureCallBack,
                                                 changeStatusCallback
                                             )
