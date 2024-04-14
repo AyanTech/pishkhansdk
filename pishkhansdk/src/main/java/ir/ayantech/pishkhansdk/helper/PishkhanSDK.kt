@@ -60,6 +60,7 @@ object PishkhanSDK {
         PishkhanUser.context = context
         PishkhanUser.schema = schema
         PishkhanUser.host = host
+        PishkhanUser.prefix = "${PishkhanUser.schema}://${PishkhanUser.host}?"
         coreApi = corePishkhan24Api
         serviceApi = servicesPishkhan24Api
     }
