@@ -91,56 +91,56 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
         binding.inquiryBtn2.init("لاگین", btnOnClick = {
 
-/*            PishkhanSDK.login("09158678539", null, loginIsSuccessful = {
+            PishkhanSDK.login("09158678539", null, loginIsSuccessful = {
                 Toast.makeText(PishkhanUser.context, "loginnn", Toast.LENGTH_LONG)
                     .show()
-            })*/
+            })
 
-            PishkhanSDK.onInquiryButtonClicked(
-                inputModel = SubventionHistory.Input(
-                    MobileNumber = "09016140723",
-                    OTPCode = binding.enterOtpCodeLayout.getText(),
-                    PurchaseKey = null
-                ),
-                product = ProductItemDetail.InquiryGovernmentSubventionHistory,
-                failureCallBack = {
-                    Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
-                },
-                handleResultCallback = {
-                    Toast.makeText(this, "result successful1", Toast.LENGTH_LONG).show()
-                    Log.d(
-                        "handleOutput",
-                        (it.Result as TrafficFinesCar.TrafficFineResult).toString()
-                    )
-                })
+            /*            PishkhanSDK.onInquiryButtonClicked(
+                            inputModel = SubventionHistory.Input(
+                                MobileNumber = "09016140723",
+                                OTPCode = binding.enterOtpCodeLayout.getText(),
+                                PurchaseKey = null
+                            ),
+                            product = ProductItemDetail.InquiryGovernmentSubventionHistory,
+                            failureCallBack = {
+                                Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
+                            },
+                            handleResultCallback = {
+                                Toast.makeText(this, "result successful1", Toast.LENGTH_LONG).show()
+                                Log.d(
+                                    "handleOutput",
+                                    (it.Result as TrafficFinesCar.TrafficFineResult).toString()
+                                )
+                            })*/
         })
 
         binding.inquiryBtn.init("استعلام", btnOnClick = {
-/*            PishkhanSDK.login(
+            PishkhanSDK.login(
                 "09158678539",
                 binding.enterOtpCodeLayout.getText(),
                 confirmOtpIsSuccessful = {
                     Toast.makeText(PishkhanUser.context, "confirmmmm", Toast.LENGTH_LONG)
                         .show()
-                })*/
-
-            PishkhanSDK.onInquiryButtonClicked(
-                inputModel = SubventionHistory.Input(
-                    MobileNumber = "09016140723",
-                    OTPCode = null,
-                    PurchaseKey = null
-                ),
-                product = ProductItemDetail.InquiryGovernmentSubventionHistory,
-                failureCallBack = {
-                    Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
-                },
-                handleResultCallback = {
-                    Toast.makeText(this, "result successful1", Toast.LENGTH_LONG).show()
-                    Log.d(
-                        "handleOutput",
-                        (it.Result as TrafficFinesCar.TrafficFineResult).toString()
-                    )
                 })
+
+            /*            PishkhanSDK.onInquiryButtonClicked(
+                            inputModel = SubventionHistory.Input(
+                                MobileNumber = "09016140723",
+                                OTPCode = null,
+                                PurchaseKey = null
+                            ),
+                            product = ProductItemDetail.InquiryGovernmentSubventionHistory,
+                            failureCallBack = {
+                                Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
+                            },
+                            handleResultCallback = {
+                                Toast.makeText(this, "result successful1", Toast.LENGTH_LONG).show()
+                                Log.d(
+                                    "handleOutput",
+                                    (it.Result as TrafficFinesCar.TrafficFineResult).toString()
+                                )
+                            })*/
 
         })
 
@@ -171,7 +171,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                 Log.d("hsdbcakf", if (it) "دارد" else "ندارد")
             }
         ) { output, serviceName ->
-             Log.d("hsdbcakf", "${output.Result}   $serviceName")
+            Log.d("hsdbcakf", "${output.Result}   $serviceName")
         }
 
     }

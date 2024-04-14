@@ -394,9 +394,6 @@ object PishkhanSDK {
     fun logout(successfulLogout: SimpleCallback) {
         PishkhanUser.token = ""
         PishkhanUser.phoneNumber = ""
-        PishkhanUser.prefix = ""
-        PishkhanUser.host = ""
-        PishkhanUser.schema = ""
         PishkhanUser.isUserSubscribed = false
         successfulLogout()
     }
