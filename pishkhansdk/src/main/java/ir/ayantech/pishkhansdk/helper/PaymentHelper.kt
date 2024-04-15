@@ -7,9 +7,11 @@ import ir.ayantech.networking.simpleCallInvoicePayment
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleAccountNumberByIbanOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleAnnualTollCarOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleBankChequeStatusSayadOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleDrivingLicenceStatusOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleFreewayTollBillsOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleIbanByAccountNumberOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleIbanByCardNumberOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleIdentificationDocumentsStatusCarOutput
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
 import ir.ayantech.pishkhansdk.model.enums.PrerequisitesType
@@ -20,9 +22,12 @@ import ir.ayantech.pishkhansdk.model.api.InvoiceRegister
 import ir.ayantech.pishkhansdk.model.app_logic.OTP
 import ir.ayantech.pishkhansdk.model.app_logic.createCallBackLink
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleJusticeSharesPortfolioOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleNegativePointOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handlePlateNumbersOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handlePostPackageTrackingOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleSubventionHistoryOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleThirdPartyInsuranceOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleThirdPartyInsuranceStatusOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficFinesCarSummaryOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficFinesCarOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficPlanTollCarOutput
@@ -336,7 +341,50 @@ object PaymentHelper {
                     )
                 }
 
+                Products.negativePointProduct.name -> {
+                    handleNegativePointOutput(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
 
+                Products.drivingLicenceStatusProduct.name -> {
+                    handleDrivingLicenceStatusOutput(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+                Products.identificationDocumentsStatusCarProduct.name -> {
+                    handleIdentificationDocumentsStatusCarOutput(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+                Products.thirdPartyInsuranceProduct.name -> {
+                    handleThirdPartyInsuranceOutput(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+                Products.thirdPartyInsuranceStatusProduct.name -> {
+                    handleThirdPartyInsuranceStatusOutput(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
 
                 else -> {}
 

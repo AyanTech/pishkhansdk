@@ -1,8 +1,12 @@
 package ir.ayantech.pishkhansdk.helper
 
 
+import ir.ayantech.networking.callVehicleThirdPartyInsuranceStatus
 import ir.ayantech.networking.simpleCallBankChequeStatusSayad
+import ir.ayantech.networking.simpleCallDrivingLicenseNegativePoint
+import ir.ayantech.networking.simpleCallDrivingLicenseStatus
 import ir.ayantech.networking.simpleCallFreewayTollBills
+import ir.ayantech.networking.simpleCallIdentificationDocumentsStatusCar
 import ir.ayantech.networking.simpleCallJusticeSharesPortfolio
 import ir.ayantech.networking.simpleCallMunicipalityCarAnnualTollBills
 import ir.ayantech.networking.simpleCallMunicipalityCarTollBills
@@ -13,8 +17,15 @@ import ir.ayantech.networking.simpleCallTrafficFinesCarSummary
 import ir.ayantech.networking.simpleCallV2BankIbanInfo
 import ir.ayantech.networking.simpleCallV3BankIbanInfo
 import ir.ayantech.networking.simpleCallVehiclePlateNumbers
+import ir.ayantech.networking.simpleCallVehicleThirdPartyInsurance
+import ir.ayantech.networking.simpleCallVehicleThirdPartyInsuranceStatus
+import ir.ayantech.pishkhan24.model.api.VehicleThirdPartyInsurance
+import ir.ayantech.pishkhan24.model.api.VehicleThirdPartyInsuranceStatus
 import ir.ayantech.pishkhansdk.model.api.BankChequeStatusSayad
+import ir.ayantech.pishkhansdk.model.api.DrivingLicenseNegativePoint
+import ir.ayantech.pishkhansdk.model.api.DrivingLicenseStatus
 import ir.ayantech.pishkhansdk.model.api.FreewayTollBills
+import ir.ayantech.pishkhansdk.model.api.IdentificationDocumentsStatusCar
 import ir.ayantech.pishkhansdk.model.api.InvoiceInfo
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.api.JusticeSharesPortfolio
@@ -32,6 +43,10 @@ import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
 import ir.ayantech.pishkhansdk.model.app_logic.Products
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
 import ir.ayantech.pishkhansdk.model.constants.Parameter
+import ir.ayantech.pishkhansdk.model.constants.Parameter.LicenseNumber
+import ir.ayantech.pishkhansdk.model.constants.Parameter.MobileNumber
+import ir.ayantech.pishkhansdk.model.constants.Parameter.NationalCode
+import ir.ayantech.pishkhansdk.model.constants.Parameter.PurchaseKey
 import ir.ayantech.whygoogle.helper.isNull
 
 object HandleOutput {
@@ -197,6 +212,62 @@ object HandleOutput {
                 handlePlateNumbersOutput(input = VehiclePlateNumbers.Input(
                     MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
                     NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.negativePointProduct.name -> {
+                handleNegativePointOutput(input = DrivingLicenseNegativePoint.Input(
+                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                    LicenseNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.LicenseNumber }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.drivingLicenceStatusProduct.name -> {
+                handleDrivingLicenceStatusOutput(input = DrivingLicenseStatus.Input(
+                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.identificationDocumentsStatusCarProduct.name -> {
+                handleIdentificationDocumentsStatusCarOutput(input = IdentificationDocumentsStatusCar.Input(
+                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.thirdPartyInsuranceProduct.name -> {
+                handleThirdPartyInsuranceOutput(input = VehicleThirdPartyInsurance.Input(
+                    InsuranceUniqueCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.InsuranceUniqueCode }.Value,
+                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.thirdPartyInsuranceStatusProduct.name -> {
+                handleThirdPartyInsuranceStatusOutput(input = VehicleThirdPartyInsuranceStatus.Input(
+                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
                     OTPCode = null,
                     PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
                 ), handleResultCallback = {
@@ -537,6 +608,136 @@ object HandleOutput {
                             handleResultCallback?.invoke(output)
                         }
                     }
+                }
+            }
+        }
+    }
+
+    fun handleNegativePointOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallDrivingLicenseNegativePoint(
+            input = input as DrivingLicenseNegativePoint.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? DrivingLicenseNegativePoint.Input)?.let {
+                        handleNegativePointOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleDrivingLicenceStatusOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallDrivingLicenseStatus(
+            input = input as DrivingLicenseStatus.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? DrivingLicenseStatus.Input)?.let {
+                        handleDrivingLicenceStatusOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleIdentificationDocumentsStatusCarOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallIdentificationDocumentsStatusCar(
+            input = input as IdentificationDocumentsStatusCar.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? IdentificationDocumentsStatusCar.Input)?.let {
+                        handleIdentificationDocumentsStatusCarOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleThirdPartyInsuranceOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallVehicleThirdPartyInsurance(
+            input = input as VehicleThirdPartyInsurance.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? VehicleThirdPartyInsurance.Input)?.let {
+                        handleThirdPartyInsuranceOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleThirdPartyInsuranceStatusOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.callVehicleThirdPartyInsuranceStatus(
+            input = input as VehicleThirdPartyInsuranceStatus.Input
+        ) {
+            success { output ->
+                output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                    if (it.isNull()) {
+                        handleResultCallback?.invoke(output)
+                    } else {
+                        (it as? VehicleThirdPartyInsuranceStatus.Input)?.let {
+                            handleThirdPartyInsuranceStatusOutput(
+                                apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                                input = it,
+                            ) {
+                                handleResultCallback?.invoke(output)
+                            }
+                        }
+                    }
+                }
+                failure {
+
                 }
             }
         }
