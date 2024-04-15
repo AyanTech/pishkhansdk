@@ -35,7 +35,7 @@ object Products {
         category = Category.CarServices,
     )
 
-    val annualTollCarProductProduct = ProductItem(
+    val annualTollCarProduct = ProductItem(
         name = ProductItemDetail.InquiryAnnualTollsCar,
         category = Category.CarServices,
     )

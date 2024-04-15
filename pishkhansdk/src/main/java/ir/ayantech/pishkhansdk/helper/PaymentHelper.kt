@@ -1,11 +1,11 @@
 package ir.ayantech.pishkhansdk.helper
 
-import android.os.Build.VERSION_CODES.P
 import ir.ayantech.ayannetworking.api.AyanCallStatus
 import ir.ayantech.ayannetworking.api.FailureCallback
 import ir.ayantech.networking.simpleCallInvoiceInfo
 import ir.ayantech.networking.simpleCallInvoicePayment
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleAccountNumberByIbanOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleAnnualTollCarOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleBankChequeStatusSayadOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleFreewayTollBillsOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleIbanByAccountNumberOutput
@@ -20,10 +20,12 @@ import ir.ayantech.pishkhansdk.model.api.InvoiceRegister
 import ir.ayantech.pishkhansdk.model.app_logic.OTP
 import ir.ayantech.pishkhansdk.model.app_logic.createCallBackLink
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleJusticeSharesPortfolioOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handlePlateNumbersOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handlePostPackageTrackingOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleSubventionHistoryOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficFinesCarSummaryOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficFinesCarOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficPlanTollCarOutput
 import ir.ayantech.pishkhansdk.helper.PishkhanSDK.serviceName
 import ir.ayantech.pishkhansdk.model.api.InvoiceInfo
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
@@ -307,6 +309,32 @@ object PaymentHelper {
                     )
                 }
 
+                Products.trafficPlanTollCarProduct.name -> {
+                    handleTrafficPlanTollCarOutput(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+                Products.annualTollCarProduct.name -> {
+                    handleAnnualTollCarOutput(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+                Products.plateNumbersProduct.name -> {
+                    handlePlateNumbersOutput(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
 
 
 

@@ -4,17 +4,22 @@ package ir.ayantech.pishkhansdk.helper
 import ir.ayantech.networking.simpleCallBankChequeStatusSayad
 import ir.ayantech.networking.simpleCallFreewayTollBills
 import ir.ayantech.networking.simpleCallJusticeSharesPortfolio
+import ir.ayantech.networking.simpleCallMunicipalityCarAnnualTollBills
+import ir.ayantech.networking.simpleCallMunicipalityCarTollBills
 import ir.ayantech.networking.simpleCallPostPackagesStatus
 import ir.ayantech.networking.simpleCallSubventionHistory
 import ir.ayantech.networking.simpleCallTrafficFinesCar
 import ir.ayantech.networking.simpleCallTrafficFinesCarSummary
 import ir.ayantech.networking.simpleCallV2BankIbanInfo
 import ir.ayantech.networking.simpleCallV3BankIbanInfo
+import ir.ayantech.networking.simpleCallVehiclePlateNumbers
 import ir.ayantech.pishkhansdk.model.api.BankChequeStatusSayad
 import ir.ayantech.pishkhansdk.model.api.FreewayTollBills
 import ir.ayantech.pishkhansdk.model.api.InvoiceInfo
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.api.JusticeSharesPortfolio
+import ir.ayantech.pishkhansdk.model.api.MunicipalityCarAnnualTollBills
+import ir.ayantech.pishkhansdk.model.api.MunicipalityCarTollBills
 import ir.ayantech.pishkhansdk.model.api.PostPackagesStatus
 import ir.ayantech.pishkhansdk.model.api.SubventionHistory
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
@@ -22,6 +27,7 @@ import ir.ayantech.pishkhansdk.model.api.TrafficFinesCarSummary
 import ir.ayantech.pishkhansdk.model.api.V1BankIbanInfo
 import ir.ayantech.pishkhansdk.model.api.V2BankIbanInfo
 import ir.ayantech.pishkhansdk.model.api.V3BankIbanInfo
+import ir.ayantech.pishkhansdk.model.api.VehiclePlateNumbers
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
 import ir.ayantech.pishkhansdk.model.app_logic.Products
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
@@ -156,6 +162,41 @@ object HandleOutput {
             Products.freewayTollBillsProduct.name -> {
                 handleFreewayTollBillsOutput(input = FreewayTollBills.Input(
                     PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.trafficPlanTollCarProduct.name -> {
+                handleTrafficPlanTollCarOutput(input = MunicipalityCarTollBills.Input(
+                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.annualTollCarProduct.name -> {
+                handleAnnualTollCarOutput(input = MunicipalityCarAnnualTollBills.Input(
+                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                    EngineNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.EngineNumber }.Value,
+                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                    TaxGroup = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.TaxGroup }.Value,
+                    VIN = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.VIN }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.plateNumbersProduct.name -> {
+                handlePlateNumbersOutput(input = VehiclePlateNumbers.Input(
+                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
                     OTPCode = null,
                     PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
                 ), handleResultCallback = {
@@ -415,6 +456,81 @@ object HandleOutput {
                 } else {
                     (it as? FreewayTollBills.Input)?.let {
                         handleFreewayTollBillsOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleTrafficPlanTollCarOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallMunicipalityCarTollBills(
+            input = input as MunicipalityCarTollBills.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? MunicipalityCarTollBills.Input)?.let {
+                        handleTrafficPlanTollCarOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleAnnualTollCarOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallMunicipalityCarAnnualTollBills(
+            input = input as MunicipalityCarAnnualTollBills.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? MunicipalityCarAnnualTollBills.Input)?.let {
+                        handleAnnualTollCarOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handlePlateNumbersOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallVehiclePlateNumbers(
+            input = input as VehiclePlateNumbers.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? VehiclePlateNumbers.Input)?.let {
+                        handlePlateNumbersOutput(
                             apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
                             input = it,
                         ) {

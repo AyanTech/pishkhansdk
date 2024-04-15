@@ -29,7 +29,7 @@ private val availablePishkhanItems = listOf(
     Products.negativePointProduct,
     Products.technicalExaminationCertificateProduct,
     Products.freewayTollBillsProduct,
-    Products.annualTollCarProductProduct,
+    Products.annualTollCarProduct,
     Products.trafficPlanTollCarProduct,
     Products.motorTrafficFinesProduct,
     Products.motorTrafficFinesSummeryProduct,

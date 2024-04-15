@@ -14,9 +14,12 @@ import ir.ayantech.pishkhansdk.databinding.ActivityMainBinding
 import ir.ayantech.pishkhansdk.helper.PishkhanSDK
 import ir.ayantech.pishkhansdk.bottom_sheets.WaiterBottomSheet
 import ir.ayantech.pishkhansdk.model.api.FreewayTollBills
+import ir.ayantech.pishkhansdk.model.api.MunicipalityCarAnnualTollBills
+import ir.ayantech.pishkhansdk.model.api.MunicipalityCarTollBills
 import ir.ayantech.pishkhansdk.model.api.SubventionHistory
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCarSummary
+import ir.ayantech.pishkhansdk.model.api.VehiclePlateNumbers
 import ir.ayantech.pishkhansdk.model.app_logic.ProductItemDetail
 import ir.ayantech.pishkhansdk.model.constants.Parameter.MobileNumber
 import ir.ayantech.pishkhansdk.model.constants.Parameter.PurchaseKey
@@ -103,21 +106,22 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
         binding.inquiryBtn.init("استعلام", btnOnClick = {
 
-  /*          PishkhanSDK.login(
-                "09126505877",
-                binding.enterOtpCodeLayout.getText(),
-                confirmOtpIsSuccessful = {
-                    Toast.makeText(PishkhanUser.context, "confirmmmm", Toast.LENGTH_LONG)
-                        .show()
-                })
-*/
+            /*          PishkhanSDK.login(
+                          "09126505877",
+                          binding.enterOtpCodeLayout.getText(),
+                          confirmOtpIsSuccessful = {
+                              Toast.makeText(PishkhanUser.context, "confirmmmm", Toast.LENGTH_LONG)
+                                  .show()
+                          })
+          */
             PishkhanSDK.onInquiryButtonClicked(
-                inputModel = FreewayTollBills.Input(
-                    PlateNumber = "71-و-741-40",
+                inputModel = VehiclePlateNumbers.Input(
+                    MobileNumber = "09395099494",
+                    NationalCode = "5230069570",
                     OTPCode = null,
                     PurchaseKey = null
                 ),
-                product = ProductItemDetail.InquiryFreewayTollBills,
+                product = ProductItemDetail.InquiryPlateNumbers,
                 failureCallBack = {
                     Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
                 },
@@ -151,7 +155,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                 )*/
 
 
-
+/*
         PishkhanSDK.getUserTransactionHistory(
             userTransactionHistoryRv = binding.historyRv,
             hasTransactionHistory = {
@@ -159,7 +163,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             }
         ) { output, serviceName ->
             Log.d("hsdbcakf", "${output.Result}   $serviceName")
-        }
+        }*/
 
     }
 
