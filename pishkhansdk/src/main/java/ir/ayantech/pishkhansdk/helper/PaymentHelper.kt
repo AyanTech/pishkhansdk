@@ -7,6 +7,7 @@ import ir.ayantech.networking.simpleCallInvoiceInfo
 import ir.ayantech.networking.simpleCallInvoicePayment
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleAccountNumberByIbanOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleBankChequeStatusSayadOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleFreewayTollBillsOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleIbanByAccountNumberOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleIbanByCardNumberOutput
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
@@ -296,6 +297,17 @@ object PaymentHelper {
                         }
                     )
                 }
+
+                Products.freewayTollBillsProduct.name -> {
+                    handleFreewayTollBillsOutput(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+
 
 
                 else -> {}

@@ -2,6 +2,7 @@ package ir.ayantech.pishkhansdk.helper
 
 
 import ir.ayantech.networking.simpleCallBankChequeStatusSayad
+import ir.ayantech.networking.simpleCallFreewayTollBills
 import ir.ayantech.networking.simpleCallJusticeSharesPortfolio
 import ir.ayantech.networking.simpleCallPostPackagesStatus
 import ir.ayantech.networking.simpleCallSubventionHistory
@@ -10,6 +11,7 @@ import ir.ayantech.networking.simpleCallTrafficFinesCarSummary
 import ir.ayantech.networking.simpleCallV2BankIbanInfo
 import ir.ayantech.networking.simpleCallV3BankIbanInfo
 import ir.ayantech.pishkhansdk.model.api.BankChequeStatusSayad
+import ir.ayantech.pishkhansdk.model.api.FreewayTollBills
 import ir.ayantech.pishkhansdk.model.api.InvoiceInfo
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.api.JusticeSharesPortfolio
@@ -144,6 +146,16 @@ object HandleOutput {
             Products.sayadChequeProduct.name -> {
                 handleBankChequeStatusSayadOutput(input = BankChequeStatusSayad.Input(
                     ChequeNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.ChequeNumber }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.freewayTollBillsProduct.name -> {
+                handleFreewayTollBillsOutput(input = FreewayTollBills.Input(
+                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
                     OTPCode = null,
                     PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
                 ), handleResultCallback = {
@@ -378,6 +390,31 @@ object HandleOutput {
                 } else {
                     (it as? BankChequeStatusSayad.Input)?.let {
                         handleBankChequeStatusSayadOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleFreewayTollBillsOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallFreewayTollBills(
+            input = input as FreewayTollBills.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? FreewayTollBills.Input)?.let {
+                        handleFreewayTollBillsOutput(
                             apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
                             input = it,
                         ) {

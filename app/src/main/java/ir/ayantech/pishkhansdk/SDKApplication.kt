@@ -53,8 +53,8 @@ class SDKApplication : Application() {
 
         PishkhanSDK.initialize(
             context = this,
-            schema = "subvention",
-            host = "ir.ayantech.subvention",
+            schema = "finesdetail",
+            host = "ir.ayantech.finesdetail",
             corePishkhan24Api = coreAyanApi!!,
             servicesPishkhan24Api = servicesAyanApi!!,
         )
