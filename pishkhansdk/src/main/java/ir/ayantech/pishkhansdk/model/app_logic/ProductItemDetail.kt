@@ -146,4 +146,3 @@ fun String.getProductShowName() = when (this) {
 
     else -> "محصول جدید!"
 }
-

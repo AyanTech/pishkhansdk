@@ -142,7 +142,7 @@ object Products {
         name = ProductItemDetail.InquiryTelecomRegisteredLines,
         category = Category.CitizenshipServices,
 
-    )
+        )
 
     val livelihoodInformationProduct = ProductItem(
         name = ProductItemDetail.InquiryLivelihoodInformation,

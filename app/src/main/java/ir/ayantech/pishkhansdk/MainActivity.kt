@@ -13,7 +13,6 @@ import ir.ayantech.ayannetworking.ayanModel.FailureType
 import ir.ayantech.pishkhansdk.databinding.ActivityMainBinding
 import ir.ayantech.pishkhansdk.helper.PishkhanSDK
 import ir.ayantech.pishkhansdk.bottom_sheets.WaiterBottomSheet
-import ir.ayantech.pishkhansdk.helper.PishkhanSDK.login
 import ir.ayantech.pishkhansdk.model.api.SubventionHistory
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCarSummary
@@ -78,9 +77,9 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             ayanCommonCallingStatus
 
         PishkhanSDK.handleUserSession(
-            application = "VasHookTrafficFinesInquiry", origin = "cafebazaar",
+            application = "VasHookSubventionInquiry", origin = "cafebazaar",
             platform = "android",
-            version = "20.0.0",
+            version = "4.0.0",
             activity = this,
             successCallback = {
 
@@ -91,89 +90,89 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             handleIntent()
 
         binding.inquiryBtn2.init("لاگین", btnOnClick = {
-/*
-            login("09158678539", null, loginIsSuccessful = {
+
+            PishkhanSDK.login("09158678539", null, loginIsSuccessful = {
                 Toast.makeText(PishkhanUser.context, "loginnn", Toast.LENGTH_LONG)
                     .show()
             })
-*/
-            PishkhanSDK.onInquiryButtonClicked(
-                inputModel = TrafficFinesCar.Input(
-                    PlateNumber = "137-93573",
-                    NationalCode = "0010872116",
-                    MobileNumber = "09372189844",
-                    OTPCode = binding.enterOtpCodeLayout.getText(),
-                    PurchaseKey = null
-                ),
-                product = ProductItemDetail.InquiryTrafficFinesMotorcycle,
-                failureCallBack = {
-                    Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
-                },
-                handleResultCallback = {
-                    Toast.makeText(this, "result successful1", Toast.LENGTH_LONG).show()
-                    Log.d(
-                        "handleOutput",
-                        (it.Result as TrafficFinesCar.TrafficFineResult).toString()
-                    )
-                })
+
+            /*            PishkhanSDK.onInquiryButtonClicked(
+                            inputModel = SubventionHistory.Input(
+                                MobileNumber = "09016140723",
+                                OTPCode = binding.enterOtpCodeLayout.getText(),
+                                PurchaseKey = null
+                            ),
+                            product = ProductItemDetail.InquiryGovernmentSubventionHistory,
+                            failureCallBack = {
+                                Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
+                            },
+                            handleResultCallback = {
+                                Toast.makeText(this, "result successful1", Toast.LENGTH_LONG).show()
+                                Log.d(
+                                    "handleOutput",
+                                    (it.Result as TrafficFinesCar.TrafficFineResult).toString()
+                                )
+                            })*/
         })
 
         binding.inquiryBtn.init("استعلام", btnOnClick = {
-/*      login("09158678539", binding.enterOtpCodeLayout.getText(), confirmOtpIsSuccessful = {
-                Toast.makeText(PishkhanUser.context, "confirmmmm", Toast.LENGTH_LONG)
-                    .show()
-            })*/
+            PishkhanSDK.login(
+                "09158678539",
+                binding.enterOtpCodeLayout.getText(),
+                confirmOtpIsSuccessful = {
+                    Toast.makeText(PishkhanUser.context, "confirmmmm", Toast.LENGTH_LONG)
+                        .show()
+                })
 
-            Log.d("kjhbfaf", PishkhanUser.token)
-            PishkhanSDK.onInquiryButtonClicked(
-                inputModel = TrafficFinesCarSummary.Input(
-                    PlateNumber = "137-93573",
-                    OTPCode = null,
-                    PurchaseKey = null
-                ),
-                product = ProductItemDetail.InquiryTrafficFinesMotorcycleSummary,
-                failureCallBack = {
-                    Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
-                },
-                handleResultCallback = {
-                    Toast.makeText(this, "result successful1", Toast.LENGTH_LONG).show()
-                    Log.d(
-                        "handleOutput",
-                        (it.Result as TrafficFinesCar.TrafficFineResult).toString()
-                    )
-                }
-            )
+            /*            PishkhanSDK.onInquiryButtonClicked(
+                            inputModel = SubventionHistory.Input(
+                                MobileNumber = "09016140723",
+                                OTPCode = null,
+                                PurchaseKey = null
+                            ),
+                            product = ProductItemDetail.InquiryGovernmentSubventionHistory,
+                            failureCallBack = {
+                                Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
+                            },
+                            handleResultCallback = {
+                                Toast.makeText(this, "result successful1", Toast.LENGTH_LONG).show()
+                                Log.d(
+                                    "handleOutput",
+                                    (it.Result as TrafficFinesCar.TrafficFineResult).toString()
+                                )
+                            })*/
+
         })
 
 
-        PishkhanSDK.getInquiryHistory(
-            context = this,
-            product = ProductItemDetail.InquiryTrafficFinesCarSummary,
-            inquiryHistoryRv = binding.historyRv,
-            hasInquiryHistory = {
+        /*        PishkhanSDK.getInquiryHistory(
+                    context = this,
+                    product = ProductItemDetail.InquiryTrafficFinesCarSummary,
+                    inquiryHistoryRv = binding.historyRv,
+                    hasInquiryHistory = {
 
-            },
-            handleInquiryHistoryClick = {
-                //User has clicked on item list
-            },
-            failureCallBack = {
-                //Custom failure
-            },
-            changeStatusCallback = {
-                //Custom change status
+                    },
+                    handleInquiryHistoryClick = {
+                        //User has clicked on item list
+                    },
+                    failureCallBack = {
+                        //Custom failure
+                    },
+                    changeStatusCallback = {
+                        //Custom change status
+                    }
+                )*/
+
+
+
+        PishkhanSDK.getUserTransactionHistory(
+            userTransactionHistoryRv = binding.historyRv,
+            hasTransactionHistory = {
+                Log.d("hsdbcakf", if (it) "دارد" else "ندارد")
             }
-        )
-
-        /*
-
-                        PishkhanSDK.getUserTransactionHistory(
-                            userTransactionHistoryRv = binding.historyRv,
-                            hasTransactionHistory = {
-                                Log.d("hsdbcakf", if (it) "دارد" else "ندارد")
-                            }
-                        ) { output, serviceName ->
-                            //  Log.d("hsdbcakf", "${output.Result}   $serviceName")
-                        }*/
+        ) { output, serviceName ->
+            Log.d("hsdbcakf", "${output.Result}   $serviceName")
+        }
 
     }
 
