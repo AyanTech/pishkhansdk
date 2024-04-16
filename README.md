@@ -146,8 +146,8 @@ To get the transaction history list add the following method :
             
         }
 
-Note: ServiceName can be null and if you don't pass service name all items in transaction will be showed in the list otherwise you can see just transactions belongs to the service name .
 ```
+Note: ServiceName can be null and if you don't pass service name all items in transaction will be showed in the list otherwise you can see just transactions belongs to the service name .
 
 ## Custom Color:
 
