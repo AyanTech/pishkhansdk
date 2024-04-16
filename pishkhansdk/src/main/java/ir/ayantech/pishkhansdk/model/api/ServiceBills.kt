@@ -4,16 +4,17 @@ import com.alirezabdn.generator.AyanAPI
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
 import ir.ayantech.pishkhansdk.model.app_logic.Messages
+import ir.ayantech.pishkhansdk.model.app_logic.Payment
 import ir.ayantech.pishkhansdk.model.app_logic.Prerequisites
 import ir.ayantech.pishkhansdk.model.app_logic.Query
+import ir.ayantech.pishkhansdk.model.app_logic.Type
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
 
-@AyanAPI(endPoint = EndPoints.VehicleThirdPartyInsurance)
-class VehicleThirdPartyInsurance {
+@AyanAPI(endPoint = EndPoints.WaterBills)
+class ServiceBills {
     class Input(
         OTPCode: String? = null,
-        val InsuranceUniqueCode: String,
-        val NationalCode: String,
+        val Identifier: String,
         PurchaseKey: String?
     ) : BaseInputModel(OTPCode = OTPCode, PurchaseKey = PurchaseKey)
 
@@ -24,34 +25,27 @@ class VehicleThirdPartyInsurance {
         Result: Result?,
         WarningMessage: String
     ) : BaseResultModel<Result>(
+        Messages = Messages,
         Query = Query,
         Result = Result,
         WarningMessage = WarningMessage,
-        Prerequisites = Prerequisites,
-        Messages = Messages
+        Prerequisites = Prerequisites
     )
 
     data class Result(
-        val ChassisNumber: String,
-        val CompanyName: String,
-        val DateTimeEnd: String,
-        val DateTimeIssue: String,
-        val DateTimeStart: String,
-        val Driver: Driver,
-        val EngineNumber: String,
-        val Financial: Driver,
-        val FullName: String,
-        val InsuranceNumber: String,
-        val Insurancetype: String,
-        val Passenger: Driver,
-        val PlateNumber: String,
-        val VIN: String,
-        val VehicleName: String
+        val Amount: Long,
+        val DateTime: String,
+        val ExtraInfo: ResultExtraInfo?,
+        val Payment: Payment,
+        val Type: Type,
+        val UniqueID: String
     )
 
-    data class Driver(
-        val DiscountPercent: String,
-        val NumberOfYearsWithoutDamage: String,
-        val Obligations: Long
+    data class ResultExtraInfo(
+        val AdditionalInformation: String?,
+        val Address: String,
+        val DateTimeVisitCurrent: String?,
+        val DateTimeVisitPrevious: String?,
+        val FullName: String
     )
 }

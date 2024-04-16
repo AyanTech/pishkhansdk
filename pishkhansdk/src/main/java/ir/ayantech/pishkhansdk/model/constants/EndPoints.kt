@@ -79,5 +79,6 @@ object EndPoints {
     const val UserSessionUpdateInfo = "v1/UserSessionUpdateInfo"
     const val UserTransactions = "v1/UserTransactions"
     const val LoginByOTP = "v1/LoginByOTP"
+    const val BillsInfo = "v1/BillsInfo"
 
 }

@@ -8,11 +8,12 @@ import ir.ayantech.pishkhansdk.model.app_logic.Prerequisites
 import ir.ayantech.pishkhansdk.model.app_logic.Query
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
 
-@AyanAPI(endPoint = EndPoints.VehicleThirdPartyInsuranceStatus)
-class VehicleThirdPartyInsuranceStatus {
+@AyanAPI(endPoint = EndPoints.PassportStatus)
+class PassportStatus {
     class Input(
-        OTPCode: String? = null,
-        val PlateNumber: String,
+        val MobileNumber: String,
+        val NationalCode: String,
+        OTPCode: String?,
         PurchaseKey: String?
     ) : BaseInputModel(OTPCode = OTPCode, PurchaseKey = PurchaseKey)
 
@@ -22,18 +23,15 @@ class VehicleThirdPartyInsuranceStatus {
         Query: Query,
         Result: Result?,
         WarningMessage: String
-    ) : BaseResultModel<Result>(
-        Query = Query,
-        Result = Result,
-        WarningMessage = WarningMessage,
-        Prerequisites = Prerequisites,
-        Messages = Messages
-    )
+    ) : BaseResultModel<Result>(Query, Result, WarningMessage, Prerequisites, Messages)
 
     data class Result(
-        val Expiration: String,
-        val Valid: Boolean,
+        val ExpirationDateTime: String?,
+        val IssueDateTime: String?,
+        val Number: String,
+        val PostalBarcode: String,
+        val RequestDateTime: String?,
+        val RequestStatus: String,
+        val Status: String
     )
-
-
 }

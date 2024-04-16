@@ -1,27 +1,31 @@
 package ir.ayantech.pishkhansdk.helper
 
 
-import ir.ayantech.networking.callVehicleThirdPartyInsuranceStatus
 import ir.ayantech.networking.simpleCallBankChequeStatusSayad
+import ir.ayantech.networking.simpleCallBillsInfo
+import ir.ayantech.networking.simpleCallCellPhoneBills
 import ir.ayantech.networking.simpleCallDrivingLicenseNegativePoint
 import ir.ayantech.networking.simpleCallDrivingLicenseStatus
 import ir.ayantech.networking.simpleCallFreewayTollBills
 import ir.ayantech.networking.simpleCallIdentificationDocumentsStatusCar
 import ir.ayantech.networking.simpleCallJusticeSharesPortfolio
+import ir.ayantech.networking.simpleCallLandLinePhoneBills
 import ir.ayantech.networking.simpleCallMunicipalityCarAnnualTollBills
 import ir.ayantech.networking.simpleCallMunicipalityCarTollBills
+import ir.ayantech.networking.simpleCallPassportStatus
 import ir.ayantech.networking.simpleCallPostPackagesStatus
+import ir.ayantech.networking.simpleCallServiceBills
 import ir.ayantech.networking.simpleCallSubventionHistory
 import ir.ayantech.networking.simpleCallTrafficFinesCar
 import ir.ayantech.networking.simpleCallTrafficFinesCarSummary
-import ir.ayantech.networking.simpleCallV2BankIbanInfo
-import ir.ayantech.networking.simpleCallV3BankIbanInfo
 import ir.ayantech.networking.simpleCallVehiclePlateNumbers
 import ir.ayantech.networking.simpleCallVehicleThirdPartyInsurance
 import ir.ayantech.networking.simpleCallVehicleThirdPartyInsuranceStatus
-import ir.ayantech.pishkhan24.model.api.VehicleThirdPartyInsurance
-import ir.ayantech.pishkhan24.model.api.VehicleThirdPartyInsuranceStatus
+import ir.ayantech.pishkhansdk.model.api.VehicleThirdPartyInsurance
+import ir.ayantech.pishkhansdk.model.api.VehicleThirdPartyInsuranceStatus
 import ir.ayantech.pishkhansdk.model.api.BankChequeStatusSayad
+import ir.ayantech.pishkhansdk.model.api.BillsInfo
+import ir.ayantech.pishkhansdk.model.api.CellPhoneBills
 import ir.ayantech.pishkhansdk.model.api.DrivingLicenseNegativePoint
 import ir.ayantech.pishkhansdk.model.api.DrivingLicenseStatus
 import ir.ayantech.pishkhansdk.model.api.FreewayTollBills
@@ -29,9 +33,12 @@ import ir.ayantech.pishkhansdk.model.api.IdentificationDocumentsStatusCar
 import ir.ayantech.pishkhansdk.model.api.InvoiceInfo
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.api.JusticeSharesPortfolio
+import ir.ayantech.pishkhansdk.model.api.LandLinePhoneBills
 import ir.ayantech.pishkhansdk.model.api.MunicipalityCarAnnualTollBills
 import ir.ayantech.pishkhansdk.model.api.MunicipalityCarTollBills
+import ir.ayantech.pishkhansdk.model.api.PassportStatus
 import ir.ayantech.pishkhansdk.model.api.PostPackagesStatus
+import ir.ayantech.pishkhansdk.model.api.ServiceBills
 import ir.ayantech.pishkhansdk.model.api.SubventionHistory
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCarSummary
@@ -43,10 +50,6 @@ import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
 import ir.ayantech.pishkhansdk.model.app_logic.Products
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
 import ir.ayantech.pishkhansdk.model.constants.Parameter
-import ir.ayantech.pishkhansdk.model.constants.Parameter.LicenseNumber
-import ir.ayantech.pishkhansdk.model.constants.Parameter.MobileNumber
-import ir.ayantech.pishkhansdk.model.constants.Parameter.NationalCode
-import ir.ayantech.pishkhansdk.model.constants.Parameter.PurchaseKey
 import ir.ayantech.whygoogle.helper.isNull
 
 object HandleOutput {
@@ -274,6 +277,86 @@ object HandleOutput {
                     handleResultCallback?.invoke(it)
                 })
             }
+
+            Products.passportStatusProduct.name -> {
+                handlePassportStatusOutput(input = PassportStatus.Input(
+                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.waterBillProduct.name -> {
+                handleServiceBillsOutput(input = ServiceBills.Input(
+                    Identifier = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Identifier }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), endPoint = EndPoints.WaterBills,
+                    handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
+            }
+
+            Products.electricityBillProduct.name -> {
+                handleServiceBillsOutput(input = ServiceBills.Input(
+                    Identifier = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Identifier }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), endPoint = EndPoints.ElectricBills,
+                    handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
+            }
+
+            Products.gasBillByIdentifierProduct.name -> {
+                handleServiceBillsOutput(input = ServiceBills.Input(
+                    Identifier = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Identifier }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), endPoint = EndPoints.GasBillsBillIdentifier,
+                    handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
+            }
+
+            Products.gasBillByParticipateCodeProduct.name -> {
+                handleServiceBillsOutput(input = ServiceBills.Input(
+                    Identifier = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Identifier }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), endPoint = EndPoints.GasBillsParticipateCode,
+                    handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
+            }
+
+            Products.mobileProduct.name -> {
+                handleMobileBillOutput(input = CellPhoneBills.Input(
+                    LineNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.LineNumber }.Value,
+                    Operator = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Operator }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ),
+                    handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
+            }
+
+
+            Products.landlinePhoneBillProduct.name -> {
+                handleLandLineBillOutput(input = LandLinePhoneBills.Input(
+                    LineNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.LineNumber }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ),
+                    handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
+            }
+
 
             else -> {}
 
@@ -718,28 +801,127 @@ object HandleOutput {
         input: BaseInputModel,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
-        PishkhanSDK.serviceApi.callVehicleThirdPartyInsuranceStatus(
+        PishkhanSDK.serviceApi.simpleCallVehicleThirdPartyInsuranceStatus(
             input = input as VehicleThirdPartyInsuranceStatus.Input
-        ) {
-            success { output ->
-                output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
-                    if (it.isNull()) {
-                        handleResultCallback?.invoke(output)
-                    } else {
-                        (it as? VehicleThirdPartyInsuranceStatus.Input)?.let {
-                            handleThirdPartyInsuranceStatusOutput(
-                                apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
-                                input = it,
-                            ) {
-                                handleResultCallback?.invoke(output)
-                            }
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? VehicleThirdPartyInsuranceStatus.Input)?.let {
+                        handleThirdPartyInsuranceStatusOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
                         }
                     }
-                }
-                failure {
-
                 }
             }
         }
     }
+
+    fun handlePassportStatusOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallPassportStatus(
+            input = input as PassportStatus.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? PassportStatus.Input)?.let {
+                        handlePassportStatusOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleServiceBillsOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        endPoint: String,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallServiceBills(
+            input = input as ServiceBills.Input,
+            endPoint = endPoint
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? ServiceBills.Input)?.let {
+                        handleServiceBillsOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                            endPoint = endPoint
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleMobileBillOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallCellPhoneBills(
+            input = input as CellPhoneBills.Input,
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? CellPhoneBills.Input)?.let {
+                        handleMobileBillOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleLandLineBillOutput(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallLandLinePhoneBills(
+            input = input as LandLinePhoneBills.Input,
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? LandLinePhoneBills.Input)?.let {
+                        handleLandLineBillOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }

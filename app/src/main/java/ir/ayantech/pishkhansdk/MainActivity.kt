@@ -10,25 +10,15 @@ import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.api.AyanCommonCallStatus
 import ir.ayantech.ayannetworking.api.CallingState
 import ir.ayantech.ayannetworking.ayanModel.FailureType
-import ir.ayantech.pishkhan24.model.api.VehicleThirdPartyInsurance
-import ir.ayantech.pishkhan24.model.api.VehicleThirdPartyInsuranceStatus
+import ir.ayantech.pishkhansdk.model.api.VehicleThirdPartyInsuranceStatus
 import ir.ayantech.pishkhansdk.databinding.ActivityMainBinding
 import ir.ayantech.pishkhansdk.helper.PishkhanSDK
 import ir.ayantech.pishkhansdk.bottom_sheets.WaiterBottomSheet
-import ir.ayantech.pishkhansdk.model.api.DrivingLicenseNegativePoint
-import ir.ayantech.pishkhansdk.model.api.DrivingLicenseStatus
-import ir.ayantech.pishkhansdk.model.api.FreewayTollBills
-import ir.ayantech.pishkhansdk.model.api.IdentificationDocumentsStatusCar
 import ir.ayantech.pishkhansdk.model.api.MunicipalityCarAnnualTollBills
-import ir.ayantech.pishkhansdk.model.api.MunicipalityCarTollBills
-import ir.ayantech.pishkhansdk.model.api.SubventionHistory
+import ir.ayantech.pishkhansdk.model.api.PassportStatus
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
-import ir.ayantech.pishkhansdk.model.api.TrafficFinesCarSummary
-import ir.ayantech.pishkhansdk.model.api.VehiclePlateNumbers
+import ir.ayantech.pishkhansdk.model.api.VehicleThirdPartyInsurance
 import ir.ayantech.pishkhansdk.model.app_logic.ProductItemDetail
-import ir.ayantech.pishkhansdk.model.constants.Parameter.MobileNumber
-import ir.ayantech.pishkhansdk.model.constants.Parameter.PlateNumber
-import ir.ayantech.pishkhansdk.model.constants.Parameter.PurchaseKey
 import ir.ayantech.pishkhansdk.ui.components.getText
 import ir.ayantech.pishkhansdk.ui.components.init
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
@@ -102,31 +92,32 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             handleIntent()
 
         binding.inquiryBtn2.init("لاگین", btnOnClick = {
-
+/*
             PishkhanSDK.login("09126505877", null, loginIsSuccessful = {
                 Toast.makeText(PishkhanUser.context, "loginnn", Toast.LENGTH_LONG)
                     .show()
-            })
+            })*/
 
         })
 
         binding.inquiryBtn.init("استعلام", btnOnClick = {
 
-            /*          PishkhanSDK.login(
-                          "09126505877",
-                          binding.enterOtpCodeLayout.getText(),
-                          confirmOtpIsSuccessful = {
-                              Toast.makeText(PishkhanUser.context, "confirmmmm", Toast.LENGTH_LONG)
-                                  .show()
-                          })
-          */
+/*            PishkhanSDK.login(
+                "09126505877",
+                binding.enterOtpCodeLayout.getText(),
+                confirmOtpIsSuccessful = {
+                    Toast.makeText(PishkhanUser.context, "confirmmmm", Toast.LENGTH_LONG)
+                        .show()
+                })*/
+
             PishkhanSDK.onInquiryButtonClicked(
-                inputModel = VehicleThirdPartyInsuranceStatus.Input(
-                    PlateNumber = "71-و-741-40",
+                inputModel = PassportStatus.Input(
+                    NationalCode = "5230069570",
+                    MobileNumber = "09395099494",
                     OTPCode = null,
                     PurchaseKey = null
                 ),
-                product = ProductItemDetail.InquiryThirdPartyInsuranceCarStatus,
+                product = ProductItemDetail.InquiryPassportStatus,
                 failureCallBack = {
                     Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
                 },
@@ -141,7 +132,8 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         })
 
 
-        /*        PishkhanSDK.getInquiryHistory(
+        /*
+                PishkhanSDK.getInquiryHistory(
                     context = this,
                     product = ProductItemDetail.InquiryTrafficFinesCarSummary,
                     inquiryHistoryRv = binding.historyRv,
@@ -157,18 +149,19 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                     changeStatusCallback = {
                         //Custom change status
                     }
-                )*/
+                )
+        */
 
 
-        /*
-                PishkhanSDK.getUserTransactionHistory(
-                    userTransactionHistoryRv = binding.historyRv,
-                    hasTransactionHistory = {
-                        Log.d("hsdbcakf", if (it) "دارد" else "ندارد")
-                    }
-                ) { output, serviceName ->
-                    Log.d("hsdbcakf", "${output.Result}   $serviceName")
-                }*/
+        PishkhanSDK.getUserTransactionHistory(
+            serviceName = ProductItemDetail.InquiryThirdPartyInsuranceCar,
+            userTransactionHistoryRv = binding.historyRv,
+            hasTransactionHistory = {
+                Log.d("hsdbcakf", if (it) "دارد" else "ندارد")
+            }
+        ) { output, serviceName ->
+            Log.d("hsdbcakf", "${output.Result}   $serviceName")
+        }
 
     }
 

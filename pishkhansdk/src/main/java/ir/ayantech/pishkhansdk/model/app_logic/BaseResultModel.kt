@@ -1,6 +1,7 @@
 package ir.ayantech.pishkhansdk.model.app_logic
 
 import ir.ayantech.pishkhansdk.helper.PaymentHelper.otpBottomSheetDialog
+import ir.ayantech.pishkhansdk.ui.bottom_sheet.OptionsSelectionBottomSheet
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.OtpBottomSheetDialog
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import ir.ayantech.whygoogle.helper.isNotNull
@@ -43,7 +44,10 @@ open class BaseResultModel<T>(
             when {
                 Prerequisites?.OTP != null -> {
                     otpBottomSheetDialog =
-                        OtpBottomSheetDialog(context = ayanActivity, otp = Prerequisites.OTP) { otpCode ->
+                        OtpBottomSheetDialog(
+                            context = ayanActivity,
+                            otp = Prerequisites.OTP
+                        ) { otpCode ->
                             otpBottomSheetDialog?.dismiss()
                             input.OTPCode = otpCode
                             checkCompletedCallback(input)
@@ -54,16 +58,16 @@ open class BaseResultModel<T>(
                 }
 
                 !Prerequisites?.TaxGroups.isNullOrEmpty() -> {
-                    /*                        OptionsSelectionBottomSheet(
-                                                context = ayanActivity,
-                                                title = "نوع خودرو را انتخاب کنید",
-                                                null,
-                                                options = Prerequisites?.TaxGroups!!.map {
-                                                    Type(it.Key, it.Value ?: "")
-                                                }) {
-                                                input.TaxGroup = it.Name
-                                                checkCompletedCallback(input)
-                                            }.show()*/
+                    OptionsSelectionBottomSheet(
+                        context = ayanActivity,
+                        title = "نوع خودرو را انتخاب کنید",
+                        descriptionKeyValue = null,
+                        options = Prerequisites?.TaxGroups!!.map {
+                            Type(it.Key, it.Value ?: "")
+                        }) {
+                        input.TaxGroup = it.Name
+                        checkCompletedCallback(input)
+                    }.show()
                 }
 
                 else -> {

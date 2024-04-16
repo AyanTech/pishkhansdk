@@ -21,6 +21,11 @@
         <item name="android:textColor">@color/pishkhansdk_button_text_color</item>
     </style>
 
+    <style name="OutlinedAppButtonBlue" parent="AppButton">
+        <item name="android:textColor">@color/color_secondary</item>
+        <item name="android:background">@drawable/back_blue_bordered_radius12</item>
+    </style>
+
     <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/text_input_layout_stroke_color</item>
         <item name="boxStrokeWidth">@dimen/margin_1</item>

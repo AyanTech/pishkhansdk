@@ -22,7 +22,10 @@ import ir.ayantech.pishkhansdk.model.api.InvoiceRegister
 import ir.ayantech.pishkhansdk.model.app_logic.OTP
 import ir.ayantech.pishkhansdk.model.app_logic.createCallBackLink
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleJusticeSharesPortfolioOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleLandLineBillOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleMobileBillOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleNegativePointOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handlePassportStatusOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handlePlateNumbersOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handlePostPackageTrackingOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleSubventionHistoryOutput
@@ -31,6 +34,7 @@ import ir.ayantech.pishkhansdk.helper.HandleOutput.handleThirdPartyInsuranceStat
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficFinesCarSummaryOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficFinesCarOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficPlanTollCarOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleServiceBillsOutput
 import ir.ayantech.pishkhansdk.helper.PishkhanSDK.serviceName
 import ir.ayantech.pishkhansdk.model.api.InvoiceInfo
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
@@ -379,6 +383,73 @@ object PaymentHelper {
 
                 Products.thirdPartyInsuranceStatusProduct.name -> {
                     handleThirdPartyInsuranceStatusOutput(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+                Products.passportStatusProduct.name -> {
+                    handlePassportStatusOutput(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+                Products.waterBillProduct.name -> {
+                    handleServiceBillsOutput(
+                        input = input,
+                        endPoint = EndPoints.WaterBills,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+                Products.electricityBillProduct.name -> {
+                    handleServiceBillsOutput(
+                        input = input,
+                        endPoint = EndPoints.ElectricBills,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+                Products.gasBillByIdentifierProduct.name -> {
+                    handleServiceBillsOutput(
+                        input = input,
+                        endPoint = EndPoints.GasBillsBillIdentifier,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+                Products.gasBillByParticipateCodeProduct.name -> {
+                    handleServiceBillsOutput(
+                        input = input,
+                        endPoint = EndPoints.GasBillsParticipateCode,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+                Products.mobileProduct.name -> {
+                    handleMobileBillOutput(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+                Products.landlinePhoneBillProduct.name -> {
+                    handleLandLineBillOutput(
                         input = input,
                         handleResultCallback = {
                             handleResultCallback?.invoke(it)

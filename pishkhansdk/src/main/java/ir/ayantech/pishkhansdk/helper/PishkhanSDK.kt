@@ -9,6 +9,7 @@ import ir.ayantech.ayannetworking.api.ChangeStatusCallback
 import ir.ayantech.ayannetworking.api.FailureCallback
 import ir.ayantech.ayannetworking.api.SimpleCallback
 import ir.ayantech.ayannetworking.api.SuccessCallback
+import ir.ayantech.networking.callBillsInfo
 import ir.ayantech.networking.callUserServiceQueries
 import ir.ayantech.networking.simpleCallLoginByOTP
 import ir.ayantech.networking.simpleCallUserServiceQueries
@@ -19,6 +20,7 @@ import ir.ayantech.networking.simpleCallUserTransactions
 import ir.ayantech.pishkhansdk.Initializer
 import ir.ayantech.pishkhansdk.PishkhanUser
 import ir.ayantech.pishkhansdk.R
+import ir.ayantech.pishkhansdk.model.api.BillsInfo
 import ir.ayantech.pishkhansdk.model.api.LoginByOTP
 import ir.ayantech.pishkhansdk.model.api.UserServiceQueries
 import ir.ayantech.pishkhansdk.model.api.UserServiceQueryBookmark
@@ -31,6 +33,7 @@ import ir.ayantech.pishkhansdk.model.app_logic.CallbackDataModel
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
 import ir.ayantech.pishkhansdk.model.app_logic.ExtraInfo
 import ir.ayantech.pishkhansdk.model.app_logic.OTP
+import ir.ayantech.pishkhansdk.model.app_logic.ProductItemDetail
 import ir.ayantech.pishkhansdk.ui.adapter.InquiryHistoryAdapter
 import ir.ayantech.pishkhansdk.ui.adapter.TransactionAdapter
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.ConfirmationBottomSheet
@@ -108,6 +111,7 @@ object PishkhanSDK {
         })
     }
 
+
     fun userPaymentIsSuccessful(
         intent: Intent,
         handleResultCallback: ((output: BaseResultModel<*>, serviceName: String) -> Unit)? = null
@@ -161,7 +165,8 @@ object PishkhanSDK {
                     //Payment has been successfully so invoice result is checking to call service api, invoiceInfoOutput is passing for service api call
                     //service is free
                     if (invoiceInfoOutput.PaymentChannels.isNull()) {
-                        HandleOutput.handleOutputResult(invoiceInfoOutput = invoiceInfoOutput,
+                        HandleOutput.handleOutputResult(
+                            invoiceInfoOutput = invoiceInfoOutput,
                             handleResultCallback = {
                                 handleResultCallback?.invoke(it)
                             })
@@ -174,7 +179,8 @@ object PishkhanSDK {
                             //means that user has paid online
                             if (callbackDataModel.paymentStatus == Constant.paid || callbackDataModel.paymentStatus == Constant.Settle) {
                                 //should call service result api and show result page
-                                HandleOutput.handleOutputResult(invoiceInfoOutput = invoiceInfoOutput,
+                                HandleOutput.handleOutputResult(
+                                    invoiceInfoOutput = invoiceInfoOutput,
                                     handleResultCallback = {
                                         handleResultCallback?.invoke(it)
                                     })
@@ -228,8 +234,7 @@ object PishkhanSDK {
                                     }
 
                                     R.id.deleteIv -> {
-                                        ConfirmationBottomSheet(
-                                            context = context,
+                                        ConfirmationBottomSheet(context = context,
                                             onConfirmClicked = {
                                                 ((inquiryHistoryRv.adapter as InquiryHistoryAdapter).items as ArrayList).removeAt(
                                                     position
@@ -313,6 +318,7 @@ object PishkhanSDK {
     }
 
     fun getUserTransactionHistory(
+        serviceName: String? = null,
         userTransactionHistoryRv: RecyclerView,
         hasTransactionHistory: BooleanCallBack,
         onTransactionItemClicked: ((output: BaseResultModel<*>, serviceName: String) -> Unit)?
@@ -321,8 +327,13 @@ object PishkhanSDK {
             if (!it?.Transactions.isNullOrEmpty()) {
                 hasTransactionHistory(true)
                 it?.Transactions?.let { transactionList ->
+                    var list: List<UserTransactions.Transaction> = transactionList
+
+                    if (serviceName.isNotNull())
+                        list = transactionList.filter { it.Type.Name == serviceName }
+
                     setupAdapter(
-                        list = transactionList,
+                        list = list,
                         transactionRv = userTransactionHistoryRv,
                     ) { output, serviceName ->
                         onTransactionItemClicked?.invoke(output, serviceName)
