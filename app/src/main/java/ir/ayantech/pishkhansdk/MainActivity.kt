@@ -79,9 +79,9 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             ayanCommonCallingStatus
 
         PishkhanSDK.handleUserSession(
-            application = "VasHookTrafficFinesInquiry", origin = "cafebazaar",
+            application = "passport", origin = "cafebazaar",
             platform = "android",
-            version = "20.0.0",
+            version = "2.0.0",
             activity = this,
             successCallback = {
 
@@ -92,44 +92,39 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             handleIntent()
 
         binding.inquiryBtn2.init("لاگین", btnOnClick = {
+
 /*
-            PishkhanSDK.login("09126505877", null, loginIsSuccessful = {
+            PishkhanSDK.login("09158678539", null, loginIsSuccessful = {
                 Toast.makeText(PishkhanUser.context, "loginnn", Toast.LENGTH_LONG)
                     .show()
-            })*/
+            })
+*/
 
         })
 
         binding.inquiryBtn.init("استعلام", btnOnClick = {
-
-/*            PishkhanSDK.login(
-                "09126505877",
+/*
+            PishkhanSDK.login(
+                "09158678539",
                 binding.enterOtpCodeLayout.getText(),
                 confirmOtpIsSuccessful = {
                     Toast.makeText(PishkhanUser.context, "confirmmmm", Toast.LENGTH_LONG)
                         .show()
                 })*/
-
             PishkhanSDK.onInquiryButtonClicked(
-                inputModel = MunicipalityCarAnnualTollBills.Input(
-                    NationalCode = "0056768761",
-                    EngineNumber = "1372",
-                    VIN = "IRFC881V7D2225747",
-                    PlateNumber = "19-ل-977-33",
-                    TaxGroup = null,
+                inputModel = PassportStatus.Input(
+                    NationalCode = "5230069570",
+                    MobileNumber = "09395099494",
                     OTPCode = null,
                     PurchaseKey = null
                 ),
-                product = ProductItemDetail.InquiryAnnualTollsCar,
+                product = ProductItemDetail.InquiryPassportStatus,
                 failureCallBack = {
                     Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
                 },
                 handleResultCallback = {
                     Toast.makeText(this, "result successful1", Toast.LENGTH_LONG).show()
-                    Log.d(
-                        "handleOutput",
-                        (it.Result as TrafficFinesCar.TrafficFineResult).toString()
-                    )
+
                 })
 
         })
@@ -156,15 +151,15 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         */
 
 
-/*        PishkhanSDK.getUserTransactionHistory(
-            serviceName = ProductItemDetail.InquiryThirdPartyInsuranceCar,
-            userTransactionHistoryRv = binding.historyRv,
-            hasTransactionHistory = {
-                Log.d("hsdbcakf", if (it) "دارد" else "ندارد")
-            }
-        ) { output, serviceName ->
-            Log.d("hsdbcakf", "${output.Result}   $serviceName")
-        }*/
+        /*        PishkhanSDK.getUserTransactionHistory(
+                    serviceName = ProductItemDetail.InquiryThirdPartyInsuranceCar,
+                    userTransactionHistoryRv = binding.historyRv,
+                    hasTransactionHistory = {
+                        Log.d("hsdbcakf", if (it) "دارد" else "ندارد")
+                    }
+                ) { output, serviceName ->
+                    Log.d("hsdbcakf", "${output.Result}   $serviceName")
+                }*/
 
     }
 

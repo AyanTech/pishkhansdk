@@ -27,8 +27,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
 
-                <data android:scheme="finesdetail"/>
-                <data android:host="ir.ayantech.finesdetail"/>
+                <data android:scheme="passport"/>
+                <data android:host="ir.ayantech.passport"/>
 
             </intent-filter>
         </activity>
