@@ -658,10 +658,10 @@ object HandleOutput {
                 if (it.isNull()) {
                     handleResultCallback?.invoke(output)
                 } else {
-                    (it as? MunicipalityCarAnnualTollBills.Input)?.let {
+                    (it as? MunicipalityCarAnnualTollBills.Input)?.let { input ->
                         handleAnnualTollCarOutput(
                             apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
-                            input = it,
+                            input = input,
                         ) {
                             handleResultCallback?.invoke(output)
                         }

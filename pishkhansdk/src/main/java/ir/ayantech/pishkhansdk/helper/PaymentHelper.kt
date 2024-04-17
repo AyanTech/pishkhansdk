@@ -81,7 +81,9 @@ object PaymentHelper {
                                             inputModel = inputModel,
                                             output = output,
                                             showAmountSection = true,
-                                        )
+                                        ) {
+                                            handleResultCallback?.invoke(it)
+                                        }
 
                                     }
 
@@ -92,7 +94,9 @@ object PaymentHelper {
                                             inputModel = inputModel,
                                             output = output,
                                             showAmountSection = false,
-                                        )
+                                        ) {
+                                            handleResultCallback?.invoke(it)
+                                        }
                                     } else {
                                         doProperServiceCall(
                                             inputModel = inputModel,
@@ -271,7 +275,6 @@ object PaymentHelper {
                     )
                 }
 
-
                 Products.ibanByAccountNumberProduct.name -> {
                     handleIbanByAccountNumberOutput(
                         input = input,
@@ -280,7 +283,6 @@ object PaymentHelper {
                         }
                     )
                 }
-
 
                 Products.accountNumberByIbanProduct.name -> {
                     handleAccountNumberByIbanOutput(

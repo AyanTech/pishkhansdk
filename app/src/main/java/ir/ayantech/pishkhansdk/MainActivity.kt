@@ -111,13 +111,16 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                 })*/
 
             PishkhanSDK.onInquiryButtonClicked(
-                inputModel = PassportStatus.Input(
-                    NationalCode = "5230069570",
-                    MobileNumber = "09395099494",
+                inputModel = MunicipalityCarAnnualTollBills.Input(
+                    NationalCode = "0056768761",
+                    EngineNumber = "1372",
+                    VIN = "IRFC881V7D2225747",
+                    PlateNumber = "19-ل-977-33",
+                    TaxGroup = null,
                     OTPCode = null,
                     PurchaseKey = null
                 ),
-                product = ProductItemDetail.InquiryPassportStatus,
+                product = ProductItemDetail.InquiryAnnualTollsCar,
                 failureCallBack = {
                     Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
                 },
@@ -153,7 +156,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
         */
 
 
-        PishkhanSDK.getUserTransactionHistory(
+/*        PishkhanSDK.getUserTransactionHistory(
             serviceName = ProductItemDetail.InquiryThirdPartyInsuranceCar,
             userTransactionHistoryRv = binding.historyRv,
             hasTransactionHistory = {
@@ -161,7 +164,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             }
         ) { output, serviceName ->
             Log.d("hsdbcakf", "${output.Result}   $serviceName")
-        }
+        }*/
 
     }
 
