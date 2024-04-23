@@ -321,7 +321,7 @@ object PishkhanSDK {
         serviceName: String? = null,
         userTransactionHistoryRv: RecyclerView,
         hasTransactionHistory: BooleanCallBack,
-        onTransactionItemClicked: ((output: BaseResultModel<*>, serviceName: String, userTransactionsOutput : UserTransactions.Output) -> Unit)?
+        onTransactionItemClicked: ((output: BaseResultModel<*>, serviceName: String, totalItem:Int, totalAmount:Long) -> Unit)?
     ) {
         coreApi.simpleCallUserTransactions {userTransactionsOutput ->
             if (!userTransactionsOutput?.Transactions.isNullOrEmpty()) {
@@ -332,11 +332,13 @@ object PishkhanSDK {
                     if (serviceName.isNotNull())
                         list = transactionList.filter { it.Type.Name == serviceName }
 
+                    val totalItem = list.size
+                    val totalAmount = list.sumOf { it.Amount }
                     setupAdapter(
                         list = list,
                         transactionRv = userTransactionHistoryRv,
                     ) { output, serviceName ->
-                        onTransactionItemClicked?.invoke(output, serviceName,userTransactionsOutput)
+                        onTransactionItemClicked?.invoke(output, serviceName,totalItem,totalAmount)
                     }
                 }
             } else {
