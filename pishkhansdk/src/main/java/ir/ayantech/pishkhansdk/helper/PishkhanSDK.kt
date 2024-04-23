@@ -321,12 +321,12 @@ object PishkhanSDK {
         serviceName: String? = null,
         userTransactionHistoryRv: RecyclerView,
         hasTransactionHistory: BooleanCallBack,
-        onTransactionItemClicked: ((output: BaseResultModel<*>, serviceName: String) -> Unit)?
+        onTransactionItemClicked: ((output: BaseResultModel<*>, serviceName: String, userTransactionsOutput : UserTransactions.Output) -> Unit)?
     ) {
-        coreApi.simpleCallUserTransactions {
-            if (!it?.Transactions.isNullOrEmpty()) {
+        coreApi.simpleCallUserTransactions {userTransactionsOutput ->
+            if (!userTransactionsOutput?.Transactions.isNullOrEmpty()) {
                 hasTransactionHistory(true)
-                it?.Transactions?.let { transactionList ->
+                userTransactionsOutput?.Transactions?.let { transactionList ->
                     var list: List<UserTransactions.Transaction> = transactionList
 
                     if (serviceName.isNotNull())
@@ -336,7 +336,7 @@ object PishkhanSDK {
                         list = list,
                         transactionRv = userTransactionHistoryRv,
                     ) { output, serviceName ->
-                        onTransactionItemClicked?.invoke(output, serviceName)
+                        onTransactionItemClicked?.invoke(output, serviceName,userTransactionsOutput)
                     }
                 }
             } else {
