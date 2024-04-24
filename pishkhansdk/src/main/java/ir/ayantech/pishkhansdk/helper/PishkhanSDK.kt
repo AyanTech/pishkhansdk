@@ -321,9 +321,10 @@ object PishkhanSDK {
         serviceName: String? = null,
         userTransactionHistoryRv: RecyclerView,
         hasTransactionHistory: BooleanCallBack,
-        onTransactionItemClicked: ((output: BaseResultModel<*>, serviceName: String, totalItem:Int, totalAmount:Long) -> Unit)?
+        transactionsInfoCallback: ((totalItem: Int, totalAmount: Long) -> Unit)?,
+        onTransactionItemClicked: ((output: BaseResultModel<*>, serviceName: String) -> Unit)?
     ) {
-        coreApi.simpleCallUserTransactions {userTransactionsOutput ->
+        coreApi.simpleCallUserTransactions { userTransactionsOutput ->
             if (!userTransactionsOutput?.Transactions.isNullOrEmpty()) {
                 hasTransactionHistory(true)
                 userTransactionsOutput?.Transactions?.let { transactionList ->
@@ -334,11 +335,12 @@ object PishkhanSDK {
 
                     val totalItem = list.size
                     val totalAmount = list.sumOf { it.Amount }
+                    transactionsInfoCallback?.invoke(totalItem, totalAmount)
                     setupAdapter(
                         list = list,
                         transactionRv = userTransactionHistoryRv,
                     ) { output, serviceName ->
-                        onTransactionItemClicked?.invoke(output, serviceName,totalItem,totalAmount)
+                        onTransactionItemClicked?.invoke(output, serviceName)
                     }
                 }
             } else {
