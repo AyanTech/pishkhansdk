@@ -331,8 +331,15 @@ object PishkhanSDK {
                     var list: List<UserTransactions.Transaction> = transactionList
 
                     if (serviceName.isNotNull())
-                        list = transactionList.filter { it.Type.Name == serviceName }
+                        if (serviceName == ProductItemDetail.InquiryTrafficFinesCar || serviceName == ProductItemDetail.InquiryTrafficFinesCarSummary) {
+                            list =
+                                transactionList.filter { it.Type.Name == ProductItemDetail.InquiryTrafficFinesCar && it.Type.Name == ProductItemDetail.InquiryTrafficFinesCarSummary }
+                        } else if (serviceName == ProductItemDetail.InquiryTrafficFinesMotorcycle || serviceName == ProductItemDetail.InquiryTrafficFinesMotorcycleSummary) {
+                            transactionList.filter { it.Type.Name == ProductItemDetail.InquiryTrafficFinesMotorcycle && it.Type.Name == ProductItemDetail.InquiryTrafficFinesMotorcycleSummary }
 
+                        } else {
+                            transactionList.filter { it.Type.Name == serviceName }
+                        }
                     val totalItem = list.size
                     val totalAmount = list.sumOf { it.Amount }
                     transactionsInfoCallback?.invoke(totalItem, totalAmount)
