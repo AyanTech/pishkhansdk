@@ -656,7 +656,9 @@ object HandleOutput {
         ) { output ->
             output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
                 if (it.isNull()) {
-                    handleResultCallback?.invoke(output)
+                    if (handleResultCallback != null) {
+                        handleResultCallback(output)
+                    }
                 } else {
                     (it as? MunicipalityCarAnnualTollBills.Input)?.let { input ->
                         handleAnnualTollCarOutput(
