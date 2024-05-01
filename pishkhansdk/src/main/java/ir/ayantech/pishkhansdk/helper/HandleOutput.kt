@@ -663,7 +663,9 @@ object HandleOutput {
                             apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
                             input = input,
                         ) {
-                            handleResultCallback?.invoke(output)
+                            if (handleResultCallback != null) {
+                                handleResultCallback(output)
+                            }
                         }
                     }
                 }
