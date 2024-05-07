@@ -19,6 +19,7 @@ import ir.ayantech.pishkhansdk.model.api.PassportStatus
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
 import ir.ayantech.pishkhansdk.model.api.VehicleThirdPartyInsurance
 import ir.ayantech.pishkhansdk.model.app_logic.ProductItemDetail
+import ir.ayantech.pishkhansdk.model.constants.Parameter.EngineNumber
 import ir.ayantech.pishkhansdk.model.constants.Parameter.PurchaseKey
 import ir.ayantech.pishkhansdk.model.constants.Parameter.VIN
 import ir.ayantech.pishkhansdk.ui.components.getText
@@ -63,14 +64,15 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        (application as? SDKApplication)?.coreAyanApi?.commonCallStatus =
+        (application as? SDKApplication)?.corePishkhan24Api?.commonCallStatus =
             ayanCommonCallingStatus
-        (application as? SDKApplication)?.servicesAyanApi?.commonCallStatus =
+        (application as? SDKApplication)?.servicesPishkhan24Api?.commonCallStatus =
             ayanCommonCallingStatus
 
-        val corePishkhan24Api: AyanApi = (applicationContext as? SDKApplication)?.coreAyanApi!!
+        val corePishkhan24Api: AyanApi =
+            (applicationContext as? SDKApplication)?.corePishkhan24Api!!
         val servicesPishkhan24Api: AyanApi =
-            (applicationContext as? SDKApplication)?.servicesAyanApi!!
+            (applicationContext as? SDKApplication)?.servicesPishkhan24Api!!
 
 
         waiterBottomSheet = WaiterBottomSheet(this, "")
@@ -113,24 +115,27 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                     Toast.makeText(PishkhanUser.context, "confirmmmm", Toast.LENGTH_LONG)
                         .show()
                 })*/
+
+            PishkhanUser.token = "1205690E914D48C0BC03714154F4ACE9"
             PishkhanSDK.onInquiryButtonClicked(
                 inputModel = MunicipalityCarAnnualTollBills.Input(
                     EngineNumber = "11685002734",
                     NationalCode = "0048519960",
                     PlateNumber = "58-ق-648-33",
                     VIN = "IRFC151V044402878",
-                    PurchaseKey = "3D1C18055E8B46638F8BC42700CACFCF",
-                    TaxGroup = "1414"
+                    PurchaseKey = "524E025C58524B6C859F2B0A05443392",
+                    TaxGroup = null
                 ),
-                product = ProductItemDetail.InquiryPassportStatus,
+                product = ProductItemDetail.InquiryAnnualTollsCar,
                 failureCallBack = {
                     Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
                 },
                 handleResultCallback = {
-                    Toast.makeText(this, "result successful1: $it", Toast.LENGTH_LONG).show()
-
+                    Log.d(
+                        "asdkjalkdj",
+                        "InquiryAnnualTollsCar: ${it as MunicipalityCarAnnualTollBills.Output}"
+                    )
                 })
-
         })
 
 
@@ -182,9 +187,9 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        (application as SDKApplication).coreAyanApi?.commonCallStatus =
+        (application as SDKApplication).corePishkhan24Api?.commonCallStatus =
             ayanCommonCallingStatus
-        (application as SDKApplication).servicesAyanApi?.commonCallStatus =
+        (application as SDKApplication).servicesPishkhan24Api?.commonCallStatus =
             ayanCommonCallingStatus
 
     }

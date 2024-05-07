@@ -17,9 +17,10 @@ class SDKApplication : Application() {
             private set
     }
 
-    var coreAyanApi: AyanApi? = null
-    var servicesAyanApi: AyanApi? = null
 
+    var servicesPishkhan24Api: AyanApi? = null
+
+    var corePishkhan24Api: AyanApi? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -29,21 +30,19 @@ class SDKApplication : Application() {
             .excludeFieldsWithModifiers(Modifier.TRANSIENT)
             .create()
 
-        servicesAyanApi = AyanApi(
+        servicesPishkhan24Api = AyanApi(
             context = this,
             getUserToken = { PishkhanSDK.getPishkhanToken() },
-            //   getUserToken = {"1AEDF1D7398E4C6A92D8FE2DA77789D1" },
             defaultBaseUrl = "https://services.pishkhan24.ayantech.ir/webservices/services.svc/",
             timeout = 120,
             logLevel = if (BuildConfig.BUILD_TYPE == "debug") LogLevel.LOG_ALL else LogLevel.DO_NOT_LOG,
-            gson = gson
-        )
+            gson = gson,
 
+            )
 
-        coreAyanApi = AyanApi(
+        corePishkhan24Api = AyanApi(
             context = this,
-            getUserToken = { PishkhanSDK.getPishkhanToken() },
-            // getUserToken = { "1AEDF1D7398E4C6A92D8FE2DA77789D1" },
+            getUserToken = { PishkhanSDK.getPishkhanToken()  },
             defaultBaseUrl = "https://core.pishkhan24.ayantech.ir/webservices/core.svc/",
             timeout = 120,
             logLevel = if (BuildConfig.BUILD_TYPE == "debug") LogLevel.LOG_ALL else LogLevel.DO_NOT_LOG,
@@ -53,11 +52,12 @@ class SDKApplication : Application() {
 
         PishkhanSDK.initialize(
             context = this,
-            schema = "passport",
-            host = "ir.ayantech.passport",
-            corePishkhan24Api = coreAyanApi!!,
-            servicesPishkhan24Api = servicesAyanApi!!,
-        )
+            schema = "finesdetail",
+            host = "ir.ayantech.finesdetail",
+            corePishkhan24Api = corePishkhan24Api!!,
+            servicesPishkhan24Api = servicesPishkhan24Api!!,
+
+            )
 
     }
 }

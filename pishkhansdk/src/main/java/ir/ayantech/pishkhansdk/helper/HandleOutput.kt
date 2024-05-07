@@ -651,24 +651,15 @@ object HandleOutput {
         input: BaseInputModel,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
-        PishkhanSDK.serviceApi.simpleCallMunicipalityCarAnnualTollBills(
-            input = input as MunicipalityCarAnnualTollBills.Input
-        ) { output ->
-            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
-                if (it.isNull()) {
-                    if (handleResultCallback != null) {
-                        handleResultCallback(output)
-                    }
+        val municipalityInput = input as MunicipalityCarAnnualTollBills.Input
+
+        PishkhanSDK.serviceApi.simpleCallMunicipalityCarAnnualTollBills(input = municipalityInput) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) { prerequisiteError ->
+                if (prerequisiteError == null) {
+                    handleResultCallback?.invoke(output)
                 } else {
-                    (it as? MunicipalityCarAnnualTollBills.Input)?.let { input ->
-                        handleAnnualTollCarOutput(
-                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
-                            input = input,
-                        ) {
-                            if (handleResultCallback != null) {
-                                handleResultCallback(output)
-                            }
-                        }
+                    PishkhanSDK.serviceApi.simpleCallMunicipalityCarAnnualTollBills(input = municipalityInput) { secondOutput ->
+                        secondOutput?.let { handleResultCallback?.invoke(it) }
                     }
                 }
             }
