@@ -342,6 +342,7 @@ object PishkhanSDK {
                         }
                     val totalItem = list.size
                     val totalAmount = list.sumOf { it.Amount }
+                    hasTransactionHistory(list.isEmpty())
                     transactionsInfoCallback?.invoke(totalItem, totalAmount)
                     setupAdapter(
                         list = list,
