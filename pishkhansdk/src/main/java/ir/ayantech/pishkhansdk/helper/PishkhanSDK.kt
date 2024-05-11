@@ -246,7 +246,7 @@ object PishkhanSDK {
                                                         QueryUniqueID = inquiryHistoryItem.UniqueID!!
                                                     )
                                                 ) {
-                                                    hasInquiryHistory(historyItems.isEmpty())
+                                                    hasInquiryHistory(historyItems.isNotEmpty())
                                                     inquiryHistoryRv.adapter?.notifyItemChanged(
                                                         position
                                                     )
