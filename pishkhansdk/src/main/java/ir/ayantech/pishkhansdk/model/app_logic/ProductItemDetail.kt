@@ -93,14 +93,14 @@ fun String.getProductShowName() = when (this) {
     ProductItemDetail.InquiryPropertyTolls -> "عوارض ملک"
     ProductItemDetail.InquiryRealEstateContract -> "قرارداد اجاره نامه"
 
-    ProductItemDetail.CAR_TRAFFIC_FINES -> "خلافی خودرو"
+    ProductItemDetail.CAR_TRAFFIC_FINES -> "خلافی با جزئیات  خودرو"
     ProductItemDetail.InquiryPlateNumbers -> "پلاک\u200Cهای فعال"
     ProductItemDetail.InquiryDrivingLicenceNegativePoint -> "نمره منفی"
     ProductItemDetail.InquiryTechnicalExaminationCertificate -> "معاینه فنی"
     ProductItemDetail.InquiryFreewayTollBills -> "عوارض آزادراهی"
     ProductItemDetail.InquiryAnnualTollsCar -> "عوارض سالیانه"
     ProductItemDetail.InquiryTrafficPlanTollsCar -> "طرح ترافیک"
-    ProductItemDetail.MOTOR_TRAFFIC_FINES -> "خلافی موتور"
+    ProductItemDetail.MOTOR_TRAFFIC_FINES -> "خلافی با جزئیات  موتور"
     ProductItemDetail.THIRD_PARTY_INSURANCE,
     ProductItemDetail.InquiryThirdPartyInsuranceCar -> "بیمه شخص ثالث"
     ProductItemDetail.InquiryThirdPartyInsuranceCarStatus -> "بیمه شخص ثالث بدون جزئیات"
