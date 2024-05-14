@@ -43,11 +43,14 @@
     <color name="pishkhansdk_box_stroke_error_color">#EC1B0F</color>
     <color name="pishkhansdk_helper_text_color">#111E24</color>
     <color name="pishkhansdk_text_color_hint">#BDBDBD</color>
-    <color name="pishkhansdk_text_color_inquiry_history">#000000</color>
+    <color name="pishkhansdk_text_color_inquiry_history_title">#000000</color>
+    <color name="pishkhansdk_text_color_inquiry_history">#5A5A5A</color>
     <color name="pishkhansdk_is_favorite_icon_color">@color/color_primary</color>
     <color name="pishkhansdk_is_not_favorite_icon_color">#BDBDBD</color>
     <color name="pishkhansdk_bottom_sheet_title_color">#000000</color>
     <color name="pishkhansdk_inquiry_history_item_background_color">#FFFFFF</color>
+    <color name="pishkhansdk_star_active_tint">#5A5A5A</color>
+    <color name="pishkhansdk_star_not_active_tint">#BDBDBD</color>
 
 
     <color name="gray1">#212121</color>

@@ -35,8 +35,8 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:textColor="@color/pishkhansdk_text_color_inquiry_history"
-        android:textSize="@dimen/margin_12"
+        android:textColor="@color/pishkhansdk_text_color_inquiry_history_title"
+        android:textSize="14sp"
         tools:text="تیتر تست" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -58,7 +58,7 @@
         android:textAlignment="viewStart"
         android:textColor="@color/pishkhansdk_text_color_inquiry_history"
         android:textDirection="anyRtl"
-        android:textSize="@dimen/margin_11"
+        android:textSize="11sp"
         tools:text="توضیحات تست" />
 
     <androidx.appcompat.widget.AppCompatImageView
