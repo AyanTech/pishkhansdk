@@ -32,7 +32,7 @@ class SDKApplication : Application() {
 
         servicesPishkhan24Api = AyanApi(
             context = this,
-            getUserToken = { PishkhanSDK.getPishkhanToken() },
+            getUserToken = { "758AAA90DF8F4AEABCBFC2214DF6A2AB" },
             defaultBaseUrl = "https://services.pishkhan24.ayantech.ir/webservices/services.svc/",
             timeout = 120,
             logLevel = if (BuildConfig.BUILD_TYPE == "debug") LogLevel.LOG_ALL else LogLevel.DO_NOT_LOG,
@@ -42,7 +42,7 @@ class SDKApplication : Application() {
 
         corePishkhan24Api = AyanApi(
             context = this,
-            getUserToken = { PishkhanSDK.getPishkhanToken()  },
+            getUserToken = { "758AAA90DF8F4AEABCBFC2214DF6A2AB"  },
             defaultBaseUrl = "https://core.pishkhan24.ayantech.ir/webservices/core.svc/",
             timeout = 120,
             logLevel = if (BuildConfig.BUILD_TYPE == "debug") LogLevel.LOG_ALL else LogLevel.DO_NOT_LOG,

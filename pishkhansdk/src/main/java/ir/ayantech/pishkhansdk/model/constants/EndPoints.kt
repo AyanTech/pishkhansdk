@@ -43,7 +43,7 @@ object EndPoints {
     const val TopUpProductPurchase = "v1/TopUpProductPurchase"
     const val MunicipalityTaxiFaresBills = "v1/MunicipalityTaxiFaresBills"
     const val MunicipalityTaxiFaresBillsBarcodeInfo = "v1/MunicipalityTaxiFaresBillsBarcodeInfo"
-    const val FreewayTollBills = "v1/FreewayTollBills"
+    const val FreewayTollBills = "v2/FreewayTollBills"
     const val MunicipalityCarAnnualTollBills = "v1/MunicipalityCarAnnualTollBills"
     const val MunicipalityCarTollBills = "v1/MunicipalityCarTollBills"
     const val v1BankIbanInfo = "v1/BankIbanInfo"
@@ -54,8 +54,10 @@ object EndPoints {
     const val TransferTaxMotorcycle = "v1/TransferTaxMotorcycle"
     const val PostPackagesStatus = "v1/PostPackagesStatus"
     const val BankChequeStatusSayad = "v1/BankChequeStatusSayad"
+
     const val VehicleThirdPartyInsurance = "v1/VehicleThirdPartyInsurance"
     const val VehicleThirdPartyInsuranceStatus = "v1/VehicleThirdPartyInsuranceStatus"
+
     const val IdentificationDocumentsStatusMotorcycle = "v1/IdentificationDocumentsStatusMotorcycle"
     const val socialSecurityInsuranceMedicalPrescription =
         "v1/SocialSecurityInsuranceMedicalPrescription"

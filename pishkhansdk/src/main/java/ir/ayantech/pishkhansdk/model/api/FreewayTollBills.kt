@@ -34,15 +34,24 @@ class FreewayTollBills {
 
     data class Result(
         val Amount: Long,
-        val DateTime: String,
-        val ExtraInfo: ExtraInfo,
-        val Payment: Payment,
-        val Type: Type,
-        val UniqueID: String
-    )
+        val Bills : List<Bills>,
+        val Count : Int,
+        val Date : String,
+        val DayName : String,
+        val Title : String
+     )
 
     data class ExtraInfo(
         val DateTimeTraverse: String,
         val Freeway: String
     )
+    data class Bills(
+        val Amount: Long,
+        val DateTime: String,
+        val Payment: Payment,
+        val type: Type,
+        val UniqueID: String,
+        val ExtraInfo: ExtraInfo,
+
+        )
 }

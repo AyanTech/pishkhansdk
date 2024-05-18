@@ -14,6 +14,7 @@ import ir.ayantech.pishkhansdk.model.api.VehicleThirdPartyInsuranceStatus
 import ir.ayantech.pishkhansdk.databinding.ActivityMainBinding
 import ir.ayantech.pishkhansdk.helper.PishkhanSDK
 import ir.ayantech.pishkhansdk.bottom_sheets.WaiterBottomSheet
+import ir.ayantech.pishkhansdk.model.api.FreewayTollBills
 import ir.ayantech.pishkhansdk.model.api.MunicipalityCarAnnualTollBills
 import ir.ayantech.pishkhansdk.model.api.PassportStatus
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
@@ -118,22 +119,18 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
             PishkhanUser.token = "1205690E914D48C0BC03714154F4ACE9"
             PishkhanSDK.onInquiryButtonClicked(
-                inputModel = MunicipalityCarAnnualTollBills.Input(
-                    EngineNumber = "11685002734",
-                    NationalCode = "0048519960",
-                    PlateNumber = "58-ق-648-33",
-                    VIN = "IRFC151V044402878",
-                    PurchaseKey = "524E025C58524B6C859F2B0A05443392",
-                    TaxGroup = null
+                inputModel = FreewayTollBills.Input(
+                    PlateNumber = "23-ق-878-33",
+                    PurchaseKey = null,
                 ),
-                product = ProductItemDetail.InquiryAnnualTollsCar,
+                product = ProductItemDetail.InquiryFreewayTollBills,
                 failureCallBack = {
                     Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
                 },
                 handleResultCallback = {
                     Log.d(
                         "asdkjalkdj",
-                        "InquiryAnnualTollsCar: ${it as MunicipalityCarAnnualTollBills.Output}"
+                        "InquiryAnnualTollsCar: ${it as FreewayTollBills.Output}"
                     )
                 })
         })
