@@ -330,16 +330,20 @@ object PishkhanSDK {
                 userTransactionsOutput?.Transactions?.let { transactionList ->
                     var list: List<UserTransactions.Transaction> = transactionList
 
-                    if (serviceName.isNotNull())
+                    if (serviceName.isNotNull()) {
                         if (serviceName == ProductItemDetail.InquiryTrafficFinesCar || serviceName == ProductItemDetail.InquiryTrafficFinesCarSummary) {
                             list =
                                 transactionList.filter { it.Type.Name == ProductItemDetail.InquiryTrafficFinesCar || it.Type.Name == ProductItemDetail.InquiryTrafficFinesCarSummary }
                         } else if (serviceName == ProductItemDetail.InquiryTrafficFinesMotorcycle || serviceName == ProductItemDetail.InquiryTrafficFinesMotorcycleSummary) {
-                            list =   transactionList.filter { it.Type.Name == ProductItemDetail.InquiryTrafficFinesMotorcycle || it.Type.Name == ProductItemDetail.InquiryTrafficFinesMotorcycleSummary }
+                            list =
+                                transactionList.filter { it.Type.Name == ProductItemDetail.InquiryTrafficFinesMotorcycle || it.Type.Name == ProductItemDetail.InquiryTrafficFinesMotorcycleSummary }
 
                         } else {
-                            list =  transactionList.filter { it.Type.Name == serviceName }
+                            list = transactionList.filter { it.Type.Name == serviceName }
                         }
+                    } else {
+                        list = transactionList
+                    }
                     val totalItem = list.size
                     val totalAmount = list.sumOf { it.Amount }
                     hasTransactionHistory(list.isEmpty())

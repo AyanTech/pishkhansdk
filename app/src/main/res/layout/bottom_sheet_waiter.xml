@@ -20,7 +20,7 @@
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/margin_16"
-        android:src="@drawable/ic_logo" />
+        android:src="@drawable/sdk_logo" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/cancelTv"
