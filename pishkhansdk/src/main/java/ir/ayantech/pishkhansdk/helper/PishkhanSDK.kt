@@ -326,11 +326,10 @@ object PishkhanSDK {
     ) {
         coreApi.simpleCallUserTransactions { userTransactionsOutput ->
             if (!userTransactionsOutput?.Transactions.isNullOrEmpty()) {
-                hasTransactionHistory(true)
-                userTransactionsOutput?.Transactions?.let { transactionList ->
+                 userTransactionsOutput?.Transactions?.let { transactionList ->
                     var list: List<UserTransactions.Transaction> = transactionList
 
-                    if (serviceName.isNotNull()) {
+                    if (serviceName.isNotNull())
                         if (serviceName == ProductItemDetail.InquiryTrafficFinesCar || serviceName == ProductItemDetail.InquiryTrafficFinesCarSummary) {
                             list =
                                 transactionList.filter { it.Type.Name == ProductItemDetail.InquiryTrafficFinesCar || it.Type.Name == ProductItemDetail.InquiryTrafficFinesCarSummary }
@@ -341,12 +340,10 @@ object PishkhanSDK {
                         } else {
                             list = transactionList.filter { it.Type.Name == serviceName }
                         }
-                    } else {
-                        list = transactionList
-                    }
+
                     val totalItem = list.size
                     val totalAmount = list.sumOf { it.Amount }
-                    hasTransactionHistory(list.isEmpty())
+                    hasTransactionHistory(list.isNotEmpty())
                     transactionsInfoCallback?.invoke(totalItem, totalAmount)
                     setupAdapter(
                         list = list,
