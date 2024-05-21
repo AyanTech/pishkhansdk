@@ -16,11 +16,20 @@
         android:layout_alignParentStart="true"
         app:srcCompat="@drawable/right_indicator" />
 
+    <ImageView
+        android:id="@+id/icService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/sdk_logo"
+        android:paddingTop="@dimen/margin_8"
+        android:layout_marginStart="10dp"/>
+
     <LinearLayout
         android:id="@+id/firstLl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_12"
+        android:layout_toEndOf="@id/icService"
         android:gravity="center_vertical"
         android:paddingTop="@dimen/margin_12">
 

@@ -1,5 +1,7 @@
 package ir.ayantech.pishkhansdk.model.app_logic
 
+import ir.ayantech.pishkhansdk.R
+
 object ProductItemDetail {
     //Service names
     const val InquiryWaterBills = "v1_InquiryWaterBills"
@@ -145,4 +147,27 @@ fun String.getProductShowName() = when (this) {
     ProductItemDetail.InquiryPaperBills -> "قبض کاغذی"
 
     else -> "محصول جدید!"
+}
+fun String.getCardHistoryIcon() = when(this){
+    ProductItemDetail.InquiryTrafficFinesCar,
+    ProductItemDetail.InquiryTrafficFinesCarSummary -> R.drawable.ic_car_fines_history_card
+
+    ProductItemDetail.InquiryFreewayTollBills -> R.drawable.ic_freeway_toll_history_card
+    ProductItemDetail.InquiryTrafficPlanTollsCar -> R.drawable.ic_traffic_plan_history_card
+    ProductItemDetail.InquiryAnnualTollsCar -> R.drawable.ic_annual_toll_history_card
+
+    ProductItemDetail.InquiryTrafficFinesMotorcycle,
+    ProductItemDetail.InquiryTrafficFinesMotorcycleSummary -> R.drawable.ic_motor_fines_history_card
+
+    ProductItemDetail.InquiryTransferTaxCar->R.drawable.ic_transfer_tax_car_history_card
+    ProductItemDetail.InquiryTransferTaxMotorcycle -> R.drawable.ic_transfer_tax_motor_cycle_history_card
+    ProductItemDetail.InquiryPlateNumbers -> R.drawable.ic_active_plate_history_card
+    ProductItemDetail.InquiryDrivingLicenceNegativePoint -> R.drawable.ic_negative_point_history_card
+    ProductItemDetail.InquiryDrivingLicenceStatus -> R.drawable.ic_driving_licence_history_card
+    ProductItemDetail.InquiryIdentificationDocumentsStatusCar -> R.drawable.ic_identification_document_status_car_history_card
+    ProductItemDetail.InquiryTechnicalExaminationCertificate -> R.drawable.ic_technical_examination_history_card
+
+    ProductItemDetail.InquiryThirdPartyInsuranceCar,
+    ProductItemDetail.InquiryThirdPartyInsuranceCarStatus -> R.drawable.ic_third_party_insurance_history_card
+    else -> 0
 }

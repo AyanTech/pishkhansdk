@@ -1,11 +1,15 @@
 package ir.ayantech.pishkhansdk.ui.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.databinding.PishkhansdkComponentTransactionBinding
 import ir.ayantech.pishkhansdk.helper.extensions.getFormattedPersianDateTime
 import ir.ayantech.pishkhansdk.model.api.UserTransactions
+import ir.ayantech.pishkhansdk.model.app_logic.ProductItemDetail
+import ir.ayantech.pishkhansdk.model.app_logic.getCardHistoryIcon
+import ir.ayantech.pishkhansdk.model.constants.Constant.context
 import ir.ayantech.pishkhansdk.ui.components.init
 import ir.ayantech.pishkhansdk.ui.components.setArrowIvTint
 import ir.ayantech.pishkhansdk.ui.components.setDescriptionTextColor
@@ -17,6 +21,7 @@ import ir.ayantech.whygoogle.helper.formatAmount
 import ir.ayantech.whygoogle.helper.isNull
 
 class TransactionAdapter(
+  val  showingIcon :Boolean = false,
     items: List<UserTransactions.Transaction>,
     onItemClickListener: OnItemClickListener<UserTransactions.Transaction>
 ) : CommonAdapter<UserTransactions.Transaction, PishkhansdkComponentTransactionBinding>(
@@ -30,13 +35,16 @@ class TransactionAdapter(
     ) {
         super.onBindViewHolder(holder, position)
         holder.accessViews {
+            val item = itemsToView[position]
             this.init(
-                title = itemsToView[position].Title ?: "",
-                amount = itemsToView[position].Amount.formatAmount(),
-                description = if (itemsToView[position].PaymentChannel.isNull()) "" else
-                    itemsToView[position].PaymentChannel?.ShowName + " - " + itemsToView[position].PaymentGateway.ShowName,
-                note = itemsToView[position].Description ?: "",
-                date = itemsToView[position].DateTime?.getFormattedPersianDateTime()
+                showingIcon = showingIcon,
+                title = item.Title ?: "",
+                amount = item.Amount.formatAmount(),
+                description = if (item.PaymentChannel.isNull()) "" else
+                    item.PaymentChannel?.ShowName + " - " + item.PaymentGateway.ShowName,
+                note = item.Description ?: "",
+                date = item.DateTime?.getFormattedPersianDateTime(),
+                icServiceRecourse = item.Type.Name.getCardHistoryIcon()
             )
 
             this.setDescriptionTextColor(checkColors(itemsToView[position]))
@@ -59,8 +67,6 @@ class TransactionAdapter(
             }
         }
     }
-
-
 
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> PishkhansdkComponentTransactionBinding

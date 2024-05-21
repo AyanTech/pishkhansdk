@@ -318,6 +318,7 @@ object PishkhanSDK {
     }
 
     fun getUserTransactionHistory(
+        showingIcon :Boolean = false,
         serviceName: String? = null,
         userTransactionHistoryRv: RecyclerView,
         hasTransactionHistory: BooleanCallBack,
@@ -346,6 +347,7 @@ object PishkhanSDK {
                     hasTransactionHistory(list.isNotEmpty())
                     transactionsInfoCallback?.invoke(totalItem, totalAmount)
                     setupAdapter(
+                        showingIcon = showingIcon,
                         list = list,
                         transactionRv = userTransactionHistoryRv,
                     ) { output, serviceName ->
@@ -359,13 +361,14 @@ object PishkhanSDK {
     }
 
     private fun setupAdapter(
+        showingIcon:Boolean = false,
         list: List<UserTransactions.Transaction>,
         transactionRv: RecyclerView,
         onTransactionItemClicked: ((output: BaseResultModel<*>, serviceNAme: String) -> Unit)?
     ) {
 
         transactionRv.verticalSetup()
-        transactionRv.adapter = TransactionAdapter(list) { item, viewId, position ->
+        transactionRv.adapter = TransactionAdapter(showingIcon,list) { item, viewId, position ->
             item?.let {
                 if (it.Reference?.startsWith("http") == true) {
                     it.Reference.openUrl(whyGoogleActivity)
