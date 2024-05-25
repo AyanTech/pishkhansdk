@@ -169,5 +169,5 @@ fun String.getCardHistoryIcon() = when(this){
 
     ProductItemDetail.InquiryThirdPartyInsuranceCar,
     ProductItemDetail.InquiryThirdPartyInsuranceCarStatus -> R.drawable.ic_third_party_insurance_history_card
-    else -> 0
+    else -> R.drawable.ic_payments
 }
