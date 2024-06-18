@@ -117,13 +117,15 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                         .show()
                 })*/
 
-            PishkhanUser.token = "1205690E914D48C0BC03714154F4ACE9"
+            PishkhanUser.token = "D89E2819E74D4053990DE94DFF0DD090"
             PishkhanSDK.onInquiryButtonClicked(
-                inputModel = FreewayTollBills.Input(
-                    PlateNumber = "23-ق-878-33",
+                inputModel = VehicleThirdPartyInsurance.Input(
+                    NationalCode = "4271158534",
+                    InsuranceUniqueCode = "10481923720",
+                    OTPCode = null,
                     PurchaseKey = null,
                 ),
-                product = ProductItemDetail.InquiryFreewayTollBills,
+                product = ProductItemDetail.InquiryThirdPartyInsuranceCar,
                 failureCallBack = {
                     Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
                 },
