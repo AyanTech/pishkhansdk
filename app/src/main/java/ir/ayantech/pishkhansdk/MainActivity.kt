@@ -120,8 +120,8 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             PishkhanUser.token = "D89E2819E74D4053990DE94DFF0DD090"
             PishkhanSDK.onInquiryButtonClicked(
                 inputModel = VehicleThirdPartyInsurance.Input(
-                    NationalCode = "4271158534",
-                    InsuranceUniqueCode = "10481923720",
+                    NationalCode = "2280791013",
+                    InsuranceUniqueCode = "10496076374",
                     OTPCode = null,
                     PurchaseKey = null,
                 ),
