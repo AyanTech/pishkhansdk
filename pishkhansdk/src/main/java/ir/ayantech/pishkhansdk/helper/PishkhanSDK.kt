@@ -21,6 +21,7 @@ import ir.ayantech.pishkhansdk.Initializer
 import ir.ayantech.pishkhansdk.PishkhanUser
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.model.api.BillsInfo
+import ir.ayantech.pishkhansdk.model.api.InvoiceRegister
 import ir.ayantech.pishkhansdk.model.api.LoginByOTP
 import ir.ayantech.pishkhansdk.model.api.UserServiceQueries
 import ir.ayantech.pishkhansdk.model.api.UserServiceQueryBookmark
@@ -100,15 +101,21 @@ object PishkhanSDK {
         product: String,
         inputModel: BaseInputModel,
         failureCallBack: FailureCallback? = null,
-        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null,
+        invoiceRegisterCallback: ((invoiceRegisterOutput: InvoiceRegister.Output) -> Unit)? = null
     ) {
         serviceName = product
 
-        PaymentHelper.invoiceRegister(inputModel = inputModel, failureCallBack = {
-            failureCallBack?.invoke(it)
-        }, handleResultCallback = {
-            handleResultCallback?.invoke(it)
-        })
+        PaymentHelper.invoiceRegister(
+            inputModel = inputModel,
+            failureCallBack = {
+                failureCallBack?.invoke(it)
+            },
+            handleResultCallback = {
+                handleResultCallback?.invoke(it)
+            },
+            invoiceRegisterCallback = invoiceRegisterCallback
+        )
     }
 
 

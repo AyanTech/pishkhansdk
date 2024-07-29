@@ -57,7 +57,8 @@ object PaymentHelper {
     fun invoiceRegister(
         inputModel: BaseInputModel,
         failureCallBack: FailureCallback? = null,
-        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null,
+        invoiceRegisterCallback: ((invoiceRegisterOutput: InvoiceRegister.Output) -> Unit)? = null
     ) {
 
         PishkhanSDK.serviceApi.ayanCall<InvoiceRegister.Output>(
@@ -65,6 +66,7 @@ object PaymentHelper {
                 success {
                     otpBottomSheetDialog?.dismiss()
                     it.response?.Parameters?.let { output ->
+                        invoiceRegisterCallback?.invoke(output)
                         when (output.Prerequisites) {
                             //Service doesn't have any prerequisites so should check whether it has a preview or not
                             null -> {
