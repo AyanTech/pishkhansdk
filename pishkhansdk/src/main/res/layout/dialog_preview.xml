@@ -66,7 +66,7 @@
                     style="@style/text_normal_grey700"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/inuqiry_price"
+                    android:text="@string/inquiry_price"
                     android:textSize="@dimen/margin_12" />
 
                 <androidx.appcompat.widget.AppCompatTextView

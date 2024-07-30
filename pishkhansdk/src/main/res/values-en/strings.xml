@@ -1,0 +1,16 @@
+<resources>
+    <string name="preview">Preview</string>
+    <string name="rules_and_condition">Rules and Conditions</string>
+    <string name="inquiry_price">Inquiry Cost:</string>
+    <string name="confirm_and_continue">Confirm and Continue</string>
+    <string name="confirm_code">Confirm OTP</string>
+    <string name="confirm">Confirm</string>
+    <string name="resend">Resend</string>
+    <string name="activation_code">OTP</string>
+    <string name="enter_info">Enter the title for the saved information.</string>
+    <string name="edit_info">Edit Title</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete_confirmation">Do you want to delete?</string>
+    <string name="attention">Attention</string>
+
+</resources>
