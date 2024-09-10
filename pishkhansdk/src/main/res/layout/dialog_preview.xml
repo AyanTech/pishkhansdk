@@ -1,94 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipToPadding="false"
-     android:overScrollMode="never">
+    android:overScrollMode="never"
+    android:scrollbarSize="0dp"
+    android:scrollbars="none">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false">
 
-        <RelativeLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/extraInfoRv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipToPadding="false">
+            android:layout_marginTop="@dimen/margin_16"
+            android:nestedScrollingEnabled="true"
+            android:overScrollMode="never"
+            android:visibility="gone" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/extraInfoRv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never"
-                android:layout_marginTop="@dimen/margin_16"
-                android:nestedScrollingEnabled="true"
-                android:visibility="gone" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/rulesTitleTv"
+            style="@style/header_primary_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/extraInfoRv"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="@dimen/margin_16"
+            android:text="@string/rules_and_condition"
+            android:textColor="@color/gray1"
+            android:textSize="@dimen/margin_12" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/rulesTv"
+            style="@style/description_grey700"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rulesTitleTv"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="@dimen/margin_8"
+            android:justificationMode="inter_word"
+            android:lineSpacingExtra="@dimen/line_spacing"
+            android:textSize="@dimen/margin_11"
+            tools:targetApi="o" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_1"
+            android:layout_below="@+id/rulesTv"
+            android:layout_marginTop="@dimen/margin_16"
+            android:background="@drawable/center_shadow" />
+
+        <LinearLayout
+            android:id="@+id/costLl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/margin_12">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/rulesTitleTv"
-                style="@style/header_primary_dark"
+                style="@style/text_normal_grey700"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/extraInfoRv"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="@dimen/margin_16"
-                android:text="@string/rules_and_condition"
-                android:textColor="@color/gray1"
+                android:text="@string/inquiry_price"
                 android:textSize="@dimen/margin_12" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/rulesTv"
-                style="@style/description_grey700"
-                android:layout_width="wrap_content"
+                android:id="@+id/payableAmountTv"
+                style="@style/header_primary_dark"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rulesTitleTv"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="@dimen/margin_8"
-                android:justificationMode="inter_word"
-                android:lineSpacingExtra="@dimen/line_spacing"
-                android:textSize="@dimen/margin_11"
-                tools:targetApi="o" />
+                android:layout_weight="1"
+                android:gravity="left"
+                android:textColor="@color/gray1"
+                android:textSize="@dimen/margin_12" />
 
-            <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_1"
-                android:layout_below="@+id/rulesTv"
-                android:layout_marginTop="@dimen/margin_16"
-                android:background="@drawable/center_shadow" />
-
-            <LinearLayout
-                android:id="@+id/costLl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/divider"
-                android:orientation="horizontal"
-                android:paddingTop="@dimen/margin_12">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/text_normal_grey700"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/inquiry_price"
-                    android:textSize="@dimen/margin_12" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/payableAmountTv"
-                    style="@style/header_primary_dark"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="left"
-                    android:textColor="@color/gray1"
-                    android:textSize="@dimen/margin_12" />
-
-            </LinearLayout>
+        </LinearLayout>
 
 
-            <include
-                android:id="@+id/confirmBtn"
-                layout="@layout/pishkhansdk_component_button_filled"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/costLl"
-                android:layout_marginTop="@dimen/margin_12" />
+        <include
+            android:id="@+id/confirmBtn"
+            layout="@layout/pishkhansdk_component_button_filled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/costLl"
+            android:layout_marginTop="@dimen/margin_12" />
 
-        </RelativeLayout>
-    </ScrollView>
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>
