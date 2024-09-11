@@ -12,6 +12,8 @@ import ir.ayantech.pishkhansdk.helper.HandleOutput.handleFreewayTollBillsOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleIbanByAccountNumberOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleIbanByCardNumberOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleIdentificationDocumentsStatusCarOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleInquiryTransferTaxCar
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleInquiryTransferTaxMotorCycle
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
 import ir.ayantech.pishkhansdk.model.enums.PrerequisitesType
@@ -210,6 +212,24 @@ object PaymentHelper {
     ) {
         inputModel.also { it.PurchaseKey = purchaseKey }.let { input ->
             when (serviceName) {
+                Products.transferTaxCarProduct.name -> {
+                    handleInquiryTransferTaxCar(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+                Products.transferTaxMotorcycleProduct.name -> {
+                    handleInquiryTransferTaxMotorCycle(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
                 Products.justiceSharesProduct.name -> {
                     handleJusticeSharesPortfolioOutput(
                         input = input,

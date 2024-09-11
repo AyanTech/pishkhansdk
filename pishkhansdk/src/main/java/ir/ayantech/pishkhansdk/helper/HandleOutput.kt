@@ -18,6 +18,8 @@ import ir.ayantech.networking.simpleCallServiceBills
 import ir.ayantech.networking.simpleCallSubventionHistory
 import ir.ayantech.networking.simpleCallTrafficFinesCar
 import ir.ayantech.networking.simpleCallTrafficFinesCarSummary
+import ir.ayantech.networking.simpleCallTransferTaxCar
+import ir.ayantech.networking.simpleCallTransferTaxMotorcycle
 import ir.ayantech.networking.simpleCallVehiclePlateNumbers
 import ir.ayantech.networking.simpleCallVehicleThirdPartyInsurance
 import ir.ayantech.networking.simpleCallVehicleThirdPartyInsuranceStatus
@@ -42,6 +44,8 @@ import ir.ayantech.pishkhansdk.model.api.ServiceBills
 import ir.ayantech.pishkhansdk.model.api.SubventionHistory
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCarSummary
+import ir.ayantech.pishkhansdk.model.api.TransferTaxCar
+import ir.ayantech.pishkhansdk.model.api.TransferTaxMotorcycle
 import ir.ayantech.pishkhansdk.model.api.V1BankIbanInfo
 import ir.ayantech.pishkhansdk.model.api.V2BankIbanInfo
 import ir.ayantech.pishkhansdk.model.api.V3BankIbanInfo
@@ -59,6 +63,35 @@ object HandleOutput {
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
         when (invoiceInfoOutput.Invoice.Service.Type.Name) {
+
+            Products.transferTaxCarProduct.name -> {
+                handleInquiryTransferTaxCar(
+                    input = TransferTaxCar.Input(
+                        DateOfBirth = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.DateOfBirth }.Value,
+                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                        PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    )
+                ) {
+                    handleResultCallback?.invoke(it)
+                }
+            }
+
+            Products.transferTaxMotorcycleProduct.name -> {
+                handleInquiryTransferTaxMotorCycle(
+                    input = TransferTaxMotorcycle.Input(
+                        DateOfBirth = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.DateOfBirth }.Value,
+                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                        PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    )
+                ) {
+                    handleResultCallback?.invoke(it)
+                }
+            }
+
             Products.justiceSharesProduct.name -> {
                 handleJusticeSharesPortfolioOutput(input = JusticeSharesPortfolio.Input(
                     NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
@@ -362,6 +395,52 @@ object HandleOutput {
 
         }
 
+    }
+
+    fun handleInquiryTransferTaxMotorCycle(
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallTransferTaxMotorcycle(
+            input = input as TransferTaxMotorcycle.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? TransferTaxMotorcycle.Input)?.let {
+                        handleInquiryTransferTaxMotorCycle(
+                            input = it
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleInquiryTransferTaxCar(
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallTransferTaxCar(
+            input = input as TransferTaxCar.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? TransferTaxCar.Input)?.let {
+                        handleInquiryTransferTaxCar(
+                            input = it
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     fun handleJusticeSharesPortfolioOutput(
