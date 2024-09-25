@@ -8,7 +8,12 @@
     tools:context=".MainActivity">
 
     <FrameLayout
-        android:id="@+id/fragmentContainerFl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/containerFl"/>
+
+    <FrameLayout
+        android:id="@+id/containerFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true">

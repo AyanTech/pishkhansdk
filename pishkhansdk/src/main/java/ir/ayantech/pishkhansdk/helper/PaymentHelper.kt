@@ -7,6 +7,7 @@ import ir.ayantech.networking.simpleCallInvoicePayment
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleAccountNumberByIbanOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleAnnualTollCarOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleBankChequeStatusSayadOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleCarPlateNumberHistory
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleDrivingLicenceStatusOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleFreewayTollBillsOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleIbanByAccountNumberOutput
@@ -14,6 +15,7 @@ import ir.ayantech.pishkhansdk.helper.HandleOutput.handleIbanByCardNumberOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleIdentificationDocumentsStatusCarOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleInquiryTransferTaxCar
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleInquiryTransferTaxMotorCycle
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleInquiryVehicleAuthenticity
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
 import ir.ayantech.pishkhansdk.model.enums.PrerequisitesType
@@ -212,6 +214,26 @@ object PaymentHelper {
     ) {
         inputModel.also { it.PurchaseKey = purchaseKey }.let { input ->
             when (serviceName) {
+
+                Products.carPlateNumberHistory.name -> {
+                    handleCarPlateNumberHistory(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+                Products.vehicleAuthenticityProductByDocumentNumber.name,
+                Products.vehicleAuthenticityProductByBarCode.name -> {
+                    handleInquiryVehicleAuthenticity(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
                 Products.transferTaxCarProduct.name -> {
                     handleInquiryTransferTaxCar(
                         input = input,

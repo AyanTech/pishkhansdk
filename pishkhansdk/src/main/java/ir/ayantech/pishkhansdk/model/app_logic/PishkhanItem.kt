@@ -77,4 +77,5 @@ private val availablePishkhanItems = listOf(
     Products.realEstateContractProduct,
     Products.vehicleAuthenticityProductByBarCode,
     Products.vehicleAuthenticityProductByDocumentNumber,
+    Products.carPlateNumberHistory,
 )

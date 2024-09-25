@@ -1,8 +1,9 @@
 package ir.ayantech.pishkhansdk.helper
 
 
+import android.widget.Toast
 import ir.ayantech.networking.simpleCallBankChequeStatusSayad
-import ir.ayantech.networking.simpleCallBillsInfo
+import ir.ayantech.networking.simpleCallCarPlateNumberHistory
 import ir.ayantech.networking.simpleCallCellPhoneBills
 import ir.ayantech.networking.simpleCallDrivingLicenseNegativePoint
 import ir.ayantech.networking.simpleCallDrivingLicenseStatus
@@ -20,20 +21,18 @@ import ir.ayantech.networking.simpleCallTrafficFinesCar
 import ir.ayantech.networking.simpleCallTrafficFinesCarSummary
 import ir.ayantech.networking.simpleCallTransferTaxCar
 import ir.ayantech.networking.simpleCallTransferTaxMotorcycle
+import ir.ayantech.networking.simpleCallVehicleAuthenticity
 import ir.ayantech.networking.simpleCallVehiclePlateNumbers
 import ir.ayantech.networking.simpleCallVehicleThirdPartyInsurance
 import ir.ayantech.networking.simpleCallVehicleThirdPartyInsuranceStatus
-import ir.ayantech.pishkhansdk.model.api.VehicleThirdPartyInsurance
-import ir.ayantech.pishkhansdk.model.api.VehicleThirdPartyInsuranceStatus
 import ir.ayantech.pishkhansdk.model.api.BankChequeStatusSayad
-import ir.ayantech.pishkhansdk.model.api.BillsInfo
+import ir.ayantech.pishkhansdk.model.api.CarPlateNumberHistory
 import ir.ayantech.pishkhansdk.model.api.CellPhoneBills
 import ir.ayantech.pishkhansdk.model.api.DrivingLicenseNegativePoint
 import ir.ayantech.pishkhansdk.model.api.DrivingLicenseStatus
 import ir.ayantech.pishkhansdk.model.api.FreewayTollBills
 import ir.ayantech.pishkhansdk.model.api.IdentificationDocumentsStatusCar
 import ir.ayantech.pishkhansdk.model.api.InvoiceInfo
-import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.api.JusticeSharesPortfolio
 import ir.ayantech.pishkhansdk.model.api.LandLinePhoneBills
 import ir.ayantech.pishkhansdk.model.api.MunicipalityCarAnnualTollBills
@@ -49,7 +48,11 @@ import ir.ayantech.pishkhansdk.model.api.TransferTaxMotorcycle
 import ir.ayantech.pishkhansdk.model.api.V1BankIbanInfo
 import ir.ayantech.pishkhansdk.model.api.V2BankIbanInfo
 import ir.ayantech.pishkhansdk.model.api.V3BankIbanInfo
+import ir.ayantech.pishkhansdk.model.api.VehicleAuthenticity
 import ir.ayantech.pishkhansdk.model.api.VehiclePlateNumbers
+import ir.ayantech.pishkhansdk.model.api.VehicleThirdPartyInsurance
+import ir.ayantech.pishkhansdk.model.api.VehicleThirdPartyInsuranceStatus
+import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
 import ir.ayantech.pishkhansdk.model.app_logic.Products
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
@@ -63,6 +66,37 @@ object HandleOutput {
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
         when (invoiceInfoOutput.Invoice.Service.Type.Name) {
+
+            Products.carPlateNumberHistory.name -> {
+                handleCarPlateNumberHistory(
+                    input = CarPlateNumberHistory.Input(
+                        MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+//                        OTPCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.OTPCode }.Value,
+                        OTPCode = "",
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey,
+                        PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value
+                    )
+                ) {
+                    handleResultCallback?.invoke(it)
+                }
+            }
+
+            Products.vehicleAuthenticityProductByDocumentNumber.name,
+            Products.vehicleAuthenticityProductByBarCode.name -> {
+                handleInquiryVehicleAuthenticity(
+                    input = VehicleAuthenticity.Input(
+                        Identifier = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Identifier }.Value,
+                        IdentifierType = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.IdentifierType }.Value,
+                        NationalCodeOwner = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCodeOwner }.Value,
+                        NationalCodeBuyer = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCodeBuyer }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    )
+                ) {
+                    handleResultCallback?.invoke(it)
+                }
+            }
 
             Products.transferTaxCarProduct.name -> {
                 handleInquiryTransferTaxCar(
@@ -413,6 +447,61 @@ object HandleOutput {
                             input = it
                         ) {
                             handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleCarPlateNumberHistory(
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallCarPlateNumberHistory(
+            input = input as CarPlateNumberHistory.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? CarPlateNumberHistory.Input)?.let {
+                        handleCarPlateNumberHistory(it)
+                    }
+                }
+            }
+        }
+    }
+
+    fun handleInquiryVehicleAuthenticity(
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallVehicleAuthenticity(
+            input = input as VehicleAuthenticity.Input,
+        ) { output ->
+            output?.checkPrerequisites(
+                ayanActivity = PishkhanSDK.whyGoogleActivity,
+                input = input,
+            ) { input ->
+                if (input.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (input as? VehicleAuthenticity.Input)?.let {
+                        output.Prerequisites?.OTP?.ReferenceNumber?.let { referenceNumber ->
+                            VehicleAuthenticity.Input(
+                                Identifier = it.Identifier,
+                                IdentifierType = it.IdentifierType,
+                                NationalCodeBuyer = it.NationalCodeBuyer,
+                                NationalCodeOwner = it.NationalCodeOwner,
+                                OTPCode = it.OTPCode,
+                                OTPReferenceNumber = referenceNumber,
+                                PurchaseKey = it.PurchaseKey
+                            )
+                        }?.let {
+                            handleInquiryVehicleAuthenticity(
+                                it
+                            )
                         }
                     }
                 }

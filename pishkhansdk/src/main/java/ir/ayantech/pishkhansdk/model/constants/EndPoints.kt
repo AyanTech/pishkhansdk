@@ -64,7 +64,8 @@ object EndPoints {
     const val socialSecurityInsuranceMedicalPrescriptionDetails =
         "v1/SocialSecurityInsuranceMedicalPrescriptionDetails"
     const val RealEstateContract = "v1/RealEstateContract"
-    const val VehicleAuthenticity = "v1/VehicleAuthenticity"
+    const val VehicleAuthenticity = "v2/VehicleAuthenticity"
+    const val CarPlateNumberHistory = "v1/PlateNumberHistory"
     const val TelecomRegisteredLines = "v1/TelecomRegisteredLines"
     const val LivelihoodInformation = "v1/LivelihoodInformation"
     const val InsurancePolicies = "v1/InsurancePolicies"

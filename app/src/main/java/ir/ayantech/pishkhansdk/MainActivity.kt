@@ -10,20 +10,13 @@ import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.api.AyanCommonCallStatus
 import ir.ayantech.ayannetworking.api.CallingState
 import ir.ayantech.ayannetworking.ayanModel.FailureType
-import ir.ayantech.pishkhansdk.model.api.VehicleThirdPartyInsuranceStatus
+import ir.ayantech.pishkhansdk.bottom_sheets.WaiterBottomSheet
 import ir.ayantech.pishkhansdk.databinding.ActivityMainBinding
 import ir.ayantech.pishkhansdk.helper.PishkhanSDK
-import ir.ayantech.pishkhansdk.bottom_sheets.WaiterBottomSheet
-import ir.ayantech.pishkhansdk.model.api.FreewayTollBills
-import ir.ayantech.pishkhansdk.model.api.MunicipalityCarAnnualTollBills
-import ir.ayantech.pishkhansdk.model.api.PassportStatus
+import ir.ayantech.pishkhansdk.model.api.CarPlateNumberHistory
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
-import ir.ayantech.pishkhansdk.model.api.VehicleThirdPartyInsurance
+import ir.ayantech.pishkhansdk.model.api.VehicleAuthenticity
 import ir.ayantech.pishkhansdk.model.app_logic.ProductItemDetail
-import ir.ayantech.pishkhansdk.model.constants.Parameter.EngineNumber
-import ir.ayantech.pishkhansdk.model.constants.Parameter.PurchaseKey
-import ir.ayantech.pishkhansdk.model.constants.Parameter.VIN
-import ir.ayantech.pishkhansdk.ui.components.getText
 import ir.ayantech.pishkhansdk.ui.components.init
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 
@@ -60,7 +53,8 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
     override val binder: (LayoutInflater) -> ActivityMainBinding
         get() = ActivityMainBinding::inflate
-    override val containerId: Int = R.id.fragmentContainerFl
+    override val containerId: Int
+        get() = R.id.containerFl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,12 +78,17 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             ayanCommonCallingStatus
 
         PishkhanSDK.handleUserSession(
-            application = "passport", origin = "cafebazaar",
+            application = "VasHookTrafficFinesInquiry",
+            origin = "cafebazaar",
             platform = "android",
-            version = "2.0.0",
+            version = "20.0.0",
             activity = this,
             successCallback = {
-
+                if (PishkhanUser.phoneNumber.isEmpty()) {
+                    PishkhanSDK.login(phoneNumber = "09397799139", loginIsSuccessful = {
+                        Toast.makeText(this, "login is successful", Toast.LENGTH_SHORT).show()
+                    })
+                }
             }
         )
 
@@ -98,43 +97,47 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
         binding.inquiryBtn2.init("لاگین", btnOnClick = {
 
-/*
-            PishkhanSDK.login("09158678539", null, loginIsSuccessful = {
-                Toast.makeText(PishkhanUser.context, "loginnn", Toast.LENGTH_LONG)
-                    .show()
-            })
-*/
+
+//            PishkhanSDK.login(
+//                "09397799139",
+//                binding.enterOtpCodeLayout.getText(),
+//                confirmOtpIsSuccessful = {
+//                    Toast.makeText(PishkhanUser.context, "confirmmmm", Toast.LENGTH_LONG)
+//                        .show()
+//                })
+
+            PishkhanSDK.onInquiryButtonClicked(
+                product = ProductItemDetail.InquiryPlateNumberHistory,
+                inputModel = CarPlateNumberHistory.Input(
+                    MobileNumber = "09203546839",
+                    NationalCode = "0013891480",
+                    OTPCode = "",
+                    PurchaseKey = null,
+                    PlateNumber = "34-ل-644-20"
+                )
+            ) {
+
+            }
 
         })
 
         binding.inquiryBtn.init("استعلام", btnOnClick = {
-/*
-            PishkhanSDK.login(
-                "09158678539",
-                binding.enterOtpCodeLayout.getText(),
-                confirmOtpIsSuccessful = {
-                    Toast.makeText(PishkhanUser.context, "confirmmmm", Toast.LENGTH_LONG)
-                        .show()
-                })*/
 
-            PishkhanUser.token = "D89E2819E74D4053990DE94DFF0DD090"
             PishkhanSDK.onInquiryButtonClicked(
-                inputModel = VehicleThirdPartyInsurance.Input(
-                    NationalCode = "2280791013",
-                    InsuranceUniqueCode = "10496076374",
+                product = ProductItemDetail.InquiryVehicleAuthenticityByBarCode,
+                inputModel = VehicleAuthenticity.Input(
+                    IdentifierType = "Barcode",
+                    NationalCodeOwner = "2740651236",
+                    NationalCodeBuyer = "0021734631",
                     OTPCode = null,
-                    PurchaseKey = null,
+                    OTPReferenceNumber = "",
+                    Identifier = "145679348",
+                    PurchaseKey = null
                 ),
-                product = ProductItemDetail.InquiryThirdPartyInsuranceCar,
-                failureCallBack = {
-                    Toast.makeText(this, "failure1", Toast.LENGTH_LONG).show()
-                },
                 handleResultCallback = {
-                    Log.d(
-                        "asdkjalkdj",
-                        "InquiryAnnualTollsCar: ${it as FreewayTollBills.Output}"
-                    )
-                })
+                    Log.d("auth", "onCreate: success")
+                }
+            )
         })
 
 

@@ -37,7 +37,7 @@ object ProductItemDetail {
     const val InquiryMunicipalityTaxiFaresBills = "v1_InquiryMunicipalityTaxiFaresBills"
     const val InquiryTransferTaxCar = "v1_InquiryTransferTaxCar"
     const val InquiryTransferTaxMotorcycle = "v1_InquiryTransferTaxMotorcycle"
-    const val InquiryVehicleAuthenticityByBarCode = "v1_InquiryVehicleAuthenticity"
+    const val InquiryVehicleAuthenticityByBarCode = "v2_InquiryVehicleAuthenticity"
     const val InquiryVehicleAuthenticityByDocumentNumber = "v2_InquiryVehicleAuthenticity"
 
     const val InquiryPostPackageTracking = "v1_InquiryPostPackagesStatus"
@@ -78,6 +78,8 @@ object ProductItemDetail {
     const val THIRD_PARTY_INSURANCE = "THIRD_PARTY_INSURANCE"
     const val InquiryPaperBills = "v1_paperBills"
 
+    const val InquiryPlateNumberHistory = "v1_InquiryPlateNumberHistory"
+
 }
 fun String.getProductShowName() = when (this) {
     ProductItemDetail.InquiryWaterBills -> "قبض آب"
@@ -113,6 +115,8 @@ fun String.getProductShowName() = when (this) {
     ProductItemDetail.InquiryTransferTaxMotorcycle -> "مالیات انتقال موتور"
     ProductItemDetail.InquiryVehicleAuthenticityByBarCode,
     ProductItemDetail.InquiryVehicleAuthenticityByDocumentNumber -> "سوابق خودرو"
+
+    ProductItemDetail.InquiryPlateNumberHistory -> "تاریخچه پلاک خودرو"
 
     ProductItemDetail.InquiryPostPackageTracking -> "پیگیری مرسولات پستی"
     ProductItemDetail.InquiryIdentificationDocumentsStatusCar -> "پیگیری مدارک خودرو"
