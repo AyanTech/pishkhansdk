@@ -170,6 +170,7 @@ fun String.getCardHistoryIcon() = when(this){
     ProductItemDetail.InquiryDrivingLicenceStatus -> R.drawable.ic_driving_licence_history_card
     ProductItemDetail.InquiryIdentificationDocumentsStatusCar -> R.drawable.ic_identification_document_status_car_history_card
     ProductItemDetail.InquiryTechnicalExaminationCertificate -> R.drawable.ic_technical_examination_history_card
+    ProductItemDetail.InquiryPlateNumberHistory -> R.drawable.ic_plate_history
 
     ProductItemDetail.InquiryThirdPartyInsuranceCar,
     ProductItemDetail.InquiryThirdPartyInsuranceCarStatus -> R.drawable.ic_third_party_insurance_history_card
