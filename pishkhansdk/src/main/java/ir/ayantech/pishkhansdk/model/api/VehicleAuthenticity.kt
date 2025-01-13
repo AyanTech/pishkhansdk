@@ -35,6 +35,18 @@ class VehicleAuthenticity {
         Messages = Messages
     )
 
+    data class TechnicalDiagnosisStatus(
+        val FuelSystem: String,
+        val Status: String,
+        val ValidityDate: String,
+    )
+
+    data class FactoryInformation(
+        val WarrantyEndDate: String,
+        val WarrantyStartDate: String,
+        val WarrantyStatus: String,
+    )
+
     data class Result(
         val Color: String,
         val TrafficFinesDebtStatus: TrafficFinesDebtStatus,
@@ -48,7 +60,8 @@ class VehicleAuthenticity {
         val Salable: Boolean,
         val Tip: String,
         val Type: String,
-        val Usage: String
+        val Usage: String,
+        val TechnicalDiagnosisStatus: TechnicalDiagnosisStatus,
     )
 
     data class Insurance(
