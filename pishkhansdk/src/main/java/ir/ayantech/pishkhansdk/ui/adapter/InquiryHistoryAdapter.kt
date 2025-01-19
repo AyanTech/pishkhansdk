@@ -41,7 +41,10 @@ class InquiryHistoryAdapter(
             )
         }
     }
-
+     fun updateList(list : List<UserServiceQueries.InquiryHistory>?) {
+        itemsToView = list ?: arrayListOf()
+         notifyDataSetChanged()
+    }
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> PishkhansdkComponentInquiryHistoryItemBinding
         get() = PishkhansdkComponentInquiryHistoryItemBinding::inflate
 }

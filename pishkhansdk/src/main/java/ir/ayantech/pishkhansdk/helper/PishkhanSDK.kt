@@ -2,17 +2,14 @@ package ir.ayantech.pishkhansdk.helper
 
 import android.content.Context
 import android.content.Intent
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.api.ChangeStatusCallback
 import ir.ayantech.ayannetworking.api.FailureCallback
 import ir.ayantech.ayannetworking.api.SimpleCallback
 import ir.ayantech.ayannetworking.api.SuccessCallback
-import ir.ayantech.networking.callBillsInfo
 import ir.ayantech.networking.callUserServiceQueries
 import ir.ayantech.networking.simpleCallLoginByOTP
-import ir.ayantech.networking.simpleCallUserServiceQueries
 import ir.ayantech.networking.simpleCallUserServiceQueryBookmark
 import ir.ayantech.networking.simpleCallUserServiceQueryDelete
 import ir.ayantech.networking.simpleCallUserServiceQueryNote
@@ -20,7 +17,6 @@ import ir.ayantech.networking.simpleCallUserTransactions
 import ir.ayantech.pishkhansdk.Initializer
 import ir.ayantech.pishkhansdk.PishkhanUser
 import ir.ayantech.pishkhansdk.R
-import ir.ayantech.pishkhansdk.model.api.BillsInfo
 import ir.ayantech.pishkhansdk.model.api.InvoiceRegister
 import ir.ayantech.pishkhansdk.model.api.LoginByOTP
 import ir.ayantech.pishkhansdk.model.api.UserServiceQueries
@@ -29,24 +25,21 @@ import ir.ayantech.pishkhansdk.model.api.UserServiceQueryDelete
 import ir.ayantech.pishkhansdk.model.api.UserServiceQueryNote
 import ir.ayantech.pishkhansdk.model.api.UserTransactions
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
-import ir.ayantech.pishkhansdk.model.constants.Constant
-import ir.ayantech.pishkhansdk.model.app_logic.CallbackDataModel
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
+import ir.ayantech.pishkhansdk.model.app_logic.CallbackDataModel
 import ir.ayantech.pishkhansdk.model.app_logic.ExtraInfo
-import ir.ayantech.pishkhansdk.model.app_logic.OTP
 import ir.ayantech.pishkhansdk.model.app_logic.ProductItemDetail
+import ir.ayantech.pishkhansdk.model.constants.Constant
 import ir.ayantech.pishkhansdk.ui.adapter.InquiryHistoryAdapter
 import ir.ayantech.pishkhansdk.ui.adapter.TransactionAdapter
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.ConfirmationBottomSheet
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.EditInquiryHistoryBottomSheet
-import ir.ayantech.pishkhansdk.ui.bottom_sheet.OtpBottomSheetDialog
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import ir.ayantech.whygoogle.helper.BooleanCallBack
 import ir.ayantech.whygoogle.helper.isNotNull
 import ir.ayantech.whygoogle.helper.isNull
 import ir.ayantech.whygoogle.helper.openUrl
 import ir.ayantech.whygoogle.helper.verticalSetup
-import kotlinx.coroutines.NonCancellable.start
 
 object PishkhanSDK {
     lateinit var coreApi: AyanApi
@@ -230,76 +223,82 @@ object PishkhanSDK {
             useCommonChangeStatusCallback = false
             success { historyItems ->
                 if (historyItems != null) {
-                    hasInquiryHistory(true)
-                    inquiryHistoryRv.verticalSetup()
-                    inquiryHistoryRv.adapter =
-                        InquiryHistoryAdapter(historyItems) { item, viewId, position ->
-                            item?.let { inquiryHistoryItem ->
-                                when (viewId) {
-                                    R.id.inquiryHistoryRl -> {
-                                        handleInquiryHistoryClick?.invoke(inquiryHistoryItem.Parameters)
-                                    }
+                    if (historyItems.isNotEmpty()) {
+                        inquiryHistoryRv.verticalSetup()
+                        inquiryHistoryRv.adapter =
+                            InquiryHistoryAdapter(historyItems) { item, viewId, position ->
 
-                                    R.id.deleteIv -> {
-                                        ConfirmationBottomSheet(context = context,
-                                            onConfirmClicked = {
-                                                ((inquiryHistoryRv.adapter as InquiryHistoryAdapter).items as ArrayList).removeAt(
-                                                    position
+                                item?.let { inquiryHistoryItem ->
+                                    when (viewId) {
+                                        R.id.inquiryHistoryRl -> {
+                                            handleInquiryHistoryClick?.invoke(inquiryHistoryItem.Parameters)
+                                        }
+
+                                        R.id.deleteIv -> {
+                                            ConfirmationBottomSheet(context = context,
+                                                onConfirmClicked = {
+                                                    ((inquiryHistoryRv.adapter as InquiryHistoryAdapter).items as ArrayList).removeAt(
+                                                        position
+                                                    )
+                                                    inquiryHistoryRv.adapter?.notifyItemRemoved(
+                                                        position
+                                                    )
+
+                                                    coreApi.simpleCallUserServiceQueryDelete(
+                                                        UserServiceQueryDelete.Input(
+                                                            QueryUniqueID = inquiryHistoryItem.UniqueID!!
+                                                        )
+                                                    ) {
+                                                        hasInquiryHistory(historyItems.isNotEmpty())
+                                                        inquiryHistoryRv.adapter?.notifyItemChanged(
+                                                            position
+                                                        )
+                                                    }
+                                                }).show()
+                                        }
+
+                                        R.id.editIv -> {
+                                            EditInquiryHistoryBottomSheet(context = context,
+                                                note = inquiryHistoryItem.Note,
+                                                onConfirmClicked = {
+                                                    coreApi.simpleCallUserServiceQueryNote(
+                                                        UserServiceQueryNote.Input(
+                                                            Note = it,
+                                                            QueryUniqueID = inquiryHistoryItem.UniqueID!!
+                                                        )
+                                                    ) {
+                                                        historyItems[position].Note = it
+                                                        inquiryHistoryRv.adapter?.notifyItemChanged(
+                                                            position
+                                                        )
+                                                    }
+
+                                                }).show()
+                                        }
+
+                                        R.id.favoriteIv -> {
+                                            bookmarkInquiryHistory(
+                                                inquiryHistoryItem
+                                            ) {
+                                                getInquiryHistory(
+                                                    serviceName,
+                                                    context,
+                                                    inquiryHistoryRv,
+                                                    hasInquiryHistory,
+                                                    handleInquiryHistoryClick,
+                                                    failureCallBack,
+                                                    changeStatusCallback
                                                 )
-                                                inquiryHistoryRv.adapter?.notifyItemRemoved(position)
-
-                                                coreApi.simpleCallUserServiceQueryDelete(
-                                                    UserServiceQueryDelete.Input(
-                                                        QueryUniqueID = inquiryHistoryItem.UniqueID!!
-                                                    )
-                                                ) {
-                                                    hasInquiryHistory(historyItems.isNotEmpty())
-                                                    inquiryHistoryRv.adapter?.notifyItemChanged(
-                                                        position
-                                                    )
-                                                }
-                                            }).show()
-                                    }
-
-                                    R.id.editIv -> {
-                                        EditInquiryHistoryBottomSheet(context = context,
-                                            note = inquiryHistoryItem.Note,
-                                            onConfirmClicked = {
-                                                coreApi.simpleCallUserServiceQueryNote(
-                                                    UserServiceQueryNote.Input(
-                                                        Note = it,
-                                                        QueryUniqueID = inquiryHistoryItem.UniqueID!!
-                                                    )
-                                                ) {
-                                                    historyItems[position].Note = it
-                                                    inquiryHistoryRv.adapter?.notifyItemChanged(
-                                                        position
-                                                    )
-                                                }
-
-                                            }).show()
-                                    }
-
-                                    R.id.favoriteIv -> {
-                                        bookmarkInquiryHistory(
-                                            inquiryHistoryItem
-                                        ) {
-                                            getInquiryHistory(
-                                                serviceName,
-                                                context,
-                                                inquiryHistoryRv,
-                                                hasInquiryHistory,
-                                                handleInquiryHistoryClick,
-                                                failureCallBack,
-                                                changeStatusCallback
-                                            )
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                } else {
-                    hasInquiryHistory(false)
+                        hasInquiryHistory(true)
+
+                    } else {
+                        hasInquiryHistory(false)
+                    }
                 }
             }
             changeStatusCallback {
@@ -325,7 +324,7 @@ object PishkhanSDK {
     }
 
     fun getUserTransactionHistory(
-        showingIcon :Boolean = false,
+        showingIcon: Boolean = false,
         serviceName: String? = null,
         userTransactionHistoryRv: RecyclerView,
         hasTransactionHistory: BooleanCallBack,
@@ -334,7 +333,7 @@ object PishkhanSDK {
     ) {
         coreApi.simpleCallUserTransactions { userTransactionsOutput ->
             if (!userTransactionsOutput?.Transactions.isNullOrEmpty()) {
-                 userTransactionsOutput?.Transactions?.let { transactionList ->
+                userTransactionsOutput?.Transactions?.let { transactionList ->
                     var list: List<UserTransactions.Transaction> = transactionList
 
                     if (serviceName.isNotNull())
@@ -368,14 +367,14 @@ object PishkhanSDK {
     }
 
     private fun setupAdapter(
-        showingIcon:Boolean = false,
+        showingIcon: Boolean = false,
         list: List<UserTransactions.Transaction>,
         transactionRv: RecyclerView,
         onTransactionItemClicked: ((output: BaseResultModel<*>, serviceNAme: String) -> Unit)?
     ) {
 
         transactionRv.verticalSetup()
-        transactionRv.adapter = TransactionAdapter(showingIcon,list) { item, viewId, position ->
+        transactionRv.adapter = TransactionAdapter(showingIcon, list) { item, viewId, position ->
             item?.let {
                 if (it.Reference?.startsWith("http") == true) {
                     it.Reference.openUrl(whyGoogleActivity)
