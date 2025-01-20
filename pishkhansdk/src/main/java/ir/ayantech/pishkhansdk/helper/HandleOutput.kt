@@ -500,7 +500,7 @@ object HandleOutput {
                             )
                         }?.let {
                             handleInquiryVehicleAuthenticity(
-                                it
+                                it, handleResultCallback
                             )
                         }
                     }

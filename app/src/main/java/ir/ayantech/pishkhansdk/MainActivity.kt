@@ -127,7 +127,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                 product = ProductItemDetail.InquiryVehicleAuthenticityByBarCode,
                 inputModel = VehicleAuthenticity.Input(
                     IdentifierType = "Barcode",
-                    NationalCodeOwner = "2740651236",
+                    NationalCodeOwner = "2280791013",
                     NationalCodeBuyer = "0021734631",
                     OTPCode = null,
                     OTPReferenceNumber = "",
