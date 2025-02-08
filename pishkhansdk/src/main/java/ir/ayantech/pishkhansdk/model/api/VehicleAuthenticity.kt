@@ -62,6 +62,7 @@ class VehicleAuthenticity {
         val Type: String,
         val Usage: String,
         val TechnicalDiagnosisStatus: TechnicalDiagnosisStatus,
+        val FactoryInformation: FactoryInformation,
     )
 
     data class Insurance(
