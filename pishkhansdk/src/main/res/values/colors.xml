@@ -10,6 +10,8 @@
     <color name="white">#FFFFFF</color>
     <color name="green">#2ECB6D</color>
 
+    <color name="icon_secondary_color">#16A796</color>
+
     <color name="grey">#616161</color>
     <color name="grey_2">#EAEAEA</color>
     <color name="grey_4">#404040</color>

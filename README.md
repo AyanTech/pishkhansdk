@@ -153,6 +153,7 @@ Note: ServiceName can be null and if you don't pass service name all items in tr
 
 ```sh
 
+     <color name="icon_secondary_color">#16A796</color>
     <color name="pishkhansdk_button_text_color">#111E24</color>
     <color name="pishkhansdk_inquiry_button_color">#2ECB6D</color>
     <color name="pishkhansdk_cursor_color_text_input_edit_text">#00BAF2</color>

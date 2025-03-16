@@ -16,5 +16,5 @@
       android:fillColor="#657786"/>
   <path
       android:pathData="M17.032,17.402C15.308,17.402 13.908,18.798 13.908,20.526V22.326C13.908,22.558 14.096,22.746 14.328,22.746H19.736C19.968,22.746 20.156,22.558 20.156,22.326V20.526C20.152,18.798 18.756,17.402 17.032,17.402Z"
-      android:fillColor="#42BFDD"/>
+       android:fillColor="@color/icon_secondary_color"/>
 </vector>
