@@ -24,6 +24,7 @@ import ir.ayantech.pishkhansdk.model.api.UserServiceQueryBookmark
 import ir.ayantech.pishkhansdk.model.api.UserServiceQueryDelete
 import ir.ayantech.pishkhansdk.model.api.UserServiceQueryNote
 import ir.ayantech.pishkhansdk.model.api.UserTransactions
+import ir.ayantech.pishkhansdk.model.api.UserTransactions.Filter
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
 import ir.ayantech.pishkhansdk.model.app_logic.CallbackDataModel
@@ -328,7 +329,7 @@ object PishkhanSDK {
         serviceName: String? = null,
         userTransactionHistoryRv: RecyclerView,
         hasTransactionHistory: BooleanCallBack,
-        transactionsInfoCallback: ((totalItem: Int, totalAmount: Long) -> Unit)?,
+        transactionsInfoCallback: ((totalItem: Long, totalAmount: Long) -> Unit)?,
         onTransactionItemClicked: ((output: BaseResultModel<*>, serviceName: String) -> Unit)?
     ) {
         coreApi.simpleCallUserTransactions { userTransactionsOutput ->
@@ -348,10 +349,8 @@ object PishkhanSDK {
                             list = transactionList.filter { it.Type.Name == serviceName }
                         }
 
-                    val totalItem = list.size
-                    val totalAmount = list.sumOf { it.Amount }
                     hasTransactionHistory(list.isNotEmpty())
-                    transactionsInfoCallback?.invoke(totalItem, totalAmount)
+                    transactionsInfoCallback?.invoke(userTransactionsOutput.TotalNumber, userTransactionsOutput.TotalAmount)
                     setupAdapter(
                         showingIcon = showingIcon,
                         list = list,
@@ -366,7 +365,35 @@ object PishkhanSDK {
         }
     }
 
-    private fun setupAdapter(
+    fun getUserTransactionHistoryList(
+        serviceName: String? = null,
+        transactionsInfoCallback: (transactionsList: List<UserTransactions.Transaction>, filtersList: List<Filter>?) -> Unit?,
+    ) {
+        coreApi.simpleCallUserTransactions { userTransactionsOutput ->
+            if (!userTransactionsOutput?.Transactions.isNullOrEmpty()) {
+                userTransactionsOutput?.Transactions?.let { transactionList ->
+                    var list: List<UserTransactions.Transaction> = transactionList
+                    if (serviceName.isNotNull())
+                        if (serviceName == ProductItemDetail.InquiryTrafficFinesCar || serviceName == ProductItemDetail.InquiryTrafficFinesCarSummary) {
+                            list =
+                                transactionList.filter { it.Type.Name == ProductItemDetail.InquiryTrafficFinesCar || it.Type.Name == ProductItemDetail.InquiryTrafficFinesCarSummary }
+                        } else if (serviceName == ProductItemDetail.InquiryTrafficFinesMotorcycle || serviceName == ProductItemDetail.InquiryTrafficFinesMotorcycleSummary) {
+                            list =
+                                transactionList.filter { it.Type.Name == ProductItemDetail.InquiryTrafficFinesMotorcycle || it.Type.Name == ProductItemDetail.InquiryTrafficFinesMotorcycleSummary }
+
+                        } else {
+                            list = transactionList.filter { it.Type.Name == serviceName }
+                        }
+                    val filters = userTransactionsOutput.Filters
+
+                    transactionsInfoCallback?.invoke(list, filters)
+                }
+
+            }
+        }
+    }
+
+    fun setupAdapter(
         showingIcon: Boolean = false,
         list: List<UserTransactions.Transaction>,
         transactionRv: RecyclerView,
@@ -401,6 +428,11 @@ object PishkhanSDK {
 
     }
 
+    fun updateTransactionHistoryAdapter(
+        list: List<UserTransactions.Transaction>,
+        transactionRv: RecyclerView,){
+        (transactionRv.adapter as TransactionAdapter).updateList(list)
+    }
     fun login(
         phoneNumber: String,
         otp: String? = null,

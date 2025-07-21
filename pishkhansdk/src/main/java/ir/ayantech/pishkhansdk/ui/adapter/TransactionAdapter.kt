@@ -1,15 +1,12 @@
 package ir.ayantech.pishkhansdk.ui.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.databinding.PishkhansdkComponentTransactionBinding
 import ir.ayantech.pishkhansdk.helper.extensions.getFormattedPersianDateTime
 import ir.ayantech.pishkhansdk.model.api.UserTransactions
-import ir.ayantech.pishkhansdk.model.app_logic.ProductItemDetail
 import ir.ayantech.pishkhansdk.model.app_logic.getCardHistoryIcon
-import ir.ayantech.pishkhansdk.model.constants.Constant.context
 import ir.ayantech.pishkhansdk.ui.components.init
 import ir.ayantech.pishkhansdk.ui.components.setArrowIvTint
 import ir.ayantech.pishkhansdk.ui.components.setDescriptionTextColor
@@ -21,7 +18,7 @@ import ir.ayantech.whygoogle.helper.formatAmount
 import ir.ayantech.whygoogle.helper.isNull
 
 class TransactionAdapter(
-  val  showingIcon :Boolean = false,
+    val showingIcon: Boolean = false,
     items: List<UserTransactions.Transaction>,
     onItemClickListener: OnItemClickListener<UserTransactions.Transaction>
 ) : CommonAdapter<UserTransactions.Transaction, PishkhansdkComponentTransactionBinding>(
@@ -53,6 +50,12 @@ class TransactionAdapter(
 
             this.setRightIndicatorIvTint(checkColors(itemsToView[position]))
         }
+    }
+
+    fun updateList(list: List<UserTransactions.Transaction>) {
+        this.itemsToView = list
+        this.items = list
+        notifyDataSetChanged()
     }
 
     private fun checkColors(transaction: UserTransactions.Transaction): Int {
