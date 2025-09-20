@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/failedPaymentIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/pishkhansdk_ic_failed_payment" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/descriptionTv"
+        style="@style/pishkhansdk_bottom_sheet_cnpg_failed_payment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/failedPaymentIv"
+        android:layout_marginTop="@dimen/margin_12"
+        tools:text="پرداخت ناموفق" />
+
+    <include
+        android:id="@+id/returnButtonComponent"
+        layout="@layout/pishkhansdk_component_button_filled"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/descriptionTv"
+        android:layout_marginTop="@dimen/margin_12"
+        android:layout_marginBottom="@dimen/margin_16" />
+
+</RelativeLayout>

@@ -37,7 +37,9 @@ data class PaymentChannel(
     var Gateways: List<Gateway>?,
     val Type: Type,
     var Selected: Boolean = false,
-    var temporaryUnavailable: Boolean
+    var temporaryUnavailable: Boolean,
+    var walletBalance: Long = 0,
+    var isWalletBalanceSufficient: Boolean = false
 )
 
 data class Source(

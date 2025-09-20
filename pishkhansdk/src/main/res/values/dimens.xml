@@ -47,6 +47,7 @@
     <dimen name="margin_270">@dimen/_270sdp</dimen>
     <dimen name="margin_280">@dimen/_280sdp</dimen>
     <dimen name="margin_300">@dimen/_300sdp</dimen>
+    <dimen name="margin_320">@dimen/_320sdp</dimen>
     <dimen name="margin_360">@dimen/_360sdp</dimen>
     <dimen name="margin_400">@dimen/_400sdp</dimen>
     <dimen name="margin_minus_42">-42dp</dimen>

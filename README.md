@@ -88,7 +88,14 @@ After clicking the inquiry button, execute the following method to start SDK's f
                 },
                 handleResultCallback = {
                    // Cast the result here 
-                }
+                },
+                showPaymentChannelsFragment = true, // set true to go to payment channels flow. if not set or false(default), payments are only with OnlinePayment channel
+                extraInfoComponentDataModel = PishkhansdkExtraInfoComponentDataModel( // set this parameter with your data to show in CNPGFragment, if set to null no extra info shows in CNPGFragment. If size of list is larger that 2 then, component would be expandable
+                      extraInfoItems = listOf(
+                          ExtraInfo(Key = "خدمت",Value = "پرداخت قبض خلافی"), 
+                          ExtraInfo(Key = "مبلغ", Value = "100,000 ریال")
+                      )
+                )         
             )
 ```
 For services with payment, when the payment process is successful and you are getting back to the app, call this method in MainActivity:
@@ -148,6 +155,69 @@ To get the transaction history list add the following method :
 
 ```
 Note: ServiceName can be null and if you don't pass service name all items in transaction will be showed in the list otherwise you can see just transactions belongs to the service name .
+
+For bills payment, You can start BillsPaymentChannelsFragment and pass the parameters. This fragment contains payment channels (wallet, CNPG and IPG) for bills payment:
+
+```sh
+         start(
+             BillsPaymentChannelsFragment(
+                 bills = bills, // list of bills for payment
+                 service = product, // service name
+                 callbackUrl = "", // set this for IPG
+                 onBillsPaid = {
+                     // handle after bills paid.
+                 },
+                 extraInfoComponentDataModel = PishkhansdkExtraInfoComponentDataModel( // set this parameter with your data to show in CNPGFragment, if set to null no extra info shows in CNPGFragment. If size of list is larger that 2 then, component would be expandable
+                     extraInfoItems = listOf(
+                         ExtraInfo(Key = "خدمت",Value = "پرداخت قبض خلافی"),
+                         ExtraInfo(Key = "مبلغ", Value = amount.formatAmount()),
+                         ExtraInfo(Key = "تعداد قبض", Value = bills.size.toString())
+                     )
+                 )
+             )
+         )
+```
+
+WalletFragment.kt: This class use for charge the wallet. For direct charge use default constructor WalletFragment(). If you wanted start this fragment for bill payment, use constructor with parameters like below:
+
+```sh
+         start(
+            WalletFragment(
+                source = WalletFragment.Source.Service, // set this to Service if you do not want DirectCharge 
+                neededCashForChargeWallet = 100000, // set amount for charge wallet
+                callbackDataModel = , // set this for IPG payment
+                walletChargeSuccessfulViaCNPG = {
+                    // handle after wallet charged via CNPG payment
+                }
+            )
+        ) 
+         
+```
+
+PaymentChannelsFragment.kt: This class contains payment channels for payments. This is an abstract class with necessary and basic properties for payment channels. (BillsPaymentChannelsFragment.kt and InvoicePaymentChannelsFragment.kt inherit from this class)
+
+```sh
+      abstract class PaymentChannelsFragment: AyanFragment<PishkhansdkFragmentPaymentChannelsBinding>() {
+        // UI implementation and basic logics implemented in this class
+      }
+```
+
+BillsPaymentChannelsFragment.kt and BillsPaymentChannelsInterface.kt (used for services payment)
+
+```sh
+      open class BillsPaymentChannelsFragment(): PaymentChannelsFragment(), BillsPaymentChannelsInterface {
+        // Implement the bills payment logic from BillsPaymentChannelsInterface and use them for connecting with PaymentChannelsFragment super class
+      }
+```
+
+InvoicePaymentChannelsFragment.kt and InvoicePaymentChannelsInterface.kt (used in services inquiry)
+
+```sh
+      open class InvoicePaymentChannelsFragment(): PaymentChannelsFragment(), InvoicePaymentChannelsInterface {
+        // Implement the invoice payment logic from InvoicePaymentChannelsInterface and use them for connecting with PaymentChannelsFragment super class
+      }
+```
+
 
 ## Custom Color:
 

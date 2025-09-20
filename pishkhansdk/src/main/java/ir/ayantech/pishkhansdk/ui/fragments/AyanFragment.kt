@@ -25,7 +25,7 @@ abstract class AyanFragment<T : ViewBinding> : WhyGoogleFragment<T>() {
         var isFooterActive = true
     }
 
-    abstract var pageTitle: String
+    open var pageTitle: String = ""
 
     open val showToolbar = true
     open val showToolbarInfoIcon = false

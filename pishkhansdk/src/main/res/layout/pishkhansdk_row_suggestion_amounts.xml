@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/margin_32">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/amountTv"
+        style="@style/pishkhansdk_row_suggestion_amount_amountTv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_toStartOf="@id/spacer"
+        android:paddingStart="@dimen/margin_8"
+        android:paddingTop="@dimen/margin_4"
+        android:paddingEnd="@dimen/margin_8"
+        android:paddingBottom="@dimen/margin_4"
+        tools:text="100،000 ریال" />
+
+    <View
+        android:id="@+id/spacer"
+        android:layout_width="@dimen/margin_12"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

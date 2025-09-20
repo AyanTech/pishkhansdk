@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <include
+        android:id="@+id/increaseBtnComponent"
+        layout="@layout/pishkhansdk_component_icon_button"
+        android:layout_width="@dimen/edittext_height"
+        android:layout_height="@dimen/edittext_height"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="@dimen/margin_12" />
+
+    <include
+        android:id="@+id/amountInputComponent"
+        layout="@layout/pishkhansdk_component_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/decreaseBtnComponent"
+        android:layout_toEndOf="@id/increaseBtnComponent" />
+
+    <include
+        android:id="@+id/decreaseBtnComponent"
+        layout="@layout/pishkhansdk_component_icon_button"
+        android:layout_width="@dimen/edittext_height"
+        android:layout_height="@dimen/edittext_height"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/margin_12" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/amountTextTv"
+        style="@style/Text2Light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/increaseBtnComponent"
+        android:layout_marginTop="@dimen/margin_4"
+        android:textColor="@color/color_primary"
+        android:visibility="gone"
+        tools:text="یکصد بیست و هشت میلیون و هشتصد و هفتاد و سه هزار و دویست و نود و یک تومان"
+         />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/unitTv"
+        style="@style/GlobalTextInputEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/amountInputComponent"
+        android:layout_alignEnd="@id/amountInputComponent"
+        android:layout_alignBottom="@id/amountInputComponent"
+        android:layout_marginEnd="@dimen/margin_20"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        android:text="ریال"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+</RelativeLayout>

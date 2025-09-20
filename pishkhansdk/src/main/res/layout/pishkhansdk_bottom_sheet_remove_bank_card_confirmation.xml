@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/descriptionTv"
+        style="@style/pishkhansdk_bottom_sheet_remove_bank_card_confirmation_descriptionTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        tools:text="آیا از حذف شماره کارت 1231 2121 51465 5155 اطمینان دارید؟" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/descriptionTv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_12"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <include
+            android:id="@+id/cancelRemoveButtonComponent"
+            layout="@layout/pishkhansdk_component_button_filled"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_8"
+            android:layout_weight="1" />
+
+        <include
+            android:id="@+id/removeConfirmedButtonComponent"
+            layout="@layout/pishkhansdk_component_button_outlined"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_8"
+            android:layout_weight="1" />
+    </LinearLayout>
+</RelativeLayout>

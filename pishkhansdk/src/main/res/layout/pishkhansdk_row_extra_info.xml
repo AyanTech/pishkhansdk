@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/keyValueLl"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/margin_16"
+    android:paddingTop="@dimen/margin_4"
+    android:paddingEnd="@dimen/margin_16"
+    android:paddingBottom="@dimen/margin_4">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/keyTv"
+        style="@style/pishkhansdk_row_extra_info_keyTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="نام" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/valueTv"
+        style="@style/pishkhansdk_row_extra_info_valueTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAlignment="viewEnd"
+        tools:text="مقدار" />
+</LinearLayout>

@@ -17,6 +17,11 @@ import ir.ayantech.networking.simpleCallUserTransactions
 import ir.ayantech.pishkhansdk.Initializer
 import ir.ayantech.pishkhansdk.PishkhanUser
 import ir.ayantech.pishkhansdk.R
+import ir.ayantech.pishkhansdk.helper.payment.channels.BillsPaymentChannelsInterface
+import ir.ayantech.pishkhansdk.helper.payment.channels.InvoicePaymentChannelsInterface
+import ir.ayantech.pishkhansdk.model.api.BillsPayment
+import ir.ayantech.pishkhansdk.model.api.GetUserData
+import ir.ayantech.pishkhansdk.model.api.InvoicePayment
 import ir.ayantech.pishkhansdk.model.api.InvoiceRegister
 import ir.ayantech.pishkhansdk.model.api.LoginByOTP
 import ir.ayantech.pishkhansdk.model.api.UserServiceQueries
@@ -31,22 +36,35 @@ import ir.ayantech.pishkhansdk.model.app_logic.CallbackDataModel
 import ir.ayantech.pishkhansdk.model.app_logic.ExtraInfo
 import ir.ayantech.pishkhansdk.model.app_logic.ProductItemDetail
 import ir.ayantech.pishkhansdk.model.constants.Constant
+import ir.ayantech.pishkhansdk.model.constants.EndPoints
 import ir.ayantech.pishkhansdk.ui.adapter.InquiryHistoryAdapter
 import ir.ayantech.pishkhansdk.ui.adapter.TransactionAdapter
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.ConfirmationBottomSheet
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.EditInquiryHistoryBottomSheet
+import ir.ayantech.pishkhansdk.ui.components.PishkhansdkExtraInfoComponentDataModel
+import ir.ayantech.pishkhansdk.ui.fragments.PaymentChannelsFragment
+import ir.ayantech.pishkhansdk.ui.fragments.WalletFragment
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import ir.ayantech.whygoogle.helper.BooleanCallBack
+import ir.ayantech.whygoogle.helper.SimpleCallBack
+import ir.ayantech.whygoogle.helper.fromJsonToObject
 import ir.ayantech.whygoogle.helper.isNotNull
 import ir.ayantech.whygoogle.helper.isNull
 import ir.ayantech.whygoogle.helper.openUrl
 import ir.ayantech.whygoogle.helper.verticalSetup
 
-object PishkhanSDK {
+object PishkhanSDK: InvoicePaymentChannelsInterface, BillsPaymentChannelsInterface {
     lateinit var coreApi: AyanApi
     lateinit var serviceApi: AyanApi
     lateinit var serviceName: String
     lateinit var whyGoogleActivity: WhyGoogleActivity<*>
+
+    var onBillsPaid: SimpleCallBack = {}
+
+    var handleTransitionOnInvoicePaymentViaIPG: SimpleCallback = {
+        whyGoogleActivity.pop()
+        whyGoogleActivity.pop()
+    }
 
     fun initialize(
         context: Context,
@@ -112,6 +130,27 @@ object PishkhanSDK {
         )
     }
 
+    fun onInquiryButtonClicked(
+        product: String,
+        inputModel: BaseInputModel,
+        showPaymentChannelsFragment: Boolean = false,
+        extraInfoComponentDataModel: PishkhansdkExtraInfoComponentDataModel? = null,
+        failureCallBack: FailureCallback? = null,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null,
+        invoiceRegisterCallback: ((invoiceRegisterOutput: InvoiceRegister.Output) -> Unit)? = null
+    ) {
+        PaymentHelper.showPaymentChannelsFragment = showPaymentChannelsFragment
+        PaymentHelper.handleResultCallback = handleResultCallback
+        PaymentHelper.extraInfoComponentDataModelForPayViaCNPG = extraInfoComponentDataModel
+        onInquiryButtonClicked(
+            product = product,
+            inputModel = inputModel,
+            failureCallBack = failureCallBack,
+            handleResultCallback = handleResultCallback,
+            invoiceRegisterCallback = invoiceRegisterCallback
+        )
+    }
+
 
     fun userPaymentIsSuccessful(
         intent: Intent,
@@ -137,6 +176,8 @@ object PishkhanSDK {
                 voucherCode = items.firstOrNull { it.startsWith("voucherCode") }?.split("=")
                     ?.get(1),
                 channelName = items.firstOrNull { it.startsWith("channelName") }?.split("=")
+                    ?.get(1),
+                dataId = items.firstOrNull { it.startsWith(CallbackDataModel.Params.DATA_ID) }?.split("=")
                     ?.get(1),
             )
 
@@ -175,7 +216,35 @@ object PishkhanSDK {
                     } else {
                         if (callbackDataModel.selectedGateway != null) {
                             //means that user wants to pay with wallet
-
+                            if (callbackDataModel.paymentStatus == Constant.paid || callbackDataModel.paymentStatus == Constant.Settle) {
+                                serviceApi.call<GetUserData.Output>(
+                                    endPoint = EndPoints.GET_USER_DATA,
+                                    input = GetUserData.Input(Key = callbackDataModel.dataId)
+                                ) {
+                                    success { getUserDataOutput ->
+                                        when (callbackDataModel.sourcePage) {
+                                            PaymentChannelsFragment.PaymentChannelSource.INVOICE_PAYMENT.name -> {
+                                                getUserDataOutput?.Value?.let { savedData ->
+                                                    callInvoicePayment(
+                                                        invoicePaymentInput = savedData.fromJsonToObject<InvoicePayment.Input>()
+                                                    ) { invoicePaymentOutput ->
+                                                        payInvoiceViaWallet(
+                                                            paymentKey = invoicePaymentOutput?.PaymentKey ?: ""
+                                                        ) {
+                                                            HandleOutput.handleOutputResult(
+                                                                invoiceInfoOutput = invoiceInfoOutput,
+                                                                handleResultCallback = {
+                                                                    handleTransitionOnInvoicePaymentViaIPG()
+                                                                    handleResultCallback?.invoke(it)
+                                                                })
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         } else {
                             //means that user has paid online
                             if (callbackDataModel.paymentStatus == Constant.paid || callbackDataModel.paymentStatus == Constant.Settle) {
@@ -204,6 +273,37 @@ object PishkhanSDK {
                       it.serviceName = callbackDataModel.serviceName
                       it.paymentStatus = callbackDataModel.paymentStatus
                   })*/
+                if (callbackDataModel.selectedGateway != null) {
+                    //means that user wants to pay with wallet
+                    if (callbackDataModel.paymentStatus == Constant.paid || callbackDataModel.paymentStatus == Constant.Settle) {
+                        when (callbackDataModel.sourcePage) {
+                            PaymentChannelsFragment.PaymentChannelSource.INVOICE_PAYMENT.name -> {
+                                serviceApi.call<GetUserData.Output>(
+                                    endPoint = EndPoints.GET_USER_DATA,
+                                    input = GetUserData.Input(Key = callbackDataModel.dataId)
+                                ) {
+                                    success { getUserDataOutput ->
+                                        getUserDataOutput?.Value?.let { savedData ->
+                                            callBillPayment(
+                                                billsPaymentInput = savedData.fromJsonToObject<BillsPayment.Input>()
+                                            ) { billsPaymentOutput ->
+                                                payBillsViaWallet(
+                                                    paymentKey = billsPaymentOutput?.PaymentKey
+                                                        ?: ""
+                                                ) {
+                                                    onBillsPaid()
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            WalletFragment.Source.DirectCharge.name -> {
+                                (whyGoogleActivity.getTopFragment() as? WalletFragment)?.initViews()
+                            }
+                        }
+                    }
+                }
             }
 
         }

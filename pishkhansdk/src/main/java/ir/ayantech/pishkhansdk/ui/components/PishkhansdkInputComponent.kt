@@ -2,6 +2,8 @@ package ir.ayantech.pishkhansdk.ui.components
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.ColorSpace
 import android.os.Build
 import android.text.InputType
 import android.view.View
@@ -9,17 +11,20 @@ import android.view.View.OnTouchListener
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.view.updatePadding
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.databinding.PishkhansdkComponentInputBinding
 import ir.ayantech.pishkhansdk.helper.extensions.AfterTextChangedCallback
+import ir.ayantech.pishkhansdk.helper.extensions.getDimensionInt
 import ir.ayantech.pishkhansdk.helper.extensions.placeCursorToEnd
 import ir.ayantech.pishkhansdk.helper.extensions.setMaxLength
+import ir.ayantech.pishkhansdk.helper.extensions.setTint
 import ir.ayantech.pishkhansdk.helper.extensions.textChanges
-import ir.ayantech.pishkhansdk.helper.extensions.getDimensionInt
 import ir.ayantech.whygoogle.helper.SimpleCallBack
 import ir.ayantech.whygoogle.helper.changeVisibility
+import ir.ayantech.whygoogle.helper.isNotNull
 
 @SuppressLint("ClickableViewAccessibility")
 fun PishkhansdkComponentInputBinding.init(
@@ -30,19 +35,25 @@ fun PishkhansdkComponentInputBinding.init(
     inputType: Int = InputType.TYPE_CLASS_TEXT,
     helperText: String? = null,
     maxLength: Int? = null,
-    @DrawableRes startDrawable: Int? = null,
+    @ColorRes boxStrokeColor: Int? = null,
+    boxRadius: Float? = null,
     @DrawableRes endDrawable: Int? = null,
-    @ColorRes startIconColor: Int? = null,
     @ColorRes endIconColor: Int? = null,
-    onStartIconClicked: SimpleCallBack? = null,
     onEndIconClicked: SimpleCallBack? = null,
     textAlignment: Int? = null,
-    onStartIconTouchListener: OnTouchListener? = null,
     onEndIconTouchListener: OnTouchListener? = null,
-    @DimenRes startIconPadding: Int? = null,
     @DimenRes endIconPadding: Int? = null,
 ) {
     backgroundTint?.let { textInputLayout.boxBackgroundColor = getColor(context, backgroundTint) }
+    boxStrokeColor?.let { textInputLayout.setBoxStrokeColorStateList(AppCompatResources.getColorStateList(context, it)) }
+    boxRadius?.let {
+        textInputLayout.setBoxCornerRadii(
+            it,
+            it,
+            it,
+            it
+        )
+    }
     textInputEditText.apply {
         this.hint = hint
         setText(text)
@@ -68,6 +79,16 @@ fun PishkhansdkComponentInputBinding.init(
     textInputLayout.apply {
         this.helperText = helperText
     }
+
+    endIconIv.changeVisibility(show = endDrawable.isNotNull())
+    endIconPadding?.let {
+        val padding = getDimensionInt(it)
+        endIconIv.updatePadding(padding, padding, padding, padding)
+    }
+    endDrawable?.let { endIconIv.setImageResource(it) }
+    endIconColor?.let { endIconIv.setTint(endIconColor) }
+    onEndIconClicked?.let { endIconIv.setOnClickListener { it() } }
+    onEndIconTouchListener?.let { endIconIv.setOnTouchListener(it) }
 }
 
 
@@ -91,4 +112,11 @@ fun PishkhansdkComponentInputBinding.setAfterTextChangesListener(afterTextChange
 
 fun PishkhansdkComponentInputBinding.setError(text: String?) {
     textInputLayout.error = text
+}
+
+fun PishkhansdkComponentInputBinding.setInputType(inputType: Int) {
+    textInputEditText.inputType = inputType
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        textInputEditText.setTextAppearance(R.style.GlobalTextInputEditText)
+    }
 }

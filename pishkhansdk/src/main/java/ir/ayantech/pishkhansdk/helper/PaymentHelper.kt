@@ -16,15 +16,6 @@ import ir.ayantech.pishkhansdk.helper.HandleOutput.handleIdentificationDocuments
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleInquiryTransferTaxCar
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleInquiryTransferTaxMotorCycle
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleInquiryVehicleAuthenticity
-import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
-import ir.ayantech.pishkhansdk.model.constants.EndPoints
-import ir.ayantech.pishkhansdk.model.enums.PrerequisitesType
-import ir.ayantech.pishkhansdk.model.app_logic.CallbackDataModel
-import ir.ayantech.pishkhansdk.model.api.InvoicePayment
-
-import ir.ayantech.pishkhansdk.model.api.InvoiceRegister
-import ir.ayantech.pishkhansdk.model.app_logic.OTP
-import ir.ayantech.pishkhansdk.model.app_logic.createCallBackLink
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleJusticeSharesPortfolioOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleLandLineBillOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleMobileBillOutput
@@ -32,19 +23,28 @@ import ir.ayantech.pishkhansdk.helper.HandleOutput.handleNegativePointOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handlePassportStatusOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handlePlateNumbersOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handlePostPackageTrackingOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleServiceBillsOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleSubventionHistoryOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleThirdPartyInsuranceOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleThirdPartyInsuranceStatusOutput
-import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficFinesCarSummaryOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficFinesCarOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficFinesCarSummaryOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleTrafficPlanTollCarOutput
-import ir.ayantech.pishkhansdk.helper.HandleOutput.handleServiceBillsOutput
 import ir.ayantech.pishkhansdk.helper.PishkhanSDK.serviceName
 import ir.ayantech.pishkhansdk.model.api.InvoiceInfo
+import ir.ayantech.pishkhansdk.model.api.InvoicePayment
+import ir.ayantech.pishkhansdk.model.api.InvoiceRegister
+import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
+import ir.ayantech.pishkhansdk.model.app_logic.CallbackDataModel
+import ir.ayantech.pishkhansdk.model.app_logic.OTP
 import ir.ayantech.pishkhansdk.model.app_logic.Products
+import ir.ayantech.pishkhansdk.model.constants.EndPoints
+import ir.ayantech.pishkhansdk.model.enums.PrerequisitesType
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.OtpBottomSheetDialog
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.PreviewBottomSheetDialog
+import ir.ayantech.pishkhansdk.ui.components.PishkhansdkExtraInfoComponentDataModel
+import ir.ayantech.pishkhansdk.ui.fragments.InvoicePaymentChannelsFragment
 import ir.ayantech.whygoogle.helper.fromJsonToObject
 import ir.ayantech.whygoogle.helper.isNotNull
 import ir.ayantech.whygoogle.helper.openUrl
@@ -54,6 +54,10 @@ object PaymentHelper {
 
     var otpBottomSheetDialog: OtpBottomSheetDialog? = null
 
+    var showPaymentChannelsFragment: Boolean = false
+    var handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    var extraInfoComponentDataModelForPayViaCNPG: PishkhansdkExtraInfoComponentDataModel? = null
+    var extraInfoComponentDataModelForChargeWalletViaCNPG: PishkhansdkExtraInfoComponentDataModel? = null
     /**
      * This method checks if the service has a prerequisite
      **/
@@ -163,21 +167,32 @@ object PaymentHelper {
     private fun openOnlinePaymentUrl(
         invoiceOutput: InvoiceRegister.Output,
     ) {
-        invoiceOutput.PaymentChannels?.find { it.Type.Name == "OnlinePayment" }?.Gateways?.let { gateways ->
-            invoicePayment(
-                callBack = CallbackDataModel(
-                    sourcePage = "factor",
+        val callbackLink = CallbackDataModel(
+            sourcePage = "factor",
+            purchaseKey = invoiceOutput.Invoice.PurchaseKey,
+            selectedGateway = null,
+            useCredit = "false",
+            serviceName = invoiceOutput.Invoice.Service.Type.Name,
+            channelName = "OnlinePayment"
+        ).createCallBackLink()
+        if (showPaymentChannelsFragment) {
+            PishkhanSDK.whyGoogleActivity.start(
+                InvoicePaymentChannelsFragment(
+                    invoicePaymentChannels = invoiceOutput.PaymentChannels ?: listOf(),
                     purchaseKey = invoiceOutput.Invoice.PurchaseKey,
-                    paymentStatus = "#status#",
-                    selectedGateway = null,
-                    useCredit = "false",
-                    serviceName = invoiceOutput.Invoice.Service.Type.Name,
-                    channelName = "OnlinePayment"
-                ).createCallBackLink(),
-                gateway = gateways[0].Type.Name,
-                purchaseKey = invoiceOutput.Invoice.PurchaseKey,
-                useCredit = false,
+                    callbackUrl = callbackLink,
+                    onInvoicePaid = handleResultCallback
+                )
             )
+        } else {
+            invoiceOutput.PaymentChannels?.find { it.Type.Name == "OnlinePayment" }?.Gateways?.let { gateways ->
+                invoicePayment(
+                    callBack = callbackLink,
+                    gateway = gateways[0].Type.Name,
+                    purchaseKey = invoiceOutput.Invoice.PurchaseKey,
+                    useCredit = false,
+                )
+            }
         }
     }
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/successfulPaymentIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/pishkhansdk_ic_successful_payment" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/descriptionTv"
+        style="@style/pishkhansdk_bottom_sheet_cnpg_successful_payment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/successfulPaymentIv"
+        android:layout_marginTop="@dimen/margin_12"
+        android:text="@string/successful_payment" />
+
+    <include
+        android:id="@+id/returnButtonComponent"
+        layout="@layout/pishkhansdk_component_button_filled"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/descriptionTv"
+        android:layout_marginTop="@dimen/margin_12"
+        android:layout_marginBottom="@dimen/margin_16" />
+
+</RelativeLayout>

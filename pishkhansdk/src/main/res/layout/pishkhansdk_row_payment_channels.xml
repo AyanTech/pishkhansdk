@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false">
+
+    <androidx.appcompat.widget.AppCompatRadioButton
+        android:id="@+id/selectionRb"
+        style="@style/pishkhansdk_row_payment_channels_selectionRb"
+        android:layout_width="@dimen/margin_24"
+        android:layout_height="@dimen/margin_24"
+        android:layout_alignTop="@id/dataRootRl"
+        android:layout_alignBottom="@id/dataRootRl"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/margin_16"
+        tools:checked="true" />
+
+    <RelativeLayout
+        android:id="@+id/dataRootRl"
+        style="@style/pishkhansdk_row_payment_channels_dataRootRl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/selectionRb">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/channelNameTv"
+            style="@style/pishkhansdk_row_payment_channels_nametv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            tools:text="کیف پول" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iconIv"
+            android:layout_width="@dimen/margin_24"
+            android:layout_height="@dimen/margin_24"
+            android:layout_below="@id/channelNameTv"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="@dimen/margin_4" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/gatewayNameTv"
+            style="@style/pishkhansdk_row_payment_channels_gatewayNameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iconIv"
+            android:layout_alignBottom="@id/iconIv"
+            android:layout_marginStart="@dimen/margin_4"
+            android:layout_toEndOf="@id/iconIv"
+            tools:text="موجودی:" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/walletTv"
+            style="@style/pishkhansdk_row_payment_channels_walletTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/gatewayNameTv"
+            android:layout_alignBottom="@id/gatewayNameTv"
+            android:layout_marginStart="@dimen/margin_4"
+            android:layout_toEndOf="@id/gatewayNameTv"
+            tools:text=" 120،000 ریال (کافی)" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

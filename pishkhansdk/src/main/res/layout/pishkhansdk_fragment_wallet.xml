@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/white"
+        android:elevation="@dimen/margin_6"
+        android:paddingStart="@dimen/margin_16"
+        android:paddingTop="@dimen/margin_24"
+        android:paddingEnd="@dimen/margin_16"
+        android:paddingBottom="@dimen/margin_24">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bankCardIconCl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/bankCardIv"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="3:1.5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/pishkhansdk_ic_bank_card" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/termsAndConditionsTv"
+                style="@style/pishkhansdk_fragment_wallet_termsAndConditionsTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24"
+                android:layout_marginEnd="@dimen/margin_16"
+                android:text="@string/wallet_terms_and_conditions"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/walletBalanceTextTv"
+                style="@style/pishkhansdk_fragment_wallet_walletBalanceTextTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginBottom="@dimen/margin_24"
+                android:text="@string/wallet_cash_balance"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/walletBalanceTv"
+                style="@style/pishkhansdk_fragment_wallet_walletBalanceTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_16"
+                android:layout_marginBottom="@dimen/margin_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="1،645،000 ریال" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/chooseOrEnterAmountTv"
+            style="@style/pishkhansdk_fragment_wallet_chooseOrEnterAmountTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bankCardIconCl"
+            android:layout_marginTop="@dimen/margin_40"
+            android:gravity="start"
+            android:text="@string/choose_or_enter_amount"
+            android:textAlignment="viewStart" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/amountsRv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/chooseOrEnterAmountTv"
+            android:layout_marginTop="@dimen/margin_16" />
+
+        <include
+            android:id="@+id/inputAmountCounterComponent"
+            layout="@layout/pishkhansdk_component_input_amount_counter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/amountsRv"
+            android:layout_marginTop="@dimen/margin_16" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/paymentSectionRl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/white"
+        android:elevation="@dimen/margin_6"
+        android:padding="@dimen/margin_16">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/paymentMethodTextTv"
+            style="@style/pishkhansdk_fragment_wallet_paymentMethodTextTv"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_24"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/payment_via" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/paymentMethodIconIv"
+            android:layout_width="@dimen/margin_24"
+            android:layout_height="@dimen/margin_24"
+            android:layout_alignTop="@id/paymentMethodTextTv"
+            android:layout_alignBottom="@id/paymentMethodTextTv"
+            android:layout_marginStart="@dimen/margin_12"
+            android:layout_toEndOf="@id/paymentMethodTextTv" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/paymentMethodShowNameTv"
+            style="@style/pishkhansdk_fragment_wallet_paymentMethodShowNameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/paymentMethodIconIv"
+            android:layout_alignBottom="@id/paymentMethodIconIv"
+            android:layout_marginStart="@dimen/margin_6"
+            android:layout_toStartOf="@id/dropDownIconIv"
+            android:layout_toEndOf="@id/paymentMethodIconIv"
+            tools:text="درون برنامه ای" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/dropDownIconIv"
+            android:layout_width="@dimen/margin_24"
+            android:layout_height="@dimen/margin_24"
+            android:layout_alignTop="@id/paymentMethodShowNameTv"
+            android:layout_alignBottom="@id/paymentMethodShowNameTv"
+            android:layout_alignParentEnd="true"
+            android:rotation="180"
+            app:srcCompat="@drawable/ic_keyboard_arrow_up" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/paymentMethodsRv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dropDownIconIv"
+            android:layout_marginTop="@dimen/margin_16"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/paymentButtonComponent"
+            layout="@layout/pishkhansdk_component_button_filled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/paymentMethodsRv"
+            android:layout_marginTop="@dimen/margin_16" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

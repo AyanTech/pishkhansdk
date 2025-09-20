@@ -4,6 +4,8 @@
     <color name="color_primary_dark">#111E24</color>
     <color name="color_secondary">#00BAF2</color>
     <color name="color_secondary_alpha5">#E7F2FE</color>
+    <color name="color_primary_light1">#CFEFF7</color>
+    <color name="color_primary_light2">#B4E6F2</color>
     <color name="light_orange">#FFB300</color>
     <color name="orange">#FF8B07</color>
     <color name="color_background">#F3F6FF</color>
@@ -82,4 +84,32 @@
     <color name="row_key_value_back_even_position">@color/gray8</color>
     <color name="row_key_value_back_odd_position">@color/white</color>
     <color name="state_error">#ED254E</color>
+
+    <color name="pishkhansdk_fragment_payment_channels_titletv_textcolor">#212529</color>
+    <color name="pishkhansdk_fragment_payment_channels_feeTextTv_textcolor">@color/pishkhansdk_text_gray</color>
+    <color name="pishkhansdk_fragment_payment_channels_amountTextTv_textcolor">@color/pishkhansdk_text_gray</color>
+    <color name="pishkhansdk_fragment_payment_channels_feeTv_textcolor">@color/pishkhansdk_text_gray</color>
+    <color name="pishkhansdk_fragment_payment_channels_amountTv_textcolor">@color/pishkhansdk_text_gray</color>
+    <color name="pishkhansdk_row_payment_channels_root_background_stroke">@color/color_primary</color>
+    <color name="pishkhansdk_row_payment_channels_root_background_stroke_selected">@color/color_secondary</color>
+    <color name="pishkhansdk_row_payment_channels_root_background_stroke_deselected">@color/pishkhansdk_text_gray2</color>
+    <color name="pishkhansdk_row_payment_channels_nametv_textcolor">#212529</color>
+    <color name="pishkhansdk_ic_bank_card_gradient_offset_zero">@color/color_primary</color>
+    <color name="pishkhansdk_ic_bank_card_gradient_offset_one">@color/color_primary_dark</color>
+    <color name="pishkhansdk_ic_bank_card_first_line">@color/color_primary_light1</color>
+    <color name="pishkhansdk_ic_bank_card_second_line">@color/color_primary_light2</color>
+    <color name="pishkhansdk_radio_button_tint">@color/color_secondary</color>
+
+    <color name="pishkhansdk_text_gray">#4B5C69</color>
+    <color name="pishkhansdk_text_gray1">#F8F9FA</color>
+    <color name="pishkhansdk_text_gray2">#E9ECEF</color>
+    <color name="pishkhansdk_text_gray3">#DEE2E6</color>
+    <color name="pishkhansdk_text_gray7">#495057</color>
+    <color name="pishkhansdk_text_gray8">#343A40</color>
+
+    <color name="pishkhansdk_success">#00CC33</color>
+    <color name="pishkhansdk_error">#FF3300</color>
+
+    <color name="pishkhansdk_wallet_fragment_default_background">@color/gray9</color>
+    <color name="pishkhansdk_cnpg_fragment_default_background">@color/gray9</color>
 </resources>

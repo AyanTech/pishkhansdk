@@ -1,9 +1,14 @@
 package ir.ayantech.pishkhansdk.helper.extensions
 
+import android.util.Base64
 import com.google.gson.JsonParser
 import ir.ayantech.pishkhansdk.model.app_logic.ExtraInfo
 import ir.ayantech.whygoogle.helper.formatAmount
+import java.security.KeyFactory
 import java.security.MessageDigest
+import java.security.PublicKey
+import java.security.spec.X509EncodedKeySpec
+import javax.crypto.Cipher
 
 
 fun String.sha1Hash(): String {
@@ -59,4 +64,43 @@ fun hexToArgb(hexColor: String, alpha: Int): Int {
     val blue = (color and 0xFF).toInt()
     // Combine the RGB values with the alpha value
     return adjustedAlpha shl 24 or (red shl 16) or (green shl 8) or blue
+}
+
+fun String.encryptData(pk: String): String {
+    var encoded = ""
+    val encrypted: ByteArray?
+    try {
+        val publicBytes: ByteArray = Base64.decode(pk, Base64.DEFAULT)
+        val keySpec = X509EncodedKeySpec(publicBytes)
+        val keyFactory: KeyFactory = KeyFactory.getInstance("RSA")
+        val pubKey: PublicKey = keyFactory.generatePublic(keySpec)
+        val cipher: Cipher = Cipher.getInstance("RSA/ECB/PKCS1PADDING")
+        cipher.init(Cipher.ENCRYPT_MODE, pubKey)
+        encrypted = cipher.doFinal(this.toByteArray())
+        encoded = Base64.encodeToString(encrypted, Base64.NO_WRAP)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return encoded
+}
+
+fun String.reformatAmountToNumber() : String {
+    return this.replace("ریال", "").replace(",", "").trim()
+}
+
+fun String.addChar(char: Char, every: Int) : String {
+    var newStr = ""
+    toCharArray().forEachIndexed { index, c ->
+        newStr += c
+        if ((index + 1) % every == 0 && index != (length - 1))
+            newStr += char
+    }
+    return newStr
+}
+
+fun String.extractOtp(pattern: String): String {
+    val otpLine = Regex(pattern).find(this)?.value.orEmpty()
+    return Regex("\\d+").findAll(otpLine)
+        .map { it.value }
+        .joinToString("")
 }

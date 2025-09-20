@@ -45,4 +45,220 @@
         <item name="colorPrimary">@color/pishkhansdk_cursor_color_text_input_edit_text</item>
     </style>
 
+    <style name="pishkhansdk_fragment_payment_channels_titletv" parent="Text3Medium">
+        <item name="android:textColor">@color/pishkhansdk_fragment_payment_channels_titletv_textcolor</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="pishkhansdk_fragment_payment_channels_feeTextTv" parent="Text8Bold">
+        <item name="android:textColor">@color/pishkhansdk_fragment_payment_channels_feeTextTv_textcolor</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:gravity">start</item>
+        <item name="android:layout_gravity">start|center_vertical</item>
+    </style>
+
+    <style name="pishkhansdk_fragment_payment_channels_amountTextTv" parent="Text8Bold">
+        <item name="android:textColor">@color/pishkhansdk_fragment_payment_channels_amountTextTv_textcolor</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:gravity">start</item>
+        <item name="android:layout_gravity">start|center_vertical</item>
+    </style>
+
+    <style name="pishkhansdk_fragment_payment_channels_feeTv" parent="Text2Regular">
+        <item name="android:textColor">@color/pishkhansdk_fragment_payment_channels_feeTv_textcolor</item>
+        <item name="android:textAlignment">viewEnd</item>
+        <item name="android:layout_gravity">end|center_vertical</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:gravity">end</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="pishkhansdk_fragment_payment_channels_amountTv" parent="Text2Regular">
+        <item name="android:textColor">@color/pishkhansdk_fragment_payment_channels_amountTv_textcolor</item>
+        <item name="android:textAlignment">viewEnd</item>
+        <item name="android:layout_gravity">end|center_vertical</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:gravity">end</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="pishkhansdk_row_payment_channels_nametv" parent="Text6Bold">
+        <item name="android:textColor">@color/pishkhansdk_row_payment_channels_nametv_textcolor</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textAlignment">viewStart</item>
+    </style>
+
+    <style name="pishkhansdk_row_payment_channels_selectionRb" >
+        <item name="android:gravity">center</item>
+        <item name="android:button">@drawable/pishkhansdk_radio_button</item>
+        <item name="android:buttonTint">@color/pishkhansdk_radio_button_tint</item>
+    </style>
+
+    <style name="pishkhansdk_row_payment_channels_gatewayNameTv" parent="Text4Regular">
+        <item name="android:gravity">center_vertical|start</item>
+    </style>
+
+    <style name="pishkhansdk_row_payment_channels_walletTv" parent="Text4Regular">
+        <item name="android:gravity">center_vertical|start</item>
+    </style>
+
+    <style name="pishkhansdk_row_payment_channels_dataRootRl">
+        <item name="android:layout_marginStart">@dimen/margin_4</item>
+        <item name="android:layout_marginEnd">@dimen/margin_16</item>
+        <item name="android:layout_marginBottom">@dimen/margin_16</item>
+        <item name="android:background">@drawable/pishkhansdk_row_payment_channels_root_background_selected</item>
+        <item name="android:elevation">@dimen/margin_4</item>
+        <item name="android:paddingStart">@dimen/margin_16</item>
+        <item name="android:paddingTop">@dimen/margin_12</item>
+        <item name="android:paddingEnd">@dimen/margin_16</item>
+        <item name="android:paddingBottom">@dimen/margin_12</item>
+    </style>
+
+    <style name="pishkhansdk_fragment_wallet_termsAndConditionsTv" parent="Text8Bold">
+        <item name="android:drawableEnd">@drawable/pishkhansdk_ic_info</item>
+        <item name="android:drawablePadding">@dimen/margin_4</item>
+        <item name="drawableTint">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="pishkhansdk_fragment_wallet_walletBalanceTextTv" parent="Text4Medium">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="pishkhansdk_fragment_wallet_walletBalanceTv" parent="Text3Medium">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="pishkhansdk_fragment_wallet_chooseOrEnterAmountTv" parent="Text4Medium">
+        <item name="android:textColor">@color/pishkhansdk_text_gray8</item>
+    </style>
+
+    <style name="pishkhansdk_row_suggestion_amount_amountTv" parent="Text4Medium">
+        <item name="android:textColor">@color/pishkhansdk_text_gray7</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:background">@drawable/pishkhansdk_background_radius_12_stroke_1_transparent</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+    </style>
+
+    <style name="pishkhansdk_fragment_wallet_paymentMethodTextTv" parent="Text8Bold">
+        <item name="android:textColor">#4B5C69</item>
+        <item name="android:gravity">start|center_vertical</item>
+    </style>
+
+    <style name="pishkhansdk_fragment_wallet_paymentMethodShowNameTv" parent="Text4Regular">
+        <item name="android:textColor">#4B5C69</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:textAlignment">viewStart</item>
+    </style>
+
+    <style name="pishkhansdk_row_wallet_payment_channels_paymentChannelShowNameTv" parent="Text4Medium">
+        <item name="android:textColor">@color/pishkhansdk_text_gray8</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:scrollHorizontally">true</item>
+    </style>
+
+    <style name="pishkhansdk_row_wallet_payment_channels_selectionRb" parent="Text4Medium">
+        <item name="android:button">@drawable/pishkhansdk_radio_button</item>
+        <item name="android:buttonTint">@color/pishkhansdk_radio_button_tint</item>
+        <item name="android:elevation">@dimen/margin_2</item>
+    </style>
+
+    <style name="pishkhansdk_fragment_cnpg_descriptionTv" parent="Text4Medium">
+        <item name="android:textColor">@color/pishkhansdk_text_gray8</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textAlignment">viewStart</item>
+    </style>
+
+    <style name="pishkhansdk_fragment_cnpg_topSectionRl">
+        <item name="android:background">@color/white</item>
+        <item name="android:elevation">@dimen/margin_10</item>
+        <item name="android:paddingStart">@dimen/margin_16</item>
+        <item name="android:paddingTop">@dimen/margin_24</item>
+        <item name="android:paddingEnd">@dimen/margin_16</item>
+        <item name="android:paddingBottom">@dimen/margin_24</item>
+    </style>
+
+    <style name="pishkhansdk_bottom_sheet_select_bank_card_number_descriptionTv" parent="Text4Medium">
+        <item name="android:textColor">@color/pishkhansdk_text_gray</item>
+    </style>
+
+    <style name="pishkhansdk_row_bank_cards_bankNameTv" parent="Text8Bold">
+        <item name="android:textColor">@color/pishkhansdk_text_gray7</item>
+        <item name="android:layout_gravity">start|center_vertical</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:textAlignment">viewStart</item>
+    </style>
+
+    <style name="pishkhansdk_row_bank_cards_cardNumberTv" parent="Text4Regular">
+        <item name="android:textColor">@color/pishkhansdk_text_gray7</item>
+        <item name="android:layout_gravity">start|center_vertical</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textDirection">anyRtl</item>
+    </style>
+
+    <style name="pishkhansdk_fragment_cnpg_saveCardDataCb" parent="Text4Medium">
+        <item name="android:textColor">@color/pishkhansdk_text_gray8</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="buttonTint">@color/color_secondary</item>
+    </style>
+
+    <style name="pishkhansdk_bottom_sheet_remove_bank_card_confirmation_descriptionTv" parent="Text2Regular">
+        <item name="android:textColor">@color/pishkhansdk_text_gray8</item>
+        <item name="android:textDirection">anyRtl</item>
+        <item name="android:textAlignment">viewStart</item>
+    </style>
+
+    <style name="pishkhansdk_component_bank_card_password_remainingTimeTv" parent="Text6Bold">
+        <item name="android:gravity">center</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:background">@drawable/background_outlined_button</item>
+        <item name="android:backgroundTint">@color/color_secondary</item>
+        <item name="android:textColor">@color/color_secondary</item>
+    </style>
+
+    <style name="pishkhansdk_bottom_sheet_cnpg_successful_payment" parent="Text4Regular">
+        <item name="android:gravity">center</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/pishkhansdk_text_gray</item>
+    </style>
+
+    <style name="pishkhansdk_bottom_sheet_cnpg_failed_payment" parent="Text4Regular">
+        <item name="android:gravity">center</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/pishkhansdk_text_gray</item>
+    </style>
+
+    <style name="pishkhansdk_row_extra_info_keyTv" parent="Text2Medium">
+        <item name="android:textColor">@color/pishkhansdk_text_gray8</item>
+        <item name="android:textAlignment">viewStart</item>
+    </style>
+
+    <style name="pishkhansdk_row_extra_info_valueTv" parent="Text6Bold">
+        <item name="android:textColor">@color/pishkhansdk_text_gray8</item>
+        <item name="android:textAlignment">viewEnd</item>
+    </style>
+
+    <style name="pishkhansdk_component_extra_info_detailTv" parent="Text6Bold">
+        <item name="android:textColor">@color/color_secondary</item>
+        <item name="android:textAlignment">viewEnd</item>
+    </style>
+
+    <style name="pishkhansdk_component_extra_info_rootRl" >
+        <item name="android:background">@color/pishkhansdk_text_gray3</item>
+        <item name="android:elevation">@dimen/margin_12</item>
+    </style>
 </resources>

@@ -13,4 +13,35 @@
     <string name="delete_confirmation">آیا مایل به حذف هستید؟</string>
     <string name="attention">توجه</string>
 
+    <string name="choose_payment_method">روش پرداخت را انتخاب کنید.</string>
+    <string name="wallet_terms_and_conditions">قوانین کیف پول</string>
+    <string name="wallet_cash_balance">موجودی نقدی</string>
+    <string name="wallet_balance">موجودی:</string>
+    <string name="wallet_balance_is_sufficient">%s (کافی)</string>
+    <string name="wallet_balance_is_not_sufficient">%s (ناکافی)</string>
+    <string name="choose_or_enter_amount">مبلغ افزایش موجودی را انتخاب یا وارد کنید.</string>
+    <string name="payment_via">پرداخت از طریق:</string>
+    <string name="pay">پرداخت</string>
+    <string name="pay_amount">پرداخت (%s)</string>
+    <string name="fee">کارمزد:</string>
+    <string name="service_amount">مبلغ سرویس:</string>
+    <string name="enter_bank_card_data">اطلاعات کارت بانکی خود را وارد کنید.</string>
+    <string name="bank_card_number">شماره کارت</string>
+    <string name="choose_bank_card_number">انتخاب شماره کارت</string>
+    <string name="enter_or_choose_your_bank_card_number">شماره کارت خود را وارد یا انتخاب کنید.</string>
+    <string name="enter_bank_card_date">تاریخ انقضای شماره کارت خود را وارد کنید.</string>
+    <string name="enter_bank_card_cvv2">cvv2 را وارد کنید.</string>
+    <string name="month">ماه</string>
+    <string name="year">سال</string>
+    <string name="cvv2">CVV2</string>
+    <string name="bank_card_password">رمز دوم</string>
+    <string name="get_otp">دریافت رمز پویا</string>
+    <string name="save_bank_card_data">اطلاعات کارت ذخیره شود.</string>
+    <string name="bank_card_remove">حذف شماره کارت</string>
+    <string name="bank_card_remove_confirmation">آیا از حذف شماره کارت %s اطمینان دارید؟</string>
+    <string name="remove">حذف</string>
+    <string name="remaining_time">%s ثانیه</string>
+    <string name="successful_payment">پرداخت با موفقیت انجام شد.</string>
+    <string name="return_back">بازگشت</string>
+    <string name="detail">جزئیات</string>
 </resources>

@@ -84,4 +84,22 @@ object EndPoints {
     const val LoginByOTP = "v1/LoginByOTP"
     const val BillsInfo = "v1/BillsInfo"
 
+
+    const val UserInvoicePaymentSummary = "v1/UserInvoicePaymentSummary"
+    const val USER_BILLS_PAYMENT_SUMMARY = "v1/UserBillsPaymentSummary"
+    const val GET_USER_DATA = "v1/GetUserData"
+    const val ADD_USER_DATA = "v1/AddUserData"
+    const val WALLET_PAYMENT = "v1/WalletPayment"
+    const val CNPG_REQUEST_OTP = "v1/CnpgRequestOtp"
+    const val CNPG_PAYMENT = "v1/CnpgPayment"
+    const val CNPG_GET_CARD_LIST = "v1/CnpgGetCardList"
+    const val CNPG_REMOVE_CARD = "v1/CnpgRemoveCard"
+    const val SHAPARAK_BANK_LIST_SERVICE = "v1/ShaparakBankListService"
+    const val USER_PUBLIC_KEY = "v1/UserPublicKey"
+    const val USER_WALLET_CHARGE = "v1/UserWalletCharge"
+    const val USER_WALLET_CHARGE_CHANNELS = "v1/UserWalletChargeChannels"
+    const val BILLS_PAYMENT_CHANNELS = "v1/BillsPaymentChannels"
+    const val BILLS_PAYMENT = "v1/BillsPayment"
+    const val USER_WALLET_BALANCE = "v1/UserWalletBalance"
+    const val USER_WALLETS = "v1/UserWallets"
 }

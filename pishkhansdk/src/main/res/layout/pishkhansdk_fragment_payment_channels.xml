@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/titleTv"
+        style="@style/pishkhansdk_fragment_payment_channels_titletv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_16"
+        android:text="@string/choose_payment_method" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/paymentChannelsRv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleTv"
+        android:clipToPadding="false"
+        android:layout_marginTop="@dimen/margin_16"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:clipToPadding="false"
+        android:elevation="@dimen/margin_8"
+        android:padding="@dimen/margin_16">
+
+        <LinearLayout
+            android:id="@+id/feeLl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/feeTextTv"
+                style="@style/pishkhansdk_fragment_payment_channels_feeTextTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fee" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/feeTv"
+                style="@style/pishkhansdk_fragment_payment_channels_feeTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_8"
+                android:layout_weight="1"
+                tools:text="85000 ریال" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/amountLl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/feeLl"
+            android:layout_marginTop="@dimen/margin_12"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/amountTextTv"
+                style="@style/pishkhansdk_fragment_payment_channels_amountTextTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/service_amount" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/amountTv"
+                style="@style/pishkhansdk_fragment_payment_channels_amountTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_8"
+                android:layout_weight="1"
+                tools:text="85000 ریال" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/payButtonComponent"
+            layout="@layout/pishkhansdk_component_button_filled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/amountLl"
+            android:layout_marginTop="@dimen/margin_16" />
+    </RelativeLayout>
+</RelativeLayout>
