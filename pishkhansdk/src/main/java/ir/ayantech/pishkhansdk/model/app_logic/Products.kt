@@ -5,6 +5,21 @@ import ir.ayantech.pishkhansdk.model.enums.Category
 
 object Products {
 
+    val transferTaxGetSettlementCertificate = ProductItem(
+        name = ProductItemDetail.InquiryTransferTaxGetSettlementCertificate,
+        category = Category.CarServices
+    )
+
+    val carTransferTaxV2 = ProductItem(
+        name = ProductItemDetail.InquiryTransferTaxCarV2,
+        category = Category.CarServices
+    )
+
+    val motorcycleTransferTaxV2 = ProductItem(
+        name = ProductItemDetail.InquiryTransferTaxMotorcycleV2,
+        category = Category.CarServices
+    )
+
     val carPlateNumberHistory = ProductItem(
         name = ProductItemDetail.InquiryPlateNumberHistory,
         category = Category.CarServices,

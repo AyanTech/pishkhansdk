@@ -39,4 +39,5 @@ object Parameter {
     const val NationalCodeBuyer = "NationalCodeBuyer"
     const val SimType = "SimType"
     const val OTPCode = "OTPCode"
+    const val BillUniqueID = "BillUniqueID"
 }

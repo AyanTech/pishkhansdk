@@ -1,7 +1,6 @@
 package ir.ayantech.pishkhansdk.helper
 
 
-import android.widget.Toast
 import ir.ayantech.networking.simpleCallBankChequeStatusSayad
 import ir.ayantech.networking.simpleCallCarPlateNumberHistory
 import ir.ayantech.networking.simpleCallCellPhoneBills
@@ -20,7 +19,10 @@ import ir.ayantech.networking.simpleCallSubventionHistory
 import ir.ayantech.networking.simpleCallTrafficFinesCar
 import ir.ayantech.networking.simpleCallTrafficFinesCarSummary
 import ir.ayantech.networking.simpleCallTransferTaxCar
+import ir.ayantech.networking.simpleCallTransferTaxCarV2
+import ir.ayantech.networking.simpleCallTransferTaxGetSettlementCertificate
 import ir.ayantech.networking.simpleCallTransferTaxMotorcycle
+import ir.ayantech.networking.simpleCallTransferTaxMotorcycleV2
 import ir.ayantech.networking.simpleCallVehicleAuthenticity
 import ir.ayantech.networking.simpleCallVehiclePlateNumbers
 import ir.ayantech.networking.simpleCallVehicleThirdPartyInsurance
@@ -44,7 +46,10 @@ import ir.ayantech.pishkhansdk.model.api.SubventionHistory
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCarSummary
 import ir.ayantech.pishkhansdk.model.api.TransferTaxCar
+import ir.ayantech.pishkhansdk.model.api.TransferTaxCarV2
+import ir.ayantech.pishkhansdk.model.api.TransferTaxGetSettlementCertificate
 import ir.ayantech.pishkhansdk.model.api.TransferTaxMotorcycle
+import ir.ayantech.pishkhansdk.model.api.TransferTaxMotorcycleV2
 import ir.ayantech.pishkhansdk.model.api.V1BankIbanInfo
 import ir.ayantech.pishkhansdk.model.api.V2BankIbanInfo
 import ir.ayantech.pishkhansdk.model.api.V3BankIbanInfo
@@ -66,6 +71,43 @@ object HandleOutput {
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
         when (invoiceInfoOutput.Invoice.Service.Type.Name) {
+
+            Products.transferTaxGetSettlementCertificate.name -> {
+                callTransferTaxGetSettlementCertificate(
+                    input = TransferTaxGetSettlementCertificate.Input(
+                        BillUniqueID = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.BillUniqueID }.Value,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    )
+                ) {
+                    handleResultCallback?.invoke(it)
+                }
+            }
+
+            Products.carTransferTaxV2.name -> {
+                callCarTransferTaxV2Inquiry(
+                    input = TransferTaxCarV2.Input(
+                        DateOfBirth = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.DateOfBirth }.Value,
+                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                        PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey,
+                    )
+                ) {
+                    handleResultCallback?.invoke(it)
+                }
+            }
+
+            Products.motorcycleTransferTaxV2.name -> {
+                callMotorcycleTransferTaxV2Inquiry(
+                    input = TransferTaxMotorcycleV2.Input(
+                        DateOfBirth = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.DateOfBirth }.Value,
+                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                        PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey,
+                    )
+                ) {
+                    handleResultCallback?.invoke(it)
+                }
+            }
 
             Products.carPlateNumberHistory.name -> {
                 handleCarPlateNumberHistory(
@@ -446,6 +488,69 @@ object HandleOutput {
                         handleInquiryTransferTaxMotorCycle(
                             input = it
                         ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun callTransferTaxGetSettlementCertificate(
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallTransferTaxGetSettlementCertificate(
+            input = input as TransferTaxGetSettlementCertificate.Input,
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) { prerequisitesResult ->
+                if (prerequisitesResult.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (prerequisitesResult as? TransferTaxGetSettlementCertificate.Input)?.let { inputModel ->
+                        callTransferTaxGetSettlementCertificate(inputModel) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun callCarTransferTaxV2Inquiry(
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallTransferTaxCarV2(
+            input = input as TransferTaxCarV2.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) { prerequisitesResult ->
+                if (prerequisitesResult.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (prerequisitesResult as? TransferTaxCarV2.Input)?.let { inputModel ->
+                        callCarTransferTaxV2Inquiry(inputModel) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun callMotorcycleTransferTaxV2Inquiry(
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallTransferTaxMotorcycleV2(
+            input = input as TransferTaxMotorcycleV2.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) { prerequisitesResult ->
+                if (prerequisitesResult.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (prerequisitesResult as? TransferTaxMotorcycleV2.Input)?.let { inputModel ->
+                        callMotorcycleTransferTaxV2Inquiry(inputModel) {
                             handleResultCallback?.invoke(output)
                         }
                     }

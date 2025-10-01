@@ -102,4 +102,8 @@ object EndPoints {
     const val BILLS_PAYMENT = "v1/BillsPayment"
     const val USER_WALLET_BALANCE = "v1/UserWalletBalance"
     const val USER_WALLETS = "v1/UserWallets"
+
+    const val TRANSFER_TAX_CAR_V2 = "v2/TransferTaxCar"
+    const val TRANSFER_TAX_MOTORCYCLE_V2 = "v2/TransferTaxMotorcycle"
+    const val TRANSFER_TAX_GET_SETTLEMENT_CERTIFICATE = "v1/TransferTaxGetSettlementCertificate"
 }

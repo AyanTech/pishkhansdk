@@ -4,6 +4,9 @@ import ir.ayantech.ayannetworking.api.AyanCallStatus
 import ir.ayantech.ayannetworking.api.FailureCallback
 import ir.ayantech.networking.simpleCallInvoiceInfo
 import ir.ayantech.networking.simpleCallInvoicePayment
+import ir.ayantech.pishkhansdk.helper.HandleOutput.callCarTransferTaxV2Inquiry
+import ir.ayantech.pishkhansdk.helper.HandleOutput.callMotorcycleTransferTaxV2Inquiry
+import ir.ayantech.pishkhansdk.helper.HandleOutput.callTransferTaxGetSettlementCertificate
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleAccountNumberByIbanOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleAnnualTollCarOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleBankChequeStatusSayadOutput
@@ -229,6 +232,33 @@ object PaymentHelper {
     ) {
         inputModel.also { it.PurchaseKey = purchaseKey }.let { input ->
             when (serviceName) {
+
+                Products.transferTaxGetSettlementCertificate.name -> {
+                    callTransferTaxGetSettlementCertificate(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+                Products.carTransferTaxV2.name -> {
+                    callCarTransferTaxV2Inquiry(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+                Products.motorcycleTransferTaxV2.name -> {
+                    callMotorcycleTransferTaxV2Inquiry(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
 
                 Products.carPlateNumberHistory.name -> {
                     handleCarPlateNumberHistory(

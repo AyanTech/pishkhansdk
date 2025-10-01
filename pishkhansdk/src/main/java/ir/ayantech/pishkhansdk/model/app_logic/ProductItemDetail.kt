@@ -80,6 +80,9 @@ object ProductItemDetail {
 
     const val InquiryPlateNumberHistory = "v1_InquiryPlateNumberHistory"
 
+    const val InquiryTransferTaxCarV2 = "v2_InquiryTransferTaxCar"
+    const val InquiryTransferTaxMotorcycleV2 = "v2_InquiryTransferTaxMotorcycle"
+    const val InquiryTransferTaxGetSettlementCertificate = "v1_InquiryTransferTaxGetSettlementCertificate"
 }
 
 fun String.getProductShowName() = when (this) {
