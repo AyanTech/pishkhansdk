@@ -277,7 +277,7 @@ object PishkhanSDK: InvoicePaymentChannelsInterface, BillsPaymentChannelsInterfa
                     //means that user wants to pay with wallet
                     if (callbackDataModel.paymentStatus == Constant.paid || callbackDataModel.paymentStatus == Constant.Settle) {
                         when (callbackDataModel.sourcePage) {
-                            PaymentChannelsFragment.PaymentChannelSource.INVOICE_PAYMENT.name -> {
+                            PaymentChannelsFragment.PaymentChannelSource.BILLS_PAYMENT.name -> {
                                 serviceApi.call<GetUserData.Output>(
                                     endPoint = EndPoints.GET_USER_DATA,
                                     input = GetUserData.Input(Key = callbackDataModel.dataId)
