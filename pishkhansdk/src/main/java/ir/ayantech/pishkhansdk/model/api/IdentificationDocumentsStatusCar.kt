@@ -36,11 +36,17 @@ class IdentificationDocumentsStatusCar {
     data class Card(
         val DateTime: String?,
         val PostalBarcode: String,
-        val Title: String
+        val Title: String,
+        val IsSmart: Boolean,
+        val IssuanceDateTime: String,
+        val Type: String,
     )
 
     data class Document(
         val DateTime: String?,
-        val Title: String
+        val Title: String,
+        val IssuanceDateTime: String,
+        val PostalBarcode: String,
+        val Type: String,
     )
 }
