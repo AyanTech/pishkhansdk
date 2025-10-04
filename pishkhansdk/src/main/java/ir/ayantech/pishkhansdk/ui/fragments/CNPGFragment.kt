@@ -26,11 +26,11 @@ import ir.ayantech.pishkhansdk.model.api.CnpgRequestParameters
 import ir.ayantech.pishkhansdk.model.api.ShaparakBankListService
 import ir.ayantech.pishkhansdk.model.api.UserPublicKey
 import ir.ayantech.pishkhansdk.model.api.encryptData
+import ir.ayantech.pishkhansdk.model.component_data_model.PishkhansdkExtraInfoComponentDataModel
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.PishkhansdkCNPGFailedPaymentBottomSheet
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.PishkhansdkCNPGSuccessfulPaymentBottomSheet
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.PishkhansdkSelectBankCardNumberBottomSheet
-import ir.ayantech.pishkhansdk.ui.components.PishkhansdkExtraInfoComponentDataModel
 import ir.ayantech.pishkhansdk.ui.components.changeEnable
 import ir.ayantech.pishkhansdk.ui.components.changeRemainingTimeVisibility
 import ir.ayantech.pishkhansdk.ui.components.clearDefaultDate

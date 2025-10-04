@@ -7,7 +7,7 @@ import ir.ayantech.pishkhansdk.model.api.BillsPayment
 import ir.ayantech.pishkhansdk.model.api.BillsPaymentChannels
 import ir.ayantech.pishkhansdk.model.api.UserBillsPaymentSummary
 import ir.ayantech.pishkhansdk.model.app_logic.PaymentData
-import ir.ayantech.pishkhansdk.ui.components.PishkhansdkExtraInfoComponentDataModel
+import ir.ayantech.pishkhansdk.model.component_data_model.PishkhansdkExtraInfoComponentDataModel
 import ir.ayantech.whygoogle.helper.SimpleCallBack
 import ir.ayantech.whygoogle.helper.fromJsonToObject
 

@@ -35,13 +35,13 @@ import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
 import ir.ayantech.pishkhansdk.model.app_logic.CallbackDataModel
 import ir.ayantech.pishkhansdk.model.app_logic.ExtraInfo
 import ir.ayantech.pishkhansdk.model.app_logic.ProductItemDetail
+import ir.ayantech.pishkhansdk.model.component_data_model.PishkhansdkExtraInfoComponentDataModel
 import ir.ayantech.pishkhansdk.model.constants.Constant
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
 import ir.ayantech.pishkhansdk.ui.adapter.InquiryHistoryAdapter
 import ir.ayantech.pishkhansdk.ui.adapter.TransactionAdapter
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.ConfirmationBottomSheet
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.EditInquiryHistoryBottomSheet
-import ir.ayantech.pishkhansdk.ui.components.PishkhansdkExtraInfoComponentDataModel
 import ir.ayantech.pishkhansdk.ui.fragments.PaymentChannelsFragment
 import ir.ayantech.pishkhansdk.ui.fragments.WalletFragment
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity

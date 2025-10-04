@@ -16,11 +16,11 @@ import ir.ayantech.pishkhansdk.model.api.UserWalletChargeChannels
 import ir.ayantech.pishkhansdk.model.api.UserWallets
 import ir.ayantech.pishkhansdk.model.app_logic.CallbackDataModel
 import ir.ayantech.pishkhansdk.model.app_logic.PaymentChannel
+import ir.ayantech.pishkhansdk.model.component_data_model.PishkhansdkExtraInfoComponentDataModel
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
 import ir.ayantech.pishkhansdk.ui.adapter.PishkhansdkSuggestionAmountsAdapter
 import ir.ayantech.pishkhansdk.ui.adapter.PishkhansdkWalletPaymentChannelsAdapter
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.PishkhanSdkWalletTermsAndConditionsBottomSheet
-import ir.ayantech.pishkhansdk.ui.components.PishkhansdkExtraInfoComponentDataModel
 import ir.ayantech.pishkhansdk.ui.components.getAmount
 import ir.ayantech.pishkhansdk.ui.components.init
 import ir.ayantech.pishkhansdk.ui.components.initInputAmountCounterComponent

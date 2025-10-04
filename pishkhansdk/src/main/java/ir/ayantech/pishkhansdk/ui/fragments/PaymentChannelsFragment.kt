@@ -13,9 +13,9 @@ import ir.ayantech.pishkhansdk.model.api.PaymentSummary
 import ir.ayantech.pishkhansdk.model.app_logic.CallbackDataModel
 import ir.ayantech.pishkhansdk.model.app_logic.PaymentChannel
 import ir.ayantech.pishkhansdk.model.app_logic.PaymentData
+import ir.ayantech.pishkhansdk.model.component_data_model.PishkhansdkExtraInfoComponentDataModel
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
 import ir.ayantech.pishkhansdk.ui.adapter.PishkhansdkPaymentChannelsAdapter
-import ir.ayantech.pishkhansdk.ui.components.PishkhansdkExtraInfoComponentDataModel
 import ir.ayantech.pishkhansdk.ui.components.init
 import ir.ayantech.pishkhansdk.ui.components.setText
 import ir.ayantech.whygoogle.helper.SimpleCallBack
