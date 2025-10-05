@@ -5,6 +5,7 @@ import ir.ayantech.ayannetworking.api.FailureCallback
 import ir.ayantech.networking.simpleCallInvoiceInfo
 import ir.ayantech.networking.simpleCallInvoicePayment
 import ir.ayantech.pishkhansdk.helper.HandleOutput.callCarTransferTaxV2Inquiry
+import ir.ayantech.pishkhansdk.helper.HandleOutput.callFreewayTollBillsDetailedInquiry
 import ir.ayantech.pishkhansdk.helper.HandleOutput.callMotorcycleTransferTaxV2Inquiry
 import ir.ayantech.pishkhansdk.helper.HandleOutput.callTransferTaxGetSettlementCertificate
 import ir.ayantech.pishkhansdk.helper.HandleOutput.callVehicleAuthenticityInquiryV3
@@ -232,6 +233,15 @@ object PaymentHelper {
     ) {
         inputModel.also { it.PurchaseKey = purchaseKey }.let { input ->
             when (serviceName) {
+
+                Products.freewayTollBillsDetailed.name -> {
+                    callFreewayTollBillsDetailedInquiry(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
 
                 Products.vehicleAuthenticityV3.name -> {
                     callVehicleAuthenticityInquiryV3(

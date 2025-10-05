@@ -7,6 +7,7 @@ import ir.ayantech.networking.simpleCallCellPhoneBills
 import ir.ayantech.networking.simpleCallDrivingLicenseNegativePoint
 import ir.ayantech.networking.simpleCallDrivingLicenseStatus
 import ir.ayantech.networking.simpleCallFreewayTollBills
+import ir.ayantech.networking.simpleCallFreewayTollBillsDetailed
 import ir.ayantech.networking.simpleCallIdentificationDocumentsStatusCar
 import ir.ayantech.networking.simpleCallJusticeSharesPortfolio
 import ir.ayantech.networking.simpleCallLandLinePhoneBills
@@ -34,6 +35,7 @@ import ir.ayantech.pishkhansdk.model.api.CellPhoneBills
 import ir.ayantech.pishkhansdk.model.api.DrivingLicenseNegativePoint
 import ir.ayantech.pishkhansdk.model.api.DrivingLicenseStatus
 import ir.ayantech.pishkhansdk.model.api.FreewayTollBills
+import ir.ayantech.pishkhansdk.model.api.FreewayTollBillsDetailed
 import ir.ayantech.pishkhansdk.model.api.IdentificationDocumentsStatusCar
 import ir.ayantech.pishkhansdk.model.api.InvoiceInfo
 import ir.ayantech.pishkhansdk.model.api.JusticeSharesPortfolio
@@ -73,6 +75,17 @@ object HandleOutput {
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
         when (invoiceInfoOutput.Invoice.Service.Type.Name) {
+
+            Products.freewayTollBillsDetailed.name -> {
+                callFreewayTollBillsDetailedInquiry(
+                    input = FreewayTollBillsDetailed.Input(
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey,
+                        PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                        MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                    )
+                )
+            }
 
             Products.vehicleAuthenticityV3.name -> {
                 callVehicleAuthenticityInquiryV3(
@@ -488,6 +501,29 @@ object HandleOutput {
 
         }
 
+    }
+
+    fun callFreewayTollBillsDetailedInquiry(
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallFreewayTollBillsDetailed(
+            input = input as FreewayTollBillsDetailed.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) { prerequisitesResult ->
+                if (prerequisitesResult.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (prerequisitesResult as? FreewayTollBillsDetailed.Input)?.let { inputModel ->
+                        callFreewayTollBillsDetailedInquiry(
+                            input = inputModel
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     fun callVehicleAuthenticityInquiryV3(
