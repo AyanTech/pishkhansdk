@@ -24,6 +24,7 @@ import ir.ayantech.networking.simpleCallTransferTaxGetSettlementCertificate
 import ir.ayantech.networking.simpleCallTransferTaxMotorcycle
 import ir.ayantech.networking.simpleCallTransferTaxMotorcycleV2
 import ir.ayantech.networking.simpleCallVehicleAuthenticity
+import ir.ayantech.networking.simpleCallVehicleAuthenticityV3
 import ir.ayantech.networking.simpleCallVehiclePlateNumbers
 import ir.ayantech.networking.simpleCallVehicleThirdPartyInsurance
 import ir.ayantech.networking.simpleCallVehicleThirdPartyInsuranceStatus
@@ -54,6 +55,7 @@ import ir.ayantech.pishkhansdk.model.api.V1BankIbanInfo
 import ir.ayantech.pishkhansdk.model.api.V2BankIbanInfo
 import ir.ayantech.pishkhansdk.model.api.V3BankIbanInfo
 import ir.ayantech.pishkhansdk.model.api.VehicleAuthenticity
+import ir.ayantech.pishkhansdk.model.api.VehicleAuthenticityV3
 import ir.ayantech.pishkhansdk.model.api.VehiclePlateNumbers
 import ir.ayantech.pishkhansdk.model.api.VehicleThirdPartyInsurance
 import ir.ayantech.pishkhansdk.model.api.VehicleThirdPartyInsuranceStatus
@@ -71,6 +73,21 @@ object HandleOutput {
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
         when (invoiceInfoOutput.Invoice.Service.Type.Name) {
+
+            Products.vehicleAuthenticityV3.name -> {
+                callVehicleAuthenticityInquiryV3(
+                    input = VehicleAuthenticityV3.Input(
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey,
+                        Identifier = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Identifier }.Value,
+                        IdentifierType = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.IdentifierType }.Value,
+                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                        MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                        BirthDate = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.BirthDate }.Value,
+                    )
+                ) {
+                    handleResultCallback?.invoke(it)
+                }
+            }
 
             Products.transferTaxGetSettlementCertificate.name -> {
                 callTransferTaxGetSettlementCertificate(
@@ -471,6 +488,29 @@ object HandleOutput {
 
         }
 
+    }
+
+    fun callVehicleAuthenticityInquiryV3(
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallVehicleAuthenticityV3(
+            input = input as VehicleAuthenticityV3.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? VehicleAuthenticityV3.Input)?.let { inputModel ->
+                        callVehicleAuthenticityInquiryV3(
+                            input = inputModel
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     fun handleInquiryTransferTaxMotorCycle(

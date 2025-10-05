@@ -11,6 +11,7 @@ import ir.ayantech.pishkhansdk.model.constants.EndPoints
 @AyanAPI(endPoint = EndPoints.VehicleAuthenticity)
 class VehicleAuthenticity {
 
+    @Deprecated(message = "Use version 3 of this API. New class: VehicleAuthenticityV3.Input()")
     class Input(
         val Identifier: String,
         val IdentifierType: String,
@@ -21,6 +22,7 @@ class VehicleAuthenticity {
         PurchaseKey: String?
     ) : BaseInputModel(OTPCode = OTPCode, PurchaseKey = PurchaseKey)
 
+    @Deprecated(message = "Use version 3 of this API. New class: VehicleAuthenticityV3.Output()")
     class Output(
         Prerequisites: Prerequisites?,
         Messages: Messages?,

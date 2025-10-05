@@ -64,11 +64,21 @@ object EndPoints {
     const val socialSecurityInsuranceMedicalPrescriptionDetails =
         "v1/SocialSecurityInsuranceMedicalPrescriptionDetails"
     const val RealEstateContract = "v1/RealEstateContract"
+    @Deprecated(message = "Use version 3 of this API. New version: $VEHICLE_AUTHENTICITY_V3")
     const val VehicleAuthenticity = "v2/VehicleAuthenticity"
     const val CarPlateNumberHistory = "v1/PlateNumberHistory"
     const val TelecomRegisteredLines = "v1/TelecomRegisteredLines"
     const val LivelihoodInformation = "v1/LivelihoodInformation"
     const val InsurancePolicies = "v1/InsurancePolicies"
+
+    const val TRANSFER_TAX_CAR_V2 = "v2/TransferTaxCar"
+    const val TRANSFER_TAX_MOTORCYCLE_V2 = "v2/TransferTaxMotorcycle"
+    const val TRANSFER_TAX_GET_SETTLEMENT_CERTIFICATE = "v1/TransferTaxGetSettlementCertificate"
+    const val CAR_ANNUAL_TAX_BILLS = "v1/CarAnnualTaxBills"
+    const val TRAFFIC_FINES_IMAGES_V2 = "v2/TrafficFinesImages"
+    const val VEHICLE_AUTHENTICITY_V3 = "v3/VehicleAuthenticity"
+    const val CAR_ANNUAL_TAX_GET_SETTLEMENT_CERTIFICATE = "v1/CarAnnualTaxGetSettlementCertificate"
+    const val FREEWAY_TOLL_BILLS_DETAILED = "v1/FreewayTollBillsDetailed"
 
     //core
     const val InvoicePayment = "v1/InvoicePayment"
@@ -103,7 +113,4 @@ object EndPoints {
     const val USER_WALLET_BALANCE = "v1/UserWalletBalance"
     const val USER_WALLETS = "v1/UserWallets"
 
-    const val TRANSFER_TAX_CAR_V2 = "v2/TransferTaxCar"
-    const val TRANSFER_TAX_MOTORCYCLE_V2 = "v2/TransferTaxMotorcycle"
-    const val TRANSFER_TAX_GET_SETTLEMENT_CERTIFICATE = "v1/TransferTaxGetSettlementCertificate"
 }

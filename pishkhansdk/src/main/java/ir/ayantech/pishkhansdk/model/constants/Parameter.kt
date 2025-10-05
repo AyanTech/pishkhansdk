@@ -40,4 +40,5 @@ object Parameter {
     const val SimType = "SimType"
     const val OTPCode = "OTPCode"
     const val BillUniqueID = "BillUniqueID"
+    const val BirthDate = "BirthDate"
 }

@@ -83,6 +83,11 @@ object ProductItemDetail {
     const val InquiryTransferTaxCarV2 = "v2_InquiryTransferTaxCar"
     const val InquiryTransferTaxMotorcycleV2 = "v2_InquiryTransferTaxMotorcycle"
     const val InquiryTransferTaxGetSettlementCertificate = "v1_InquiryTransferTaxGetSettlementCertificate"
+
+    const val INQUIRY_VEHICLE_AUTHENTICITY_V3 = "v3_InquiryVehicleAuthenticity"
+    const val INQUIRY_FREEWAY_TOLL_BILLS_DETAILED = "v1_InquiryFreewayTollBillsDetailed"
+    const val INQUIRY_CAR_ANNUAL_TAX_GET_SETTLEMENT_CERTIFICATE = "v1_InquiryCarAnnualTaxGetSettlementCertificate"
+    const val INQUIRY_CAR_ANNUAL_TAX_BILLS = "v1_InquiryCarAnnualTaxBills"
 }
 
 fun String.getProductShowName() = when (this) {

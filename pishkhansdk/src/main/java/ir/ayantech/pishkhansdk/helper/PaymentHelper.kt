@@ -7,6 +7,7 @@ import ir.ayantech.networking.simpleCallInvoicePayment
 import ir.ayantech.pishkhansdk.helper.HandleOutput.callCarTransferTaxV2Inquiry
 import ir.ayantech.pishkhansdk.helper.HandleOutput.callMotorcycleTransferTaxV2Inquiry
 import ir.ayantech.pishkhansdk.helper.HandleOutput.callTransferTaxGetSettlementCertificate
+import ir.ayantech.pishkhansdk.helper.HandleOutput.callVehicleAuthenticityInquiryV3
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleAccountNumberByIbanOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleAnnualTollCarOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleBankChequeStatusSayadOutput
@@ -231,6 +232,15 @@ object PaymentHelper {
     ) {
         inputModel.also { it.PurchaseKey = purchaseKey }.let { input ->
             when (serviceName) {
+
+                Products.vehicleAuthenticityV3.name -> {
+                    callVehicleAuthenticityInquiryV3(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
 
                 Products.transferTaxGetSettlementCertificate.name -> {
                     callTransferTaxGetSettlementCertificate(
