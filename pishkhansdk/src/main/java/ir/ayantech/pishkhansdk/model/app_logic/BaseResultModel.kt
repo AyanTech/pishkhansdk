@@ -1,5 +1,6 @@
 package ir.ayantech.pishkhansdk.model.app_logic
 
+import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.helper.PaymentHelper.otpBottomSheetDialog
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.OptionsSelectionBottomSheet
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.OtpBottomSheetDialog
@@ -60,14 +61,16 @@ open class BaseResultModel<T>(
                 !Prerequisites?.TaxGroups.isNullOrEmpty() -> {
                     OptionsSelectionBottomSheet(
                         context = ayanActivity,
-                        title = "نوع خودرو را انتخاب کنید",
+                        title = ayanActivity.getString(R.string.choose_your_car_type),
                         descriptionKeyValue = null,
-                        options = Prerequisites?.TaxGroups!!.map {
-                            Type(it.Key, it.Value ?: "")
-                        }) {
-                        input.TaxGroup = it.Name
-                        checkCompletedCallback(input)
-                    }.show()
+                        options = Prerequisites.TaxGroups.map { taxGroup ->
+                            Type(Name = taxGroup.Key, ShowName = taxGroup.Value ?: "")
+                        },
+                        callback = { selectedTaxGroup ->
+                            input.TaxGroup = selectedTaxGroup.Name
+                            checkCompletedCallback(input)
+                        }
+                    ).show()
                 }
 
                 else -> {

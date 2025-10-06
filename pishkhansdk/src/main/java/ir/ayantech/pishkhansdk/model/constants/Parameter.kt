@@ -41,4 +41,5 @@ object Parameter {
     const val OTPCode = "OTPCode"
     const val BillUniqueID = "BillUniqueID"
     const val BirthDate = "BirthDate"
+    const val IsLegal = "IsLegal"
 }

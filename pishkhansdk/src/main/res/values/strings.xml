@@ -44,4 +44,5 @@
     <string name="successful_payment">پرداخت با موفقیت انجام شد.</string>
     <string name="return_back">بازگشت</string>
     <string name="detail">جزئیات</string>
+    <string name="choose_your_car_type">نوع خودرو را انتخاب کنید.</string>
 </resources>

@@ -44,4 +44,5 @@
     <string name="successful_payment">Successful payment.</string>
     <string name="return_back">Return</string>
     <string name="detail">Detail</string>
+    <string name="choose_your_car_type">Choose your car type.</string>
 </resources>

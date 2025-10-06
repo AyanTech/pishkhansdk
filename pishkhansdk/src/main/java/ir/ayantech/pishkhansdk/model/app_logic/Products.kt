@@ -5,6 +5,11 @@ import ir.ayantech.pishkhansdk.model.enums.Category
 
 object Products {
 
+    val carAnnualTaxBills = ProductItem(
+        name = ProductItemDetail.INQUIRY_CAR_ANNUAL_TAX_BILLS,
+        category = Category.CarServices
+    )
+
     val freewayTollBillsDetailed = ProductItem(
         name = ProductItemDetail.INQUIRY_FREEWAY_TOLL_BILLS_DETAILED,
         category = Category.CarServices
