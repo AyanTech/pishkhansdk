@@ -538,6 +538,7 @@ object HandleOutput {
                     handleResultCallback?.invoke(output)
                 } else {
                     (it as? VehicleAuthenticityV3.Input)?.let { inputModel ->
+                        inputModel.OTPReferenceNumber = output.Prerequisites?.OTP?.ReferenceNumber ?: ""
                         callVehicleAuthenticityInquiryV3(
                             input = inputModel
                         ) {

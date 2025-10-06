@@ -19,7 +19,7 @@ class VehicleAuthenticityV3 {
         val MobileNumber: String,
         val BirthDate: String,
         OTPCode: String? = "",
-        val OTPReferenceNumber: String = "",
+        var OTPReferenceNumber: String = "",
         PurchaseKey: String?
     ) : BaseInputModel(OTPCode = OTPCode, PurchaseKey = PurchaseKey)
 
@@ -50,6 +50,11 @@ class VehicleAuthenticityV3 {
         val TransferTaxDebtInfo: TransferTaxDebtInfo,
         val WarrantyInfo: WarrantyInfo,
     )
+
+    enum class IdentifierType {
+        Barcode,
+        DocumentNumber,
+    }
 
     data class FreewayTollDebtInfo(
         val Description: String,
