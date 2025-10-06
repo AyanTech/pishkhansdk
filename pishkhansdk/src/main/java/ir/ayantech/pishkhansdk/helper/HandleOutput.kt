@@ -84,7 +84,9 @@ object HandleOutput {
                         NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
                         MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
                     )
-                )
+                ) {
+                    handleResultCallback?.invoke(it)
+                }
             }
 
             Products.vehicleAuthenticityV3.name -> {
