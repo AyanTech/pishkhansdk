@@ -3,6 +3,7 @@ package ir.ayantech.pishkhansdk.helper
 
 import ir.ayantech.networking.simpleCallBankChequeStatusSayad
 import ir.ayantech.networking.simpleCallCarAnnualTaxBills
+import ir.ayantech.networking.simpleCallCarAnnualTaxGetSettlementCertificate
 import ir.ayantech.networking.simpleCallCarPlateNumberHistory
 import ir.ayantech.networking.simpleCallCellPhoneBills
 import ir.ayantech.networking.simpleCallDrivingLicenseNegativePoint
@@ -32,6 +33,7 @@ import ir.ayantech.networking.simpleCallVehicleThirdPartyInsurance
 import ir.ayantech.networking.simpleCallVehicleThirdPartyInsuranceStatus
 import ir.ayantech.pishkhansdk.model.api.BankChequeStatusSayad
 import ir.ayantech.pishkhansdk.model.api.CarAnnualTaxBills
+import ir.ayantech.pishkhansdk.model.api.CarAnnualTaxGetSettlementCertificate
 import ir.ayantech.pishkhansdk.model.api.CarPlateNumberHistory
 import ir.ayantech.pishkhansdk.model.api.CellPhoneBills
 import ir.ayantech.pishkhansdk.model.api.DrivingLicenseNegativePoint
@@ -77,6 +79,17 @@ object HandleOutput {
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
         when (invoiceInfoOutput.Invoice.Service.Type.Name) {
+
+            Products.carAnnualTaxGetSettlementCertificate.name -> {
+                callCarAnnualTaxGetSettlementCertificate(
+                    input = CarAnnualTaxGetSettlementCertificate.Input(
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey,
+                        BillUniqueID = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.BillUniqueID }.Value,
+                    )
+                ) {
+                    handleResultCallback?.invoke(it)
+                }
+            }
 
             Products.carAnnualTaxBills.name -> {
                 callCarAnnualTaxBillsInquiry(
@@ -520,6 +533,25 @@ object HandleOutput {
 
         }
 
+    }
+
+    fun callCarAnnualTaxGetSettlementCertificate(
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallCarAnnualTaxGetSettlementCertificate(
+            input = input as CarAnnualTaxGetSettlementCertificate.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) { prerequisitesResult ->
+                if (prerequisitesResult.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (prerequisitesResult as? CarAnnualTaxGetSettlementCertificate.Input)?.let { inputModel ->
+                        callCarAnnualTaxGetSettlementCertificate(input = inputModel, handleResultCallback)
+                    }
+                }
+            }
+        }
     }
 
     fun callCarAnnualTaxBillsInquiry(
