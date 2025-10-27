@@ -6,22 +6,22 @@ import ir.ayantech.pishkhansdk.model.enums.Category
 object Products {
 
     val carAnnualTaxGetSettlementCertificate = ProductItem(
-        name = ProductItemDetail.INQUIRY_CAR_ANNUAL_TAX_GET_SETTLEMENT_CERTIFICATE,
+        name = ProductItemDetail.InquiryCarAnnualTaxGetSettlementCertificate,
         category = Category.CarServices
     )
 
     val carAnnualTaxBills = ProductItem(
-        name = ProductItemDetail.INQUIRY_CAR_ANNUAL_TAX_BILLS,
+        name = ProductItemDetail.InquiryCarAnnualTaxBills,
         category = Category.CarServices
     )
 
     val freewayTollBillsDetailed = ProductItem(
-        name = ProductItemDetail.INQUIRY_FREEWAY_TOLL_BILLS_DETAILED,
+        name = ProductItemDetail.InquiryFreewayTollBillsDetailed,
         category = Category.CarServices
     )
 
     val vehicleAuthenticityV3 = ProductItem(
-        name = ProductItemDetail.INQUIRY_VEHICLE_AUTHENTICITY_V3,
+        name = ProductItemDetail.InquiryVehicleAuthenticityV3,
         category = Category.CarServices
     )
 

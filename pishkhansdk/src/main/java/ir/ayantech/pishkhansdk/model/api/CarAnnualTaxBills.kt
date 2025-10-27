@@ -38,7 +38,7 @@ class CarAnnualTaxBills {
     )
 
     data class Result(
-        val Amount: Int,
+        val Amount: Long,
         val DateTime: String,
         val Payment: Payment,
         val Type: Type,

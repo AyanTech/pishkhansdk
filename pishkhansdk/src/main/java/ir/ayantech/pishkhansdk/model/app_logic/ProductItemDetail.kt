@@ -84,10 +84,10 @@ object ProductItemDetail {
     const val InquiryTransferTaxMotorcycleV2 = "v2_InquiryTransferTaxMotorcycle"
     const val InquiryTransferTaxGetSettlementCertificate = "v1_InquiryTransferTaxGetSettlementCertificate"
 
-    const val INQUIRY_VEHICLE_AUTHENTICITY_V3 = "v3_InquiryVehicleAuthenticity"
-    const val INQUIRY_FREEWAY_TOLL_BILLS_DETAILED = "v1_InquiryFreewayTollBillsDetailed"
-    const val INQUIRY_CAR_ANNUAL_TAX_GET_SETTLEMENT_CERTIFICATE = "v1_InquiryCarAnnualTaxGetSettlementCertificate"
-    const val INQUIRY_CAR_ANNUAL_TAX_BILLS = "v1_InquiryCarAnnualTaxBills"
+    const val InquiryVehicleAuthenticityV3 = "v3_InquiryVehicleAuthenticity"
+    const val InquiryFreewayTollBillsDetailed = "v1_InquiryFreewayTollBillsDetailed"
+    const val InquiryCarAnnualTaxGetSettlementCertificate = "v1_InquiryCarAnnualTaxGetSettlementCertificate"
+    const val InquiryCarAnnualTaxBills = "v1_InquiryCarAnnualTaxBills"
 }
 
 fun String.getProductShowName() = when (this) {
@@ -169,12 +169,15 @@ fun String.getCardHistoryIcon() = when (this) {
 
     ProductItemDetail.InquiryFreewayTollBills -> R.drawable.ic_freeway_toll_history_card
     ProductItemDetail.InquiryTrafficPlanTollsCar -> R.drawable.ic_traffic_plan_history_card
+    ProductItemDetail.InquiryCarAnnualTaxBills,
     ProductItemDetail.InquiryAnnualTollsCar -> R.drawable.ic_annual_toll_history_card
 
     ProductItemDetail.InquiryTrafficFinesMotorcycle,
     ProductItemDetail.InquiryTrafficFinesMotorcycleSummary -> R.drawable.ic_motor_fines_history_card
 
+    ProductItemDetail.InquiryTransferTaxCarV2,
     ProductItemDetail.InquiryTransferTaxCar -> R.drawable.ic_transfer_tax_car_history_card
+    ProductItemDetail.InquiryTransferTaxMotorcycleV2,
     ProductItemDetail.InquiryTransferTaxMotorcycle -> R.drawable.ic_transfer_tax_motor_cycle_history_card
     ProductItemDetail.InquiryPlateNumbers -> R.drawable.ic_active_plate_history_card
     ProductItemDetail.InquiryDrivingLicenceNegativePoint -> R.drawable.ic_negative_point_history_card

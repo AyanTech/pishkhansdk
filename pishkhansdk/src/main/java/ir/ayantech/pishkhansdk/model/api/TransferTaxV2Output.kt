@@ -3,7 +3,7 @@ package ir.ayantech.pishkhansdk.model.api
 class TransferTaxV2Output {
 
     data class Result(
-        val Amount: Int,
+        val Amount: Long,
         val DateTime: String,
         val Payment: Payment,
         val Type: Type,

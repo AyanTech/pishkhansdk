@@ -37,7 +37,7 @@ class FreewayTollBillsDetailed {
     )
 
     data class Result(
-        val Amount: Int,
+        val Amount: Long,
         val DateTime: String,
         val Payment: Payment,
         val Type: Type,
@@ -45,7 +45,7 @@ class FreewayTollBillsDetailed {
         val ExtraInfo: ExtraInfo,
     )
 
-    data class ExtraInfo(
+    data class PaymentExtraInfo(
         val DateTime: String,
         val SettlementCertificateUrl: String,
         val TraceNumber: String,
@@ -58,7 +58,7 @@ class FreewayTollBillsDetailed {
         val Status: Type,
     )
 
-    data class PaymentExtraInfo(
+    data class ExtraInfo(
         val DateTimeIssue: String,
         val DateTimeTraverse: String,
         val Freeway: String,
