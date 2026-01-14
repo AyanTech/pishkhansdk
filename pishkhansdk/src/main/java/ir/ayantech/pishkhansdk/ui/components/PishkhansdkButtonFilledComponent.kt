@@ -35,3 +35,7 @@ fun PishkhansdkComponentButtonFilledBinding.setText(text: String?) {
 }
 
 fun PishkhansdkComponentButtonFilledBinding.getText() = filledButton.text.toString()
+
+fun PishkhansdkComponentButtonFilledBinding.performClick() {
+    filledButton.performClick()
+}
