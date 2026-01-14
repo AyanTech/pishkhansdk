@@ -190,6 +190,7 @@ object PaymentHelper {
                     onInvoicePaid = handleResultCallback
                 )
             )
+            showPaymentChannelsFragment = false
         } else {
             invoiceOutput.PaymentChannels?.find { it.Type.Name == "OnlinePayment" }?.Gateways?.let { gateways ->
                 invoicePayment(
