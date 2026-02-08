@@ -83,7 +83,7 @@ object EndPoints {
     //core
     const val InvoicePayment = "v1/InvoicePayment"
     const val InvoiceInfo = "v1/InvoiceInfo"
-    const val DeviceRegister = "v1/DeviceRegister"
+    const val DeviceRegister = "v2_DeviceRegister"
     const val InvoiceRegister = "v1/InvoiceRegister"
     const val UserServiceQueries = "v1/UserServiceQueries"
     const val UserServiceQueryBookmark = "v1/UserServiceQueryBookmark"

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/margin_48"
+    android:layout_height="52dp"
     android:background="@drawable/back_white_radius8"
     android:backgroundTint="@color/pishkhansdk_text_gray2"
     android:paddingStart="@dimen/margin_12"

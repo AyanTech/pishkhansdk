@@ -1,6 +1,7 @@
 package ir.ayantech.pishkhansdk.model.app_logic
 
 import ir.ayantech.pishkhansdk.R
+import ir.ayantech.pishkhansdk.model.app_logic.ProductItemDetail.InquiryCarAnnualTaxGetSettlementCertificate
 
 object ProductItemDetail {
     //Service names
@@ -82,11 +83,13 @@ object ProductItemDetail {
 
     const val InquiryTransferTaxCarV2 = "v2_InquiryTransferTaxCar"
     const val InquiryTransferTaxMotorcycleV2 = "v2_InquiryTransferTaxMotorcycle"
-    const val InquiryTransferTaxGetSettlementCertificate = "v1_InquiryTransferTaxGetSettlementCertificate"
+    const val InquiryTransferTaxGetSettlementCertificate =
+        "v1_InquiryTransferTaxGetSettlementCertificate"
 
     const val InquiryVehicleAuthenticityV3 = "v3_InquiryVehicleAuthenticity"
     const val InquiryFreewayTollBillsDetailed = "v1_InquiryFreewayTollBillsDetailed"
-    const val InquiryCarAnnualTaxGetSettlementCertificate = "v1_InquiryCarAnnualTaxGetSettlementCertificate"
+    const val InquiryCarAnnualTaxGetSettlementCertificate =
+        "v1_InquiryCarAnnualTaxGetSettlementCertificate"
     const val InquiryCarAnnualTaxBills = "v1_InquiryCarAnnualTaxBills"
 }
 
@@ -106,25 +109,27 @@ fun String.getProductShowName() = when (this) {
     ProductItemDetail.InquiryPropertyTolls -> "عوارض ملک"
     ProductItemDetail.InquiryRealEstateContract -> "قرارداد اجاره نامه"
 
-    ProductItemDetail.CAR_TRAFFIC_FINES -> "خلافی با جزئیات  خودرو"
+    ProductItemDetail.CAR_TRAFFIC_FINES -> "خلافی خودرو با جزئیات"
     ProductItemDetail.InquiryPlateNumbers -> "پلاک\u200Cهای فعال"
     ProductItemDetail.InquiryDrivingLicenceNegativePoint -> "نمره منفی"
     ProductItemDetail.InquiryTechnicalExaminationCertificate -> "معاینه فنی"
     ProductItemDetail.InquiryFreewayTollBills -> "عوارض آزادراهی"
-    ProductItemDetail.InquiryAnnualTollsCar -> "عوارض سالیانه"
+    ProductItemDetail.InquiryAnnualTollsCar, ProductItemDetail.InquiryCarAnnualTaxBills -> "عوارض سالیانه"
     ProductItemDetail.InquiryTrafficPlanTollsCar -> "طرح ترافیک"
-    ProductItemDetail.MOTOR_TRAFFIC_FINES -> "خلافی با جزئیات  موتور"
+    ProductItemDetail.MOTOR_TRAFFIC_FINES -> "خلافی موتور با جزئیات"
     ProductItemDetail.THIRD_PARTY_INSURANCE,
     ProductItemDetail.InquiryThirdPartyInsuranceCar -> "بیمه شخص ثالث"
 
     ProductItemDetail.InquiryThirdPartyInsuranceCarStatus -> "بیمه شخص ثالث بدون جزئیات"
-    ProductItemDetail.InquiryTrafficFinesCarSummary -> "خلافی تجمیعی خودرو"
-    ProductItemDetail.InquiryTrafficFinesMotorcycleSummary -> "خلافی تجمیعی موتور"
+    ProductItemDetail.InquiryTrafficFinesCarSummary -> "خلافی خودرو تجمیعی"
+    ProductItemDetail.InquiryTrafficFinesMotorcycleSummary -> "خلافی موتور تجمیعی"
     ProductItemDetail.InquiryMunicipalityTaxiFaresBills -> "کرایه تاکسی"
-    ProductItemDetail.InquiryTransferTaxCar -> "مالیات انتقال خودرو"
-    ProductItemDetail.InquiryTransferTaxMotorcycle -> "مالیات انتقال موتور"
+    ProductItemDetail.InquiryTransferTaxCar, ProductItemDetail.InquiryTransferTaxCarV2 -> "مالیات انتقال خودرو"
+    ProductItemDetail.InquiryTransferTaxMotorcycle, ProductItemDetail.InquiryTransferTaxMotorcycleV2 -> "مالیات انتقال موتور"
     ProductItemDetail.InquiryVehicleAuthenticityByBarCode,
-    ProductItemDetail.InquiryVehicleAuthenticityByDocumentNumber -> "سوابق خودرو"
+    ProductItemDetail.InquiryVehicleAuthenticityByDocumentNumber,
+    ProductItemDetail.InquiryVehicleAuthenticityV3
+             -> "سوابق خودرو"
 
     ProductItemDetail.InquiryPlateNumberHistory -> "تاریخچه پلاک خودرو"
 
@@ -159,33 +164,58 @@ fun String.getProductShowName() = when (this) {
     ProductItemDetail.InquiryInsurancePolicies -> "بیمه نامه"
 
     ProductItemDetail.InquiryPaperBills -> "قبض کاغذی"
-
+    ProductItemDetail.InquiryCarAnnualTaxGetSettlementCertificate ,
+    ProductItemDetail.InquiryTransferTaxGetSettlementCertificate -> "مفاصاحساب"
+    ProductItemDetail.InquiryFreewayTollBillsDetailed -> "عوارض آزادراهی با جزئیات"
     else -> "محصول جدید!"
 }
 
 fun String.getCardHistoryIcon() = when (this) {
     ProductItemDetail.InquiryTrafficFinesCar,
-    ProductItemDetail.InquiryTrafficFinesCarSummary -> R.drawable.ic_car_fines_history_card
+    ProductItemDetail.InquiryTrafficFinesCarSummary,
+    "TrafficFinesCar",
+    "TrafficFinesCarTotal"
+        -> R.drawable.ic_car_fines_history_card
 
-    ProductItemDetail.InquiryFreewayTollBills -> R.drawable.ic_freeway_toll_history_card
-    ProductItemDetail.InquiryTrafficPlanTollsCar -> R.drawable.ic_traffic_plan_history_card
+    ProductItemDetail.InquiryFreewayTollBills ,
+    ProductItemDetail.InquiryFreewayTollBillsDetailed,
+                "FreewayToll",
+                "FreewayTollDetailed"
+            -> R.drawable.ic_freeway_toll_history_card
+
+    ProductItemDetail.InquiryTrafficPlanTollsCar,
+    "MunicipalityCarToll" -> R.drawable.ic_traffic_plan_history_card
+
     ProductItemDetail.InquiryCarAnnualTaxBills,
-    ProductItemDetail.InquiryAnnualTollsCar -> R.drawable.ic_annual_toll_history_card
+    ProductItemDetail.InquiryAnnualTollsCar ,
+    ProductItemDetail.InquiryCarAnnualTaxGetSettlementCertificate,
+        "CarAnnualTax"
+            -> R.drawable.ic_annual_toll_history_card
 
     ProductItemDetail.InquiryTrafficFinesMotorcycle,
-    ProductItemDetail.InquiryTrafficFinesMotorcycleSummary -> R.drawable.ic_motor_fines_history_card
+    ProductItemDetail.InquiryTrafficFinesMotorcycleSummary,
+         "TrafficFinesMotorcycle",
+                 "TrafficFinesMotorcycleTotal"
+             -> R.drawable.ic_motor_fines_history_card
 
     ProductItemDetail.InquiryTransferTaxCarV2,
-    ProductItemDetail.InquiryTransferTaxCar -> R.drawable.ic_transfer_tax_car_history_card
+    ProductItemDetail.InquiryTransferTaxCar,
+    ProductItemDetail.InquiryTransferTaxGetSettlementCertificate,
+         "CarTransferTax"
+             -> R.drawable.ic_transfer_tax_car_history_card
+
     ProductItemDetail.InquiryTransferTaxMotorcycleV2,
-    ProductItemDetail.InquiryTransferTaxMotorcycle -> R.drawable.ic_transfer_tax_motor_cycle_history_card
+    ProductItemDetail.InquiryTransferTaxMotorcycle ,
+        "MotorcycleTransferTax",
+            -> R.drawable.ic_transfer_tax_motor_cycle_history_card
+
     ProductItemDetail.InquiryPlateNumbers -> R.drawable.ic_active_plate_history_card
     ProductItemDetail.InquiryDrivingLicenceNegativePoint -> R.drawable.ic_negative_point_history_card
     ProductItemDetail.InquiryDrivingLicenceStatus -> R.drawable.ic_driving_licence_history_card
     ProductItemDetail.InquiryIdentificationDocumentsStatusCar -> R.drawable.ic_identification_document_status_car_history_card
     ProductItemDetail.InquiryTechnicalExaminationCertificate -> R.drawable.ic_technical_examination_history_card
     ProductItemDetail.InquiryPlateNumberHistory -> R.drawable.ic_plate_history_history_card
-    ProductItemDetail.InquiryVehicleAuthenticityByBarCode-> R.drawable.ic_vehicle_authenticity
+    ProductItemDetail.InquiryVehicleAuthenticityByBarCode -> R.drawable.ic_vehicle_authenticity
 
     ProductItemDetail.InquiryThirdPartyInsuranceCar,
     ProductItemDetail.InquiryThirdPartyInsuranceCarStatus -> R.drawable.ic_third_party_insurance_history_card
