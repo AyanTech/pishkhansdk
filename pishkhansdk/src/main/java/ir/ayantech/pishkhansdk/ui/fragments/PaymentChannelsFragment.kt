@@ -17,6 +17,7 @@ import ir.ayantech.pishkhansdk.model.component_data_model.PishkhansdkExtraInfoCo
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
 import ir.ayantech.pishkhansdk.ui.adapter.PishkhansdkPaymentChannelsAdapter
 import ir.ayantech.pishkhansdk.ui.components.init
+import ir.ayantech.pishkhansdk.ui.components.performClick
 import ir.ayantech.pishkhansdk.ui.components.setText
 import ir.ayantech.whygoogle.helper.SimpleCallBack
 import ir.ayantech.whygoogle.helper.StringCallBack
@@ -67,6 +68,8 @@ abstract class PaymentChannelsFragment: AyanFragment<PishkhansdkFragmentPaymentC
 
     open var defaultSelectedPosition = 0
 
+    open var shouldCheckWalletPaymentChannelBalance: Boolean = false
+
     abstract fun getPaymentChannels()
 
     abstract fun getPaymentChannelsSummary()
@@ -109,13 +112,34 @@ abstract class PaymentChannelsFragment: AyanFragment<PishkhansdkFragmentPaymentC
                 verticalSetup()
                 adapter = PishkhansdkPaymentChannelsAdapter(items = paymentChannels) { item, viewId, position ->
                     item?.let {
-                        this@PaymentChannelsFragment.selectedPaymentChannel = item
-                        updatePaymentChannels(item)
-                        updateAmounts(item)
-                        onPaymentChannelSelected(item)
+                        onSelectedPaymentChannelChanged(it)
                     }
                 }
             }
+        }
+        checkWalletPaymentChannelBalanceForPerformPayButton()
+    }
+
+    open fun onSelectedPaymentChannelChanged(paymentChannel: PaymentChannel) {
+        this@PaymentChannelsFragment.selectedPaymentChannel = paymentChannel
+        updatePaymentChannels(paymentChannel)
+        updateAmounts(paymentChannel)
+        onPaymentChannelSelected(paymentChannel)
+    }
+
+    open fun checkWalletPaymentChannelBalanceForPerformPayButton() {
+        if (shouldCheckWalletPaymentChannelBalance) {
+            userBillsPaymentSummary.firstOrNull { it.ChannelType == PaymentChannels.Wallet.name }
+                ?.let { paymentSummary ->
+                    paymentChannels.firstOrNull { it.Type.Name == PaymentChannels.Wallet.name }
+                        ?.let { paymentChannel ->
+                            onSelectedPaymentChannelChanged(paymentChannel)
+                            if (paymentSummary.HasBalance) {
+                                binding.payButtonComponent.performClick()
+                            }
+                        }
+                }
+            shouldCheckWalletPaymentChannelBalance = false
         }
     }
 
@@ -167,6 +191,7 @@ abstract class PaymentChannelsFragment: AyanFragment<PishkhansdkFragmentPaymentC
                     walletChargeSuccessfulViaCNPG = {
                         pop()
                         pop()
+                        shouldCheckWalletPaymentChannelBalance = true
                         initViews()
                     }
                 )
