@@ -17,8 +17,7 @@ import ir.ayantech.pishkhansdk.model.component_data_model.PishkhansdkExtraInfoCo
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
 import ir.ayantech.pishkhansdk.ui.adapter.PishkhansdkPaymentChannelsAdapter
 import ir.ayantech.pishkhansdk.ui.components.init
-import ir.ayantech.pishkhansdk.ui.components.performClick
-import ir.ayantech.pishkhansdk.ui.components.setText
+ import ir.ayantech.pishkhansdk.ui.components.setText
 import ir.ayantech.whygoogle.helper.SimpleCallBack
 import ir.ayantech.whygoogle.helper.StringCallBack
 import ir.ayantech.whygoogle.helper.formatAmount
@@ -135,7 +134,7 @@ abstract class PaymentChannelsFragment: AyanFragment<PishkhansdkFragmentPaymentC
                         ?.let { paymentChannel ->
                             onSelectedPaymentChannelChanged(paymentChannel)
                             if (paymentSummary.HasBalance) {
-                                binding.payButtonComponent.performClick()
+                                onConfirmButtonClicked()
                             }
                         }
                 }
@@ -201,18 +200,21 @@ abstract class PaymentChannelsFragment: AyanFragment<PishkhansdkFragmentPaymentC
 
     abstract fun onWalletChargedViaCNPG(savedData: String)
 
-    open fun initPayButton() {
+     open fun initPayButton() {
         accessViews {
             payButtonComponent.init(
                 btnText = getString(R.string.pay)
             ) {
-                getPaymentData { paymentData ->
-                    onPaymentButtonClicked(paymentData)
-                }
+            onConfirmButtonClicked()
             }
         }
     }
 
+    private fun onConfirmButtonClicked(){
+        getPaymentData { paymentData ->
+            onPaymentButtonClicked(paymentData)
+        }
+    }
     open fun onPaymentButtonClicked(paymentData: PaymentData) {
         when (selectedPaymentChannel?.Type?.Name) {
             PaymentChannels.Wallet.name -> {

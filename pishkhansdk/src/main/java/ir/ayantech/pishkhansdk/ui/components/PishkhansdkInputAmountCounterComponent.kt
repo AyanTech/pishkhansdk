@@ -2,17 +2,22 @@ package ir.ayantech.pishkhansdk.ui.components
 
 import android.content.Context
 import android.text.InputType
+import androidx.core.content.ContextCompat
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.databinding.PishkhansdkComponentInputAmountCounterBinding
 import ir.ayantech.pishkhansdk.helper.extensions.AfterTextChangedCallback
 import ir.ayantech.pishkhansdk.helper.extensions.changeEnable
 import ir.ayantech.pishkhansdk.helper.extensions.formatAmount
+import ir.ayantech.pishkhansdk.helper.extensions.makeInvisible
 import ir.ayantech.pishkhansdk.helper.extensions.reformatAmountToNumber
 import ir.ayantech.whygoogle.helper.changeVisibility
 import ir.ayantech.whygoogle.helper.formatAmount
+import ir.ayantech.whygoogle.helper.isNull
 import ir.ayantech.whygoogle.helper.makeGone
 import ir.ayantech.whygoogle.helper.makeVisible
+import ir.ayantech.whygoogle.helper.viewBinding
 
+private var isUpdating = false
 fun PishkhansdkComponentInputAmountCounterBinding.initInputAmountCounterComponent(
     context: Context,
     increaseAndDecreaseValue: Int = 1,
@@ -34,16 +39,28 @@ fun PishkhansdkComponentInputAmountCounterBinding.initInputAmountCounterComponen
     )
 
     unitTv.text = unit ?: "ریال"
+    tvError.text = context.getString( R.string.pishkhan_wallet_text_error , "\u202A${minimumValue.formatAmount("")}\u202C")
 
-    setOnTextChangesListener {
+
+    setOnTextChangesListener { newText ->
+        if (isUpdating) {
+            isUpdating = false
+            return@setOnTextChangesListener
+        }
         val intValue = getAmount()
         decreaseBtnComponent.changeEnable(isEnable = intValue > minimumValue)
         if (intValue < minimumValue) {
+            tvError.makeVisible()
             onInputChanges(null)
-            return@setOnTextChangesListener
+        }else tvError.makeInvisible()
+
+        intValue.formatAmount("").let {
+            isUpdating = true
+            onInputChanges(intValue)
+            amountInputComponent.setText(it)
         }
-        onInputChanges(intValue)
     }
+
 
     defaultValue?.formatAmount("")?.let {
         amountInputComponent.setText(it)
@@ -66,6 +83,7 @@ fun PishkhansdkComponentInputAmountCounterBinding.initInputAmountCounterComponen
         decrease(increaseAndDecreaseValue, minimumValue)
     }
 }
+
 
 private fun PishkhansdkComponentInputAmountCounterBinding.setOnTextChangesListener(
     onTextChanges: AfterTextChangedCallback?,
@@ -91,7 +109,8 @@ fun PishkhansdkComponentInputAmountCounterBinding.decrease(value: Int = 1, minim
     amountInputComponent.setText(count.formatAmount(""))
 }
 
-fun PishkhansdkComponentInputAmountCounterBinding.getAmount() = amountInputComponent.getText().reformatAmountToNumber().toLongOrNull() ?: 0
+fun PishkhansdkComponentInputAmountCounterBinding.getAmount() =
+    amountInputComponent.getText().reformatAmountToNumber().toLongOrNull() ?: 0
 
 fun PishkhansdkComponentInputAmountCounterBinding.clearText() {
     amountInputComponent.setText("")
@@ -105,6 +124,7 @@ fun PishkhansdkComponentInputAmountCounterBinding.clearAmountValueText() {
     amountTextTv.text = null
     amountTextTv.makeGone()
 }
+
 fun PishkhansdkComponentInputAmountCounterBinding.setAmountValueText(text: String) {
     amountTextTv.text = text
     amountTextTv.makeVisible()

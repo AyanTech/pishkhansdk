@@ -1,5 +1,6 @@
 package ir.ayantech.pishkhansdk.ui.fragments
 
+import android.R.id.input
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -21,6 +22,7 @@ import ir.ayantech.pishkhansdk.model.constants.EndPoints
 import ir.ayantech.pishkhansdk.ui.adapter.PishkhansdkSuggestionAmountsAdapter
 import ir.ayantech.pishkhansdk.ui.adapter.PishkhansdkWalletPaymentChannelsAdapter
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.PishkhanSdkWalletTermsAndConditionsBottomSheet
+ import ir.ayantech.pishkhansdk.ui.components.checkVisibilityStatus
 import ir.ayantech.pishkhansdk.ui.components.getAmount
 import ir.ayantech.pishkhansdk.ui.components.init
 import ir.ayantech.pishkhansdk.ui.components.initInputAmountCounterComponent
@@ -33,7 +35,7 @@ import ir.ayantech.whygoogle.helper.isVisible
 import ir.ayantech.whygoogle.helper.openUrl
 import ir.ayantech.whygoogle.helper.rtlSetup
 
-open class WalletFragment(): AyanFragment<PishkhansdkFragmentWalletBinding>() {
+open class WalletFragment() : AyanFragment<PishkhansdkFragmentWalletBinding>() {
 
     open val corePishkhan24AyanApi: AyanApi
         get() = PishkhanSDK.coreApi
@@ -43,9 +45,9 @@ open class WalletFragment(): AyanFragment<PishkhansdkFragmentWalletBinding>() {
         neededCashForChargeWallet: Long,
         callbackDataModel: CallbackDataModel,
         walletChargeSuccessfulViaCNPG: SimpleCallBack
-    ): this() {
+    ) : this() {
         this.source = source
-        this.neededCashForChargeWallet = neededCashForChargeWallet
+        this.neededCashForChargeWallet = neededCashForChargeWallet.takeIf { it >= 100000 }
         this.callbackDataModel = callbackDataModel
         this.walletChargeSuccessfulViaCNPG = walletChargeSuccessfulViaCNPG
     }
@@ -109,16 +111,17 @@ open class WalletFragment(): AyanFragment<PishkhansdkFragmentWalletBinding>() {
                 context = requireActivity(),
                 increaseAndDecreaseValue = chargeSettings.Interval.toInt(),
                 minimumValue = chargeSettings.Minimum.toInt(),
-                defaultValue = neededCashForChargeWallet?.toInt() ?: chargeSettings.Minimum.toInt()
-            ) {
-
-            }
+                defaultValue = neededCashForChargeWallet?.toInt() ?: chargeSettings.Minimum.toInt(),
+                onInputChanges = { newText ->
+                    paymentButtonComponent.checkVisibilityStatus(newText)
+                 }
+            )
         }
     }
 
-    open fun initBottomSection() {
+    open fun initBottomSection(wallet: UserWallets.ChargeSettings) {
         getUserWalletChargeChannels()
-        initPaymentButton()
+        initPaymentButton(wallet)
     }
 
     open fun getUserWalletChargeChannels() {
@@ -174,8 +177,11 @@ open class WalletFragment(): AyanFragment<PishkhansdkFragmentWalletBinding>() {
                 ) { selectedPaymentChannel, viewId, position ->
                     selectedPaymentChannel?.let {
                         this@WalletFragment.selectedPaymentChannel = selectedPaymentChannel
-                        paymentMethodShowNameTv.text = selectedPaymentChannel.Gateways?.firstOrNull()?.Type?.ShowName
-                        (paymentMethodsRv.adapter as? PishkhansdkWalletPaymentChannelsAdapter)?.setSelectedItem(selectedPaymentChannel)
+                        paymentMethodShowNameTv.text =
+                            selectedPaymentChannel.Gateways?.firstOrNull()?.Type?.ShowName
+                        (paymentMethodsRv.adapter as? PishkhansdkWalletPaymentChannelsAdapter)?.setSelectedItem(
+                            selectedPaymentChannel
+                        )
                     }
                 }
             }
@@ -192,10 +198,11 @@ open class WalletFragment(): AyanFragment<PishkhansdkFragmentWalletBinding>() {
         }
     }
 
-    open fun initPaymentButton() {
+    open fun initPaymentButton(chargeSettings: UserWallets.ChargeSettings) {
         accessViews {
             paymentButtonComponent.init(
-                btnText = getString(R.string.pay)
+                btnText = getString(R.string.pay),
+                minValue = chargeSettings.Minimum
             ) {
                 selectedPaymentChannel?.Gateways?.firstOrNull()?.let { gateway ->
                     corePishkhan24AyanApi.call<UserWalletCharge.Output>(
@@ -208,21 +215,23 @@ open class WalletFragment(): AyanFragment<PishkhansdkFragmentWalletBinding>() {
                         )
                     ) {
                         success { userWalletChargeOutput ->
-                            when(selectedPaymentChannel?.Type?.Name) {
+                            when (selectedPaymentChannel?.Type?.Name) {
                                 PaymentChannels.OnlinePayment.name -> {
                                     userWalletChargeOutput?.RedirectLink?.openUrl(requireActivity())
                                 }
 
                                 PaymentChannels.CNPG.name -> {
-                                    start(CNPGFragment(
-                                        paymentKey = userWalletChargeOutput?.PaymentKey ?: "",
-                                        onCNPGPaymentSucceeded = if (source == Source.DirectCharge) {
-                                            onWalletDirectChargedViaCNPG
-                                        } else {
-                                            walletChargeSuccessfulViaCNPG
-                                        },
-                                        extraInfoComponentDataModel = if (source == Source.DirectCharge) null else extraInfoComponentDataModel
-                                    ))
+                                    start(
+                                        CNPGFragment(
+                                            paymentKey = userWalletChargeOutput?.PaymentKey ?: "",
+                                            onCNPGPaymentSucceeded = if (source == Source.DirectCharge) {
+                                                onWalletDirectChargedViaCNPG
+                                            } else {
+                                                walletChargeSuccessfulViaCNPG
+                                            },
+                                            extraInfoComponentDataModel = if (source == Source.DirectCharge) null else extraInfoComponentDataModel
+                                        )
+                                    )
                                 }
                             }
                         }
@@ -256,7 +265,7 @@ open class WalletFragment(): AyanFragment<PishkhansdkFragmentWalletBinding>() {
                 it?.firstOrNull()?.let { wallet ->
                     walletTypeName = wallet.Type.Name
                     getUserWalletBalance()
-                    initBottomSection()
+                    initBottomSection(wallet.ChargeSettings)
                     initTermsAndConditions(wallet.TermsAndConditions)
                     initSuggestionAmounts(wallet.ChargeSettings.SuggestedAmounts)
                     initAmountCounter(wallet.ChargeSettings)
@@ -289,3 +298,5 @@ open class WalletFragment(): AyanFragment<PishkhansdkFragmentWalletBinding>() {
         }
     }
 }
+
+

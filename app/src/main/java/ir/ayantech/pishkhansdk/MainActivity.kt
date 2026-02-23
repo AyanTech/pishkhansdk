@@ -15,10 +15,13 @@ import ir.ayantech.pishkhansdk.databinding.ActivityMainBinding
 import ir.ayantech.pishkhansdk.helper.PishkhanSDK
 import ir.ayantech.pishkhansdk.model.api.CarPlateNumberHistory
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
+import ir.ayantech.pishkhansdk.model.api.TransferTaxCarV2
 import ir.ayantech.pishkhansdk.model.api.VehicleAuthenticity
 import ir.ayantech.pishkhansdk.model.app_logic.ProductItemDetail
 import ir.ayantech.pishkhansdk.ui.components.init
+import ir.ayantech.pishkhansdk.ui.fragments.WalletFragment
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
+import kotlin.jvm.java
 
 
 class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
@@ -76,8 +79,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
             ayanCommonCallingStatus
         corePishkhan24Api.commonCallStatus =
             ayanCommonCallingStatus
-
-        PishkhanSDK.handleUserSession(
+     /*    PishkhanSDK.handleUserSession(
             application = "VasHookTrafficFinesInquiry",
             origin = "cafebazaar",
             platform = "android",
@@ -90,90 +92,29 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
                     })
                 }
             }
-        )
-
+        )*/
         if (intent != null)
             handleIntent()
 
-        binding.inquiryBtn2.init("لاگین", btnOnClick = {
 
 
-//            PishkhanSDK.login(
-//                "09397799139",
-//                binding.enterOtpCodeLayout.getText(),
-//                confirmOtpIsSuccessful = {
-//                    Toast.makeText(PishkhanUser.context, "confirmmmm", Toast.LENGTH_LONG)
-//                        .show()
-//                })
+        PishkhanUser.token ="4F5526F8FC4E440CA313FAD155703463"
+/*        PishkhanSDK.onInquiryButtonClicked(
+            showPaymentChannelsFragment = false,
+            inputModel = TransferTaxCarV2.Input(
+                PlateNumber = "98-ی-144-50",
+                NationalCode = "2740185030",
+                PurchaseKey = null,
+                DateOfBirth = "1404/12/3"
+            ),
+            failureCallBack = {},
+            product = ProductItemDetail.InquiryTransferTaxCarV2,
+            handleResultCallback = { response ->
 
-            PishkhanSDK.onInquiryButtonClicked(
-                product = ProductItemDetail.InquiryPlateNumberHistory,
-                inputModel = CarPlateNumberHistory.Input(
-                    MobileNumber = "09203546839",
-                    NationalCode = "0013891480",
-                    OTPCode = "",
-                    PurchaseKey = null,
-                    PlateNumber = "34-ل-644-20"
-                )
-            ) {
+            })*/
 
-            }
-
-        })
-
-        binding.inquiryBtn.init("استعلام", btnOnClick = {
-
-            PishkhanSDK.onInquiryButtonClicked(
-                product = ProductItemDetail.InquiryVehicleAuthenticityByBarCode,
-                inputModel = VehicleAuthenticity.Input(
-                    IdentifierType = "Barcode",
-                    NationalCodeOwner = "2280791013",
-                    NationalCodeBuyer = "0021734631",
-                    OTPCode = null,
-                    OTPReferenceNumber = "",
-                    Identifier = "145679348",
-                    PurchaseKey = null
-                ),
-                handleResultCallback = {
-                    Log.d("auth", "onCreate: success")
-                }
-            )
-        })
-
-
-        /*
-                PishkhanSDK.getInquiryHistory(
-                    context = this,
-                    product = ProductItemDetail.InquiryTrafficFinesCarSummary,
-                    inquiryHistoryRv = binding.historyRv,
-                    hasInquiryHistory = {
-
-                    },
-                    handleInquiryHistoryClick = {
-                        //User has clicked on item list
-                    },
-                    failureCallBack = {
-                        //Custom failure
-                    },
-                    changeStatusCallback = {
-                        //Custom change status
-                    }
-                )
-        */
-
-
-        /*        PishkhanSDK.getUserTransactionHistory(
-                    serviceName = ProductItemDetail.InquiryThirdPartyInsuranceCar,
-                    userTransactionHistoryRv = binding.historyRv,
-                    hasTransactionHistory = {
-                        Log.d("hsdbcakf", if (it) "دارد" else "ندارد")
-                    }
-                ) { output, serviceName ->
-                    Log.d("hsdbcakf", "${output.Result}   $serviceName")
-                }*/
-
+        start(WalletFragment())
     }
-
 
     private fun handleIntent() {
         PishkhanSDK.userPaymentIsSuccessful(

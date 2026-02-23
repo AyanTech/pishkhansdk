@@ -45,4 +45,6 @@
     <string name="return_back">بازگشت</string>
     <string name="detail">جزئیات</string>
     <string name="choose_your_car_type">نوع خودرو را انتخاب کنید.</string>
+    <string name="pishkhan_wallet_text_error">مقدار وارد شده نباید کمتر از %s ریال باشد.</string>
+
 </resources>

@@ -22,6 +22,7 @@ import ir.ayantech.pishkhansdk.helper.extensions.placeCursorToEnd
 import ir.ayantech.pishkhansdk.helper.extensions.setMaxLength
 import ir.ayantech.pishkhansdk.helper.extensions.setTint
 import ir.ayantech.pishkhansdk.helper.extensions.textChanges
+import ir.ayantech.pishkhansdk.ui.components.placeCursorToEnd
 import ir.ayantech.whygoogle.helper.SimpleCallBack
 import ir.ayantech.whygoogle.helper.changeVisibility
 import ir.ayantech.whygoogle.helper.isNotNull
@@ -96,6 +97,8 @@ fun PishkhansdkComponentInputBinding.getText() = textInputEditText.text?.toStrin
 
 fun PishkhansdkComponentInputBinding.setText(text: String?) {
     textInputEditText.setText(text)
+    textInputEditText.placeCursorToEnd()
+
 }
 
 fun PishkhansdkComponentInputBinding.placeCursorToEnd() {
