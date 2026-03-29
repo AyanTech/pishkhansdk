@@ -17,6 +17,7 @@ import ir.ayantech.networking.simpleCallUserTransactions
 import ir.ayantech.pishkhansdk.Initializer
 import ir.ayantech.pishkhansdk.PishkhanUser
 import ir.ayantech.pishkhansdk.R
+import ir.ayantech.pishkhansdk.helper.PaymentHelper.invoiceRegister
 import ir.ayantech.pishkhansdk.helper.payment.channels.BillsPaymentChannelsInterface
 import ir.ayantech.pishkhansdk.helper.payment.channels.InvoicePaymentChannelsInterface
 import ir.ayantech.pishkhansdk.model.api.BillsPayment
@@ -133,21 +134,28 @@ object PishkhanSDK: InvoicePaymentChannelsInterface, BillsPaymentChannelsInterfa
     fun onInquiryButtonClicked(
         product: String,
         inputModel: BaseInputModel,
-        showPaymentChannelsFragment: Boolean = false,
+        showPaymentChannelsFragment : Boolean,
         extraInfoComponentDataModel: PishkhansdkExtraInfoComponentDataModel? = null,
         failureCallBack: FailureCallback? = null,
-        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null,
+        handleResultCallback: ((output: BaseResultModel<*>,invoiceRegisterOutput: InvoiceRegister.Output? ) -> Unit)? = null,
         invoiceRegisterCallback: ((invoiceRegisterOutput: InvoiceRegister.Output) -> Unit)? = null
     ) {
+      var  invoiceRegisterOutput: InvoiceRegister.Output? = null
+
+         val wrappedHandleResult: (BaseResultModel<*>) -> Unit = { response ->
+             handleResultCallback?.invoke(response, invoiceRegisterOutput)
+        }
         PaymentHelper.showPaymentChannelsFragment = showPaymentChannelsFragment
-        PaymentHelper.handleResultCallback = handleResultCallback
+        PaymentHelper.handleResultCallback = wrappedHandleResult
         PaymentHelper.extraInfoComponentDataModelForPayViaCNPG = extraInfoComponentDataModel
-        onInquiryButtonClicked(
+         onInquiryButtonClicked(
             product = product,
             inputModel = inputModel,
             failureCallBack = failureCallBack,
-            handleResultCallback = handleResultCallback,
-            invoiceRegisterCallback = invoiceRegisterCallback
+            handleResultCallback = wrappedHandleResult,
+            invoiceRegisterCallback = { output ->
+                invoiceRegisterOutput = output
+            }
         )
     }
 
