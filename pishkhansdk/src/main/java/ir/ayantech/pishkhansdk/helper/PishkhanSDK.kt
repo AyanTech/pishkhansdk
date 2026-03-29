@@ -144,7 +144,7 @@ object PishkhanSDK: InvoicePaymentChannelsInterface, BillsPaymentChannelsInterfa
 
          val wrappedHandleResult: (BaseResultModel<*>) -> Unit = { response ->
              handleResultCallback?.invoke(response, invoiceRegisterOutput)
-        }
+         }
         PaymentHelper.showPaymentChannelsFragment = showPaymentChannelsFragment
         PaymentHelper.handleResultCallback = wrappedHandleResult
         PaymentHelper.extraInfoComponentDataModelForPayViaCNPG = extraInfoComponentDataModel
