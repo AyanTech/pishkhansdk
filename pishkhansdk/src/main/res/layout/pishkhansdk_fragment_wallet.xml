@@ -92,7 +92,7 @@
 
         <include
             android:id="@+id/inputAmountCounterComponent"
-            layout="@layout/pishkhansdk_component_input_amount_counter"
+            layout="@layout/component_input_amount_counter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/amountsRv"

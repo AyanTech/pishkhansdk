@@ -113,7 +113,7 @@ class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
 
             })*/
 
-        start(WalletFragment())
+        start(WalletFragment(paymentButtonText = "تستی هرچی"))
     }
 
     private fun handleIntent() {

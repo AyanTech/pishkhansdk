@@ -307,7 +307,10 @@ object PishkhanSDK: InvoicePaymentChannelsInterface, BillsPaymentChannelsInterfa
                                 }
                             }
                             WalletFragment.Source.DirectCharge.name -> {
-                                (whyGoogleActivity.getTopFragment() as? WalletFragment)?.initViews()
+                                (whyGoogleActivity.getTopFragment() as? WalletFragment)?.let {
+                                   whyGoogleActivity.pop()
+                                }
+                                whyGoogleActivity.start(WalletFragment())
                             }
                         }
                     }

@@ -4,6 +4,8 @@ import android.R.id.input
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
+import androidx.core.text.htmlEncode
 import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.databinding.PishkhansdkFragmentWalletBinding
@@ -34,8 +36,11 @@ import ir.ayantech.whygoogle.helper.formatAmount
 import ir.ayantech.whygoogle.helper.isVisible
 import ir.ayantech.whygoogle.helper.openUrl
 import ir.ayantech.whygoogle.helper.rtlSetup
+import okio.Okio.source
 
-open class WalletFragment() : AyanFragment<PishkhansdkFragmentWalletBinding>() {
+open class WalletFragment( val paymentButtonText : String? = null) : AyanFragment<PishkhansdkFragmentWalletBinding>(
+
+) {
 
     open val corePishkhan24AyanApi: AyanApi
         get() = PishkhanSDK.coreApi
@@ -84,7 +89,7 @@ open class WalletFragment() : AyanFragment<PishkhansdkFragmentWalletBinding>() {
 
     open fun initViews() {
         initTopSection()
-    }
+     }
 
     open fun initTopSection() {
         getUserWallets()
@@ -201,7 +206,7 @@ open class WalletFragment() : AyanFragment<PishkhansdkFragmentWalletBinding>() {
     open fun initPaymentButton(chargeSettings: UserWallets.ChargeSettings) {
         accessViews {
             paymentButtonComponent.init(
-                btnText = getString(R.string.pay),
+                btnText = paymentButtonText ?: getString(R.string.pay),
                 minValue = chargeSettings.Minimum
             ) {
                 selectedPaymentChannel?.Gateways?.firstOrNull()?.let { gateway ->
@@ -279,7 +284,7 @@ open class WalletFragment() : AyanFragment<PishkhansdkFragmentWalletBinding>() {
             termsAndConditionsTv.setOnClickListener {
                 PishkhanSdkWalletTermsAndConditionsBottomSheet(
                     context = requireActivity(),
-                    termsAndConditions = termsAndConditions
+                    termsAndConditions = HtmlCompat.fromHtml(termsAndConditions ?: "", HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
                 ).show()
             }
         }
