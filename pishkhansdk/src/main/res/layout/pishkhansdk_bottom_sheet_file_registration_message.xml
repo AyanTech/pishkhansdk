@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/margin_16"
+    android:paddingTop="@dimen/margin_16"
+    android:paddingEnd="@dimen/margin_16"
+    android:paddingBottom="@dimen/margin_32">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/vectorIv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_100"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@drawable/pishkhansdk_car_annual_file_registration_vector" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/descriptionTv"
+        style="@style/pishkhansdk_bottom_sheet_file_registration_message_descriptionTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vectorIv"
+        android:layout_marginTop="@dimen/margin_8"
+        tools:text="اطلاعات خودرو در سامانه شهرداری ناقص است. لطفا برای ثبت اطلاعات، به دفاتر خدمات الکترونیک مراجعه کنید یا بر روی دکمه زیر کلیک کنید." />
+
+    <include
+        android:id="@+id/confirmFileRegistrationBtnComponent"
+        layout="@layout/pishkhansdk_component_button_filled"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/descriptionTv"
+        android:layout_marginTop="@dimen/margin_12" />
+
+</RelativeLayout>

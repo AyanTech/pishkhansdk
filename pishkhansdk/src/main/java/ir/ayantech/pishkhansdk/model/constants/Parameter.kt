@@ -42,4 +42,5 @@ object Parameter {
     const val BillUniqueID = "BillUniqueID"
     const val BirthDate = "BirthDate"
     const val IsLegal = "IsLegal"
+    const val GreenSheetBase64Image = "GreenSheetBase64Image"
 }

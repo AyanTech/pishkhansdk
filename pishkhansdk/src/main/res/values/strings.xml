@@ -46,5 +46,7 @@
     <string name="detail">جزئیات</string>
     <string name="choose_your_car_type">نوع خودرو را انتخاب کنید.</string>
     <string name="pishkhan_wallet_text_error">مقدار وارد شده نباید کمتر از %s ریال باشد.</string>
+    <string name="car_annual_tax_file_registration_message_description">اطلاعات خودرو در سامانه شهرداری ناقص است. لطفا برای ثبت اطلاعات به دفاتر خدمات الکترونیک مراجعه کنید یا بر روی دکمه زیر کلیک کنید.</string>
+    <string name="car_annual_tax_file_registration_message_button_text">ثبت اطلاعات از طریق خلافی پلاس</string>
 
 </resources>

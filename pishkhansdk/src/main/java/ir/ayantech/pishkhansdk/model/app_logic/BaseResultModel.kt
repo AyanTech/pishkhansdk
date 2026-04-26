@@ -2,6 +2,7 @@ package ir.ayantech.pishkhansdk.model.app_logic
 
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.helper.PaymentHelper.otpBottomSheetDialog
+import ir.ayantech.pishkhansdk.ui.bottom_sheet.FileRegistrationMessageBottomSheet
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.OptionsSelectionBottomSheet
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.OtpBottomSheetDialog
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
@@ -9,7 +10,14 @@ import ir.ayantech.whygoogle.helper.isNotNull
 
 data class Prerequisites(
     val OTP: OTP?,
-    val TaxGroups: List<ExtraInfo>?
+    val TaxGroups: List<ExtraInfo>?,
+    var FileRegistration: FileRegistration?
+)
+
+data class FileRegistration(
+    val NationalCode: String,
+    val PlateNumber: String,
+    val VIN: String,
 )
 
 data class Query(
@@ -68,6 +76,17 @@ open class BaseResultModel<T>(
                         },
                         callback = { selectedTaxGroup ->
                             input.TaxGroup = selectedTaxGroup.Name
+                            checkCompletedCallback(input)
+                        }
+                    ).show()
+                }
+
+                Prerequisites?.FileRegistration != null -> {
+                    FileRegistrationMessageBottomSheet(
+                        context = ayanActivity,
+                        description = ayanActivity.getString(R.string.car_annual_tax_file_registration_message_description),
+                        onFileRegistrationViaPishkhanClicked = {
+                            input.FileRegistration = Prerequisites.FileRegistration
                             checkCompletedCallback(input)
                         }
                     ).show()

@@ -3,6 +3,7 @@ package ir.ayantech.pishkhansdk.helper
 
 import ir.ayantech.networking.simpleCallBankChequeStatusSayad
 import ir.ayantech.networking.simpleCallCarAnnualTaxBills
+import ir.ayantech.networking.simpleCallCarAnnualTaxFileRegistrationRequest
 import ir.ayantech.networking.simpleCallCarAnnualTaxGetSettlementCertificate
 import ir.ayantech.networking.simpleCallCarPlateNumberHistory
 import ir.ayantech.networking.simpleCallCellPhoneBills
@@ -33,6 +34,7 @@ import ir.ayantech.networking.simpleCallVehicleThirdPartyInsurance
 import ir.ayantech.networking.simpleCallVehicleThirdPartyInsuranceStatus
 import ir.ayantech.pishkhansdk.model.api.BankChequeStatusSayad
 import ir.ayantech.pishkhansdk.model.api.CarAnnualTaxBills
+import ir.ayantech.pishkhansdk.model.api.CarAnnualTaxFileRegistrationRequest
 import ir.ayantech.pishkhansdk.model.api.CarAnnualTaxGetSettlementCertificate
 import ir.ayantech.pishkhansdk.model.api.CarPlateNumberHistory
 import ir.ayantech.pishkhansdk.model.api.CellPhoneBills
@@ -68,6 +70,7 @@ import ir.ayantech.pishkhansdk.model.api.VehicleThirdPartyInsuranceStatus
 import ir.ayantech.pishkhansdk.model.app_logic.BaseInputModel
 import ir.ayantech.pishkhansdk.model.app_logic.BaseResultModel
 import ir.ayantech.pishkhansdk.model.app_logic.Products
+import ir.ayantech.pishkhansdk.model.app_logic.Query
 import ir.ayantech.pishkhansdk.model.constants.EndPoints
 import ir.ayantech.pishkhansdk.model.constants.Parameter
 import ir.ayantech.whygoogle.helper.isNull
@@ -79,6 +82,19 @@ object HandleOutput {
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
         when (invoiceInfoOutput.Invoice.Service.Type.Name) {
+
+            Products.carAnnualTaxFileRegistration.name -> {
+                callCarAnnualTaxFileRegistrationRequest(
+                    input = CarAnnualTaxFileRegistrationRequest.Input(
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey,
+                        GreenSheetBase64Image = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.GreenSheetBase64Image }.Value,
+                        IsLegal = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.IsLegal }.Value.toBoolean(),
+                        MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                    )
+                ) {
+                    handleResultCallback?.invoke(it)
+                }
+            }
 
             Products.carAnnualTaxGetSettlementCertificate.name -> {
                 callCarAnnualTaxGetSettlementCertificate(
@@ -535,6 +551,53 @@ object HandleOutput {
 
     }
 
+    fun callCarAnnualTaxFileRegistrationRequest(
+        input: BaseInputModel,
+        handleResultCallback: ((BaseResultModel<*>) -> Unit)? = null
+    ) {
+        val fileRegistrationRequestInput = input as CarAnnualTaxFileRegistrationRequest.Input
+        if (fileRegistrationRequestInput.GreenSheetBase64Image.isEmpty()) {
+            val customOutput = CarAnnualTaxFileRegistrationRequest.Output(
+                Prerequisites = null,
+                Messages = null,
+                Result = null,
+                WarningMessage = "",
+                Query = Query(
+                    AutoFill = false,
+                    Favorite = false,
+                    Index = "",
+                    Note = "",
+                    Parameters = listOf(),
+                    UniqueID = ""
+                )
+            )
+            customOutput.isGreenSheetBase64Empty = true
+            customOutput.purchaseKey = fileRegistrationRequestInput.PurchaseKey ?: ""
+            handleResultCallback?.invoke(customOutput)
+        } else {
+            PishkhanSDK.serviceApi.simpleCallCarAnnualTaxFileRegistrationRequest(
+                input = fileRegistrationRequestInput
+            ) { output ->
+                output?.checkPrerequisites(
+                    ayanActivity = PishkhanSDK.whyGoogleActivity,
+                    input = input
+                ) { prerequisites ->
+                    if (prerequisites.isNull()) {
+                        output.isGreenSheetBase64Empty = false
+                        handleResultCallback?.invoke(output)
+                    } else {
+                        (prerequisites as? CarAnnualTaxFileRegistrationRequest.Input)?.let { inputModel ->
+                            callCarAnnualTaxFileRegistrationRequest(
+                                input = inputModel,
+                                handleResultCallback
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     fun callCarAnnualTaxGetSettlementCertificate(
         input: BaseInputModel,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
@@ -566,7 +629,12 @@ object HandleOutput {
                     handleResultCallback?.invoke(output)
                 } else {
                     (prerequisitesResult as? CarAnnualTaxBills.Input)?.let { inputModel ->
-                        callCarAnnualTaxBillsInquiry(input = inputModel, handleResultCallback)
+                        if (inputModel.FileRegistration != null) {
+                            output.Prerequisites?.FileRegistration = input.FileRegistration
+                            handleResultCallback?.invoke(output)
+                        } else {
+                            callCarAnnualTaxBillsInquiry(input = inputModel, handleResultCallback)
+                        }
                     }
                 }
             }

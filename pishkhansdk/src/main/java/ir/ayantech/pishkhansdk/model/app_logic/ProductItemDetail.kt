@@ -91,6 +91,7 @@ object ProductItemDetail {
     const val InquiryCarAnnualTaxGetSettlementCertificate =
         "v1_InquiryCarAnnualTaxGetSettlementCertificate"
     const val InquiryCarAnnualTaxBills = "v1_InquiryCarAnnualTaxBills"
+    const val InquiryCarAnnualTaxFileRegistrationRequest = "v1_InquiryCarAnnualTaxFileRegistrationRequest"
 }
 
 fun String.getProductShowName() = when (this) {
@@ -115,6 +116,7 @@ fun String.getProductShowName() = when (this) {
     ProductItemDetail.InquiryTechnicalExaminationCertificate -> "معاینه فنی"
     ProductItemDetail.InquiryFreewayTollBills -> "عوارض آزادراهی"
     ProductItemDetail.InquiryAnnualTollsCar, ProductItemDetail.InquiryCarAnnualTaxBills -> "عوارض سالیانه"
+    ProductItemDetail.InquiryCarAnnualTaxFileRegistrationRequest -> "تشکیل پرونده عوارض سالیانه"
     ProductItemDetail.InquiryTrafficPlanTollsCar -> "طرح ترافیک"
     ProductItemDetail.MOTOR_TRAFFIC_FINES -> "خلافی موتور با جزئیات"
     ProductItemDetail.THIRD_PARTY_INSURANCE,
@@ -185,6 +187,8 @@ fun String.getCardHistoryIcon() = when (this) {
 
     ProductItemDetail.InquiryTrafficPlanTollsCar,
     "MunicipalityCarToll" -> R.drawable.ic_traffic_plan_history_card
+
+    ProductItemDetail.InquiryCarAnnualTaxFileRegistrationRequest -> R.drawable.ic_annual_toll_history_card_file_registration
 
     ProductItemDetail.InquiryCarAnnualTaxBills,
     ProductItemDetail.InquiryAnnualTollsCar ,

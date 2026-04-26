@@ -261,4 +261,8 @@
         <item name="android:background">@color/pishkhansdk_text_gray3</item>
         <item name="android:elevation">@dimen/margin_12</item>
     </style>
+
+    <style name="pishkhansdk_bottom_sheet_file_registration_message_descriptionTv" parent="Text4Regular">
+        <item name="android:textColor">@color/pishkhansdk_text_gray8</item>
+    </style>
 </resources>

@@ -4,4 +4,5 @@ open class BaseInputModel(
     var OTPCode: String?,
     var PurchaseKey: String?,
     var TaxGroup: String? = null,
+    var FileRegistration: FileRegistration? = null,
 )

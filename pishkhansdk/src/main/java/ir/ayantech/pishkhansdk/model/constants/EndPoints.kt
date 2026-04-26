@@ -78,6 +78,7 @@ object EndPoints {
     const val TRAFFIC_FINES_IMAGES_V2 = "v2/TrafficFinesImages"
     const val VEHICLE_AUTHENTICITY_V3 = "v3/VehicleAuthenticity"
     const val CAR_ANNUAL_TAX_GET_SETTLEMENT_CERTIFICATE = "v1/CarAnnualTaxGetSettlementCertificate"
+    const val CAR_ANNUAL_TAX_FILE_REGISTRATIONS_REQUEST = "v1/CarAnnualTaxFileRegistrationRequest"
     const val FREEWAY_TOLL_BILLS_DETAILED = "v1/FreewayTollBillsDetailed"
 
     //core

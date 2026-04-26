@@ -46,5 +46,7 @@
     <string name="detail">Detail</string>
     <string name="choose_your_car_type">Choose your car type.</string>
     <string name="pishkhan_wallet_text_error">مقدار وارد شده نباید کمتر از %s ریال باشد.</string>
-
+    <string name="car_annual_tax_file_registration_message_description">Your vehicle information is incomplete in the municipal system.
+Please visit one of the Electronic Service Centers to update your details, or click the button below to complete your registration</string>
+    <string name="car_annual_tax_file_registration_message_button_text">Complete Registration on khalafi Plus</string>
 </resources>
