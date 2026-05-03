@@ -87,7 +87,7 @@ object HandleOutput {
                 callCarAnnualTaxFileRegistrationRequest(
                     input = CarAnnualTaxFileRegistrationRequest.Input(
                         PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey,
-                        GreenSheetBase64Image = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.GreenSheetBase64Image }.Value,
+                        GreenSheetBase64Image = "",
                         IsLegal = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.IsLegal }.Value.toBoolean(),
                         MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
                     )
