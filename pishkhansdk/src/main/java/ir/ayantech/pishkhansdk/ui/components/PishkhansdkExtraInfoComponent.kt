@@ -14,30 +14,26 @@ import ir.ayantech.whygoogle.helper.verticalSetup
 
 fun PishkhansdkComponentExtraInfoBinding.initExtraInfoComponent(data: PishkhansdkExtraInfoComponentDataModel) {
 
-    data.extraInfoItems.safeGet(0)?.let { extraInfo ->
+    data.firstRow?.let { extraInfo ->
         firstKeyValueLayout.keyTv.text = extraInfo.Key
         firstKeyValueLayout.valueTv.text = extraInfo.Value
     }
 
-    data.extraInfoItems.safeGet(1)?.let { extraInfo ->
+    data.secondRow?.let { extraInfo ->
         secondKeyValueLayout.keyTv.text = extraInfo.Key
         secondKeyValueLayout.valueTv.text = extraInfo.Value
     }
 
-    detailTv.changeVisibility(show = data.extraInfoItems.size > 2)
+    detailTv.changeVisibility(show = !data.extraInfoItems.isNullOrEmpty())
     detailTv.setOnClickListener {
         rootRl.delayedTransition()
         extraInfoRv.changeVisibility(show = !extraInfoRv.isVisible())
         detailTv.setEndDrawable(if (extraInfoRv.isVisible()) R.drawable.pishkhansdk_ic_arrow_up else R.drawable.pishkhansdk_ic_arrow_down)
     }
-    if (data.extraInfoItems.size > 2) {
-        val subList = mutableListOf<ExtraInfo>()
-        subList.addAll(data.extraInfoItems)
-        subList.removeAt(0)
-        subList.removeAt(0)
+    if (!data.extraInfoItems.isNullOrEmpty()) {
         extraInfoRv.apply {
             verticalSetup()
-            adapter = PishkhansdkExtraInfoComponentItemsAdapter(items = subList)
+            adapter = PishkhansdkExtraInfoComponentItemsAdapter(items = data.extraInfoItems)
         }
     }
 }
