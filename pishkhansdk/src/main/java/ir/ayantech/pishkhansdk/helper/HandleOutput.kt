@@ -1,6 +1,7 @@
 package ir.ayantech.pishkhansdk.helper
 
 
+import android.R.id.input
 import ir.ayantech.networking.simpleCallBankChequeStatusSayad
 import ir.ayantech.networking.simpleCallCarAnnualTaxBills
 import ir.ayantech.networking.simpleCallCarAnnualTaxFileRegistrationRequest
@@ -404,6 +405,21 @@ object HandleOutput {
                     NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
                     OTPCode = null,
                     PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                ), handleResultCallback = {
+                    handleResultCallback?.invoke(it)
+                })
+            }
+
+            Products.plateNumbersProduct3.name -> {
+                handlePlateNumbersV3Output(input = VehicleAuthenticityV3.Input(
+                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                    OTPCode = null,
+                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey,
+                    Identifier = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Identifier }.Value,
+                    IdentifierType = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.IdentifierType }.Value,
+                    BirthDate = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.BirthDate }.Value,
+                    OTPReferenceNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.OTP_REFERENCE_NUMBER }.Value
                 ), handleResultCallback = {
                     handleResultCallback?.invoke(it)
                 })
@@ -1168,6 +1184,31 @@ object HandleOutput {
                 } else {
                     (it as? VehiclePlateNumbers.Input)?.let {
                         handlePlateNumbersOutput(
+                            apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
+                            input = it,
+                        ) {
+                            handleResultCallback?.invoke(output)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun handlePlateNumbersV3Output(
+        apiCalledFromTransactionsFragment: Boolean = false,
+        input: BaseInputModel,
+        handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
+    ) {
+        PishkhanSDK.serviceApi.simpleCallVehicleAuthenticityV3(
+            input = input as VehicleAuthenticityV3.Input
+        ) { output ->
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
+                if (it.isNull()) {
+                    handleResultCallback?.invoke(output)
+                } else {
+                    (it as? VehicleAuthenticityV3.Input)?.let {
+                        handlePlateNumbersV3Output(
                             apiCalledFromTransactionsFragment = apiCalledFromTransactionsFragment,
                             input = it,
                         ) {

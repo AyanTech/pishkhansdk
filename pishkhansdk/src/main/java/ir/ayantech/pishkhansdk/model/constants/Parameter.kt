@@ -43,4 +43,5 @@ object Parameter {
     const val BirthDate = "BirthDate"
     const val IsLegal = "IsLegal"
     const val GreenSheetBase64Image = "GreenSheetBase64Image"
+    const val OTP_REFERENCE_NUMBER = "OTPReferenceNumber"
 }

@@ -30,6 +30,7 @@ import ir.ayantech.pishkhansdk.helper.HandleOutput.handleMobileBillOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleNegativePointOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handlePassportStatusOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handlePlateNumbersOutput
+import ir.ayantech.pishkhansdk.helper.HandleOutput.handlePlateNumbersV3Output
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handlePostPackageTrackingOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleServiceBillsOutput
 import ir.ayantech.pishkhansdk.helper.HandleOutput.handleSubventionHistoryOutput
@@ -65,6 +66,7 @@ object PaymentHelper {
     var showPaymentChannelsFragment: Boolean = false
     var handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     var extraInfoComponentDataModelForPayViaCNPG: PishkhansdkExtraInfoComponentDataModel? = null
+
     /**
      * This method checks if the service has a prerequisite
      **/
@@ -479,6 +481,15 @@ object PaymentHelper {
 
                 Products.plateNumbersProduct.name -> {
                     handlePlateNumbersOutput(
+                        input = input,
+                        handleResultCallback = {
+                            handleResultCallback?.invoke(it)
+                        }
+                    )
+                }
+
+                Products.plateNumbersProduct3.name -> {
+                    handlePlateNumbersV3Output(
                         input = input,
                         handleResultCallback = {
                             handleResultCallback?.invoke(it)

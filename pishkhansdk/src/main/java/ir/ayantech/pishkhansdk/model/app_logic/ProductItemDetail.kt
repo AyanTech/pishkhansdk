@@ -23,6 +23,7 @@ object ProductItemDetail {
 
     const val CAR_TRAFFIC_FINES = "v1_InquiryTrafficFinesCar"
     const val InquiryPlateNumbers = "v1_InquiryVehiclePlateNumbers"
+    const val INQUIRY_PLATE_NUMBERS_V3 = "v3_InquiryVehiclePlateNumbers"
     const val InquiryDrivingLicenceNegativePoint = "v1_InquiryDrivingLicenseNegativePoint"
     const val InquiryTechnicalExaminationCertificate = "v1_InquiryTechnicalExaminationCertificate"
     const val InquiryFreewayTollBills = "v2_InquiryFreewayTollBills"

@@ -65,6 +65,11 @@ object Products {
         category = Category.CarServices,
     )
 
+    val plateNumbersProduct3 = ProductItem(
+        name = ProductItemDetail.INQUIRY_PLATE_NUMBERS_V3,
+        category = Category.CarServices,
+    )
+
     val negativePointProduct = ProductItem(
         name = ProductItemDetail.InquiryDrivingLicenceNegativePoint,
         category = Category.CarServices,
