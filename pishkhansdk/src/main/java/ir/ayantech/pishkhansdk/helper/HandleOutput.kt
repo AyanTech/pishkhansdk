@@ -2,6 +2,7 @@ package ir.ayantech.pishkhansdk.helper
 
 
 import android.R.id.input
+import android.util.Log
 import ir.ayantech.networking.simpleCallBankChequeStatusSayad
 import ir.ayantech.networking.simpleCallCarAnnualTaxBills
 import ir.ayantech.networking.simpleCallCarAnnualTaxFileRegistrationRequest
@@ -82,6 +83,7 @@ object HandleOutput {
         invoiceInfoOutput: InvoiceInfo.Output,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
+        Log.d("mjmj", "handleOutputResult: $invoiceInfoOutput ")
         when (invoiceInfoOutput.Invoice.Service.Type.Name) {
 
             Products.carAnnualTaxFileRegistration.name -> {
@@ -140,11 +142,11 @@ object HandleOutput {
                 callVehicleAuthenticityInquiryV3(
                     input = VehicleAuthenticityV3.Input(
                         PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey,
-                        Identifier = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Identifier }.Value,
-                        IdentifierType = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.IdentifierType }.Value,
-                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
-                        MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
-                        BirthDate = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.BirthDate }.Value,
+                        Identifier = invoiceInfoOutput.Query.Parameters.firstOrNull { it.Key == Parameter.Identifier }?.Value.orEmpty(),
+                        IdentifierType = invoiceInfoOutput.Query.Parameters.firstOrNull { it.Key == Parameter.IdentifierType }?.Value.orEmpty(),
+                        NationalCode = invoiceInfoOutput.Query.Parameters.firstOrNull { it.Key == Parameter.NationalCode }?.Value.orEmpty(),
+                        MobileNumber = invoiceInfoOutput.Query.Parameters.firstOrNull { it.Key == Parameter.MobileNumber }?.Value.orEmpty(),
+                        BirthDate = invoiceInfoOutput.Query.Parameters.firstOrNull { it.Key == Parameter.BirthDate }?.Value.orEmpty(),
                     )
                 ) {
                     handleResultCallback?.invoke(it)
@@ -248,301 +250,328 @@ object HandleOutput {
             }
 
             Products.justiceSharesProduct.name -> {
-                handleJusticeSharesPortfolioOutput(input = JusticeSharesPortfolio.Input(
-                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handleJusticeSharesPortfolioOutput(
+                    input = JusticeSharesPortfolio.Input(
+                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.subventionHistoryProduct.name -> {
-                handleSubventionHistoryOutput(input = SubventionHistory.Input(
-                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handleSubventionHistoryOutput(
+                    input = SubventionHistory.Input(
+                        MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.carTrafficFinesProduct.name -> {
-                handleTrafficFinesCarOutput(input = TrafficFinesCar.Input(
-                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
-                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
-                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), endPoint = EndPoints.TrafficFinesCar, handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handleTrafficFinesCarOutput(
+                    input = TrafficFinesCar.Input(
+                        MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                        PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), endPoint = EndPoints.TrafficFinesCar, handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.carTrafficFinesSummaryProduct.name -> {
-                handleTrafficFinesCarSummaryOutput(input = TrafficFinesCarSummary.Input(
-                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), endPoint = EndPoints.TrafficFinesCarSummary, handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handleTrafficFinesCarSummaryOutput(
+                    input = TrafficFinesCarSummary.Input(
+                        PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), endPoint = EndPoints.TrafficFinesCarSummary, handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.motorTrafficFinesProduct.name -> {
-                handleTrafficFinesCarOutput(input = TrafficFinesCar.Input(
-                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
-                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
-                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), endPoint = EndPoints.TrafficFinesMotorcycle, handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handleTrafficFinesCarOutput(
+                    input = TrafficFinesCar.Input(
+                        MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                        PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), endPoint = EndPoints.TrafficFinesMotorcycle, handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.motorTrafficFinesSummeryProduct.name -> {
-                handleTrafficFinesCarSummaryOutput(input = TrafficFinesCarSummary.Input(
-                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), endPoint = EndPoints.TrafficFinesMotorcycleSummary, handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handleTrafficFinesCarSummaryOutput(
+                    input = TrafficFinesCarSummary.Input(
+                        PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), endPoint = EndPoints.TrafficFinesMotorcycleSummary, handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.ibanByCardNumberProduct.name -> {
-                handleIbanByCardNumberOutput(input = V3BankIbanInfo.Input(
-                    AccountType = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.AccountType }.Value,
-                    CardNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.CardNumber }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handleIbanByCardNumberOutput(
+                    input = V3BankIbanInfo.Input(
+                        AccountType = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.AccountType }.Value,
+                        CardNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.CardNumber }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.ibanByAccountNumberProduct.name -> {
-                handleIbanByAccountNumberOutput(input = V2BankIbanInfo.Input(
-                    AccountType = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.AccountType }.Value,
-                    AccountNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.AccountNumber }.Value,
-                    Bank = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Bank }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handleIbanByAccountNumberOutput(
+                    input = V2BankIbanInfo.Input(
+                        AccountType = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.AccountType }.Value,
+                        AccountNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.AccountNumber }.Value,
+                        Bank = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Bank }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.accountNumberByIbanProduct.name -> {
-                handleAccountNumberByIbanOutput(input = V1BankIbanInfo.Input(
-                    AccountType = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.AccountType }.Value,
-                    Iban = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Iban }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handleAccountNumberByIbanOutput(
+                    input = V1BankIbanInfo.Input(
+                        AccountType = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.AccountType }.Value,
+                        Iban = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Iban }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.postPackageTrackingProduct.name -> {
-                handlePostPackageTrackingOutput(input = PostPackagesStatus.Input(
-                    TrackingCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.TrackingCode }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handlePostPackageTrackingOutput(
+                    input = PostPackagesStatus.Input(
+                        TrackingCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.TrackingCode }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.sayadChequeProduct.name -> {
-                handleBankChequeStatusSayadOutput(input = BankChequeStatusSayad.Input(
-                    ChequeNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.ChequeNumber }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handleBankChequeStatusSayadOutput(
+                    input = BankChequeStatusSayad.Input(
+                        ChequeNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.ChequeNumber }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.freewayTollBillsProduct.name -> {
-                handleFreewayTollBillsOutput(input = FreewayTollBills.Input(
-                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handleFreewayTollBillsOutput(
+                    input = FreewayTollBills.Input(
+                        PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.trafficPlanTollCarProduct.name -> {
-                handleTrafficPlanTollCarOutput(input = MunicipalityCarTollBills.Input(
-                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handleTrafficPlanTollCarOutput(
+                    input = MunicipalityCarTollBills.Input(
+                        PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.annualTollCarProduct.name -> {
-                handleAnnualTollCarOutput(input = MunicipalityCarAnnualTollBills.Input(
-                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
-                    EngineNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.EngineNumber }.Value,
-                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
-                    TaxGroup = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.TaxGroup }.Value,
-                    VIN = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.VIN }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handleAnnualTollCarOutput(
+                    input = MunicipalityCarAnnualTollBills.Input(
+                        PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                        EngineNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.EngineNumber }.Value,
+                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                        TaxGroup = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.TaxGroup }.Value,
+                        VIN = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.VIN }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.plateNumbersProduct.name -> {
-                handlePlateNumbersOutput(input = VehiclePlateNumbers.Input(
-                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
-                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handlePlateNumbersOutput(
+                    input = VehiclePlateNumbers.Input(
+                        MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.plateNumbersProduct3.name -> {
-                handlePlateNumbersV3Output(input = VehicleAuthenticityV3.Input(
-                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
-                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey,
-                    Identifier = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Identifier }.Value,
-                    IdentifierType = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.IdentifierType }.Value,
-                    BirthDate = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.BirthDate }.Value,
-                    OTPReferenceNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.OTP_REFERENCE_NUMBER }.Value
-                ), handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handlePlateNumbersV3Output(
+                    input = VehicleAuthenticityV3.Input(
+                        MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey,
+                        Identifier = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Identifier }.Value,
+                        IdentifierType = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.IdentifierType }.Value,
+                        BirthDate = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.BirthDate }.Value,
+                        OTPReferenceNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.OTP_REFERENCE_NUMBER }.Value
+                    ), handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.negativePointProduct.name -> {
-                handleNegativePointOutput(input = DrivingLicenseNegativePoint.Input(
-                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
-                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
-                    LicenseNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.LicenseNumber }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handleNegativePointOutput(
+                    input = DrivingLicenseNegativePoint.Input(
+                        MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                        LicenseNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.LicenseNumber }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.drivingLicenceStatusProduct.name -> {
-                handleDrivingLicenceStatusOutput(input = DrivingLicenseStatus.Input(
-                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
-                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handleDrivingLicenceStatusOutput(
+                    input = DrivingLicenseStatus.Input(
+                        MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.identificationDocumentsStatusCarProduct.name -> {
-                handleIdentificationDocumentsStatusCarOutput(input = IdentificationDocumentsStatusCar.Input(
-                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
-                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
-                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handleIdentificationDocumentsStatusCarOutput(
+                    input = IdentificationDocumentsStatusCar.Input(
+                        MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                        PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.thirdPartyInsuranceProduct.name -> {
-                handleThirdPartyInsuranceOutput(input = VehicleThirdPartyInsurance.Input(
-                    InsuranceUniqueCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.InsuranceUniqueCode }.Value,
-                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handleThirdPartyInsuranceOutput(
+                    input = VehicleThirdPartyInsurance.Input(
+                        InsuranceUniqueCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.InsuranceUniqueCode }.Value,
+                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.thirdPartyInsuranceStatusProduct.name -> {
-                handleThirdPartyInsuranceStatusOutput(input = VehicleThirdPartyInsuranceStatus.Input(
-                    PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handleThirdPartyInsuranceStatusOutput(
+                    input = VehicleThirdPartyInsuranceStatus.Input(
+                        PlateNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.PlateNumber }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.passportStatusProduct.name -> {
-                handlePassportStatusOutput(input = PassportStatus.Input(
-                    MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
-                    NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), handleResultCallback = {
-                    handleResultCallback?.invoke(it)
-                })
+                handlePassportStatusOutput(
+                    input = PassportStatus.Input(
+                        MobileNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.MobileNumber }.Value,
+                        NationalCode = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.NationalCode }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), handleResultCallback = {
+                        handleResultCallback?.invoke(it)
+                    })
             }
 
             Products.waterBillProduct.name -> {
-                handleServiceBillsOutput(input = ServiceBills.Input(
-                    Identifier = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Identifier }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), endPoint = EndPoints.WaterBills,
+                handleServiceBillsOutput(
+                    input = ServiceBills.Input(
+                        Identifier = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Identifier }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), endPoint = EndPoints.WaterBills,
                     handleResultCallback = {
                         handleResultCallback?.invoke(it)
                     })
             }
 
             Products.electricityBillProduct.name -> {
-                handleServiceBillsOutput(input = ServiceBills.Input(
-                    Identifier = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Identifier }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), endPoint = EndPoints.ElectricBills,
+                handleServiceBillsOutput(
+                    input = ServiceBills.Input(
+                        Identifier = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Identifier }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), endPoint = EndPoints.ElectricBills,
                     handleResultCallback = {
                         handleResultCallback?.invoke(it)
                     })
             }
 
             Products.gasBillByIdentifierProduct.name -> {
-                handleServiceBillsOutput(input = ServiceBills.Input(
-                    Identifier = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Identifier }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), endPoint = EndPoints.GasBillsBillIdentifier,
+                handleServiceBillsOutput(
+                    input = ServiceBills.Input(
+                        Identifier = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Identifier }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), endPoint = EndPoints.GasBillsBillIdentifier,
                     handleResultCallback = {
                         handleResultCallback?.invoke(it)
                     })
             }
 
             Products.gasBillByParticipateCodeProduct.name -> {
-                handleServiceBillsOutput(input = ServiceBills.Input(
-                    Identifier = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Identifier }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ), endPoint = EndPoints.GasBillsParticipateCode,
+                handleServiceBillsOutput(
+                    input = ServiceBills.Input(
+                        Identifier = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Identifier }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ), endPoint = EndPoints.GasBillsParticipateCode,
                     handleResultCallback = {
                         handleResultCallback?.invoke(it)
                     })
             }
 
             Products.mobileProduct.name -> {
-                handleMobileBillOutput(input = CellPhoneBills.Input(
-                    LineNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.LineNumber }.Value,
-                    Operator = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Operator }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ),
+                handleMobileBillOutput(
+                    input = CellPhoneBills.Input(
+                        LineNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.LineNumber }.Value,
+                        Operator = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.Operator }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ),
                     handleResultCallback = {
                         handleResultCallback?.invoke(it)
                     })
@@ -550,11 +579,12 @@ object HandleOutput {
 
 
             Products.landlinePhoneBillProduct.name -> {
-                handleLandLineBillOutput(input = LandLinePhoneBills.Input(
-                    LineNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.LineNumber }.Value,
-                    OTPCode = null,
-                    PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
-                ),
+                handleLandLineBillOutput(
+                    input = LandLinePhoneBills.Input(
+                        LineNumber = invoiceInfoOutput.Query.Parameters.first { it.Key == Parameter.LineNumber }.Value,
+                        OTPCode = null,
+                        PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey
+                    ),
                     handleResultCallback = {
                         handleResultCallback?.invoke(it)
                     })
@@ -564,7 +594,6 @@ object HandleOutput {
             else -> {}
 
         }
-
     }
 
     fun callCarAnnualTaxFileRegistrationRequest(
@@ -621,12 +650,18 @@ object HandleOutput {
         PishkhanSDK.serviceApi.simpleCallCarAnnualTaxGetSettlementCertificate(
             input = input as CarAnnualTaxGetSettlementCertificate.Input
         ) { output ->
-            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) { prerequisitesResult ->
+            output?.checkPrerequisites(
+                PishkhanSDK.whyGoogleActivity,
+                input
+            ) { prerequisitesResult ->
                 if (prerequisitesResult.isNull()) {
                     handleResultCallback?.invoke(output)
                 } else {
                     (prerequisitesResult as? CarAnnualTaxGetSettlementCertificate.Input)?.let { inputModel ->
-                        callCarAnnualTaxGetSettlementCertificate(input = inputModel, handleResultCallback)
+                        callCarAnnualTaxGetSettlementCertificate(
+                            input = inputModel,
+                            handleResultCallback
+                        )
                     }
                 }
             }
@@ -640,7 +675,10 @@ object HandleOutput {
         PishkhanSDK.serviceApi.simpleCallCarAnnualTaxBills(
             input = input as CarAnnualTaxBills.Input
         ) { output ->
-            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) { prerequisitesResult ->
+            output?.checkPrerequisites(
+                PishkhanSDK.whyGoogleActivity,
+                input
+            ) { prerequisitesResult ->
                 if (prerequisitesResult.isNull()) {
                     handleResultCallback?.invoke(output)
                 } else {
@@ -664,7 +702,10 @@ object HandleOutput {
         PishkhanSDK.serviceApi.simpleCallFreewayTollBillsDetailed(
             input = input as FreewayTollBillsDetailed.Input
         ) { output ->
-            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) { prerequisitesResult ->
+            output?.checkPrerequisites(
+                PishkhanSDK.whyGoogleActivity,
+                input
+            ) { prerequisitesResult ->
                 if (prerequisitesResult.isNull()) {
                     handleResultCallback?.invoke(output)
                 } else {
@@ -692,7 +733,8 @@ object HandleOutput {
                     handleResultCallback?.invoke(output)
                 } else {
                     (it as? VehicleAuthenticityV3.Input)?.let { inputModel ->
-                        inputModel.OTPReferenceNumber = output.Prerequisites?.OTP?.ReferenceNumber ?: ""
+                        inputModel.OTPReferenceNumber =
+                            output.Prerequisites?.OTP?.ReferenceNumber ?: ""
                         callVehicleAuthenticityInquiryV3(
                             input = inputModel
                         ) {
@@ -734,7 +776,10 @@ object HandleOutput {
         PishkhanSDK.serviceApi.simpleCallTransferTaxGetSettlementCertificate(
             input = input as TransferTaxGetSettlementCertificate.Input,
         ) { output ->
-            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) { prerequisitesResult ->
+            output?.checkPrerequisites(
+                PishkhanSDK.whyGoogleActivity,
+                input
+            ) { prerequisitesResult ->
                 if (prerequisitesResult.isNull()) {
                     handleResultCallback?.invoke(output)
                 } else {
@@ -755,7 +800,10 @@ object HandleOutput {
         PishkhanSDK.serviceApi.simpleCallTransferTaxCarV2(
             input = input as TransferTaxCarV2.Input
         ) { output ->
-            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) { prerequisitesResult ->
+            output?.checkPrerequisites(
+                PishkhanSDK.whyGoogleActivity,
+                input
+            ) { prerequisitesResult ->
                 if (prerequisitesResult.isNull()) {
                     handleResultCallback?.invoke(output)
                 } else {
@@ -776,7 +824,10 @@ object HandleOutput {
         PishkhanSDK.serviceApi.simpleCallTransferTaxMotorcycleV2(
             input = input as TransferTaxMotorcycleV2.Input
         ) { output ->
-            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) { prerequisitesResult ->
+            output?.checkPrerequisites(
+                PishkhanSDK.whyGoogleActivity,
+                input
+            ) { prerequisitesResult ->
                 if (prerequisitesResult.isNull()) {
                     handleResultCallback?.invoke(output)
                 } else {
