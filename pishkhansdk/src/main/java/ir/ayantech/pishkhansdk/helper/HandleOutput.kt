@@ -1,7 +1,6 @@
 package ir.ayantech.pishkhansdk.helper
 
 
-import android.R.id.input
 import android.util.Log
 import ir.ayantech.networking.simpleCallBankChequeStatusSayad
 import ir.ayantech.networking.simpleCallCarAnnualTaxBills
@@ -728,17 +727,17 @@ object HandleOutput {
         PishkhanSDK.serviceApi.simpleCallVehicleAuthenticityV3(
             input = input as VehicleAuthenticityV3.Input
         ) { output ->
-            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) {
-                if (it.isNull()) {
+            output?.checkPrerequisites(PishkhanSDK.whyGoogleActivity, input) { input ->
+                if (input.isNull()) {
                     handleResultCallback?.invoke(output)
                 } else {
-                    (it as? VehicleAuthenticityV3.Input)?.let { inputModel ->
+                    (input as? VehicleAuthenticityV3.Input)?.let { inputModel ->
                         inputModel.OTPReferenceNumber =
-                            output.Prerequisites?.OTP?.ReferenceNumber ?: ""
+                            output.Prerequisites?.OTP?.ReferenceNumber.orEmpty()
                         callVehicleAuthenticityInquiryV3(
                             input = inputModel
-                        ) {
-                            handleResultCallback?.invoke(output)
+                        ) { finalOutput ->
+                            handleResultCallback?.invoke(finalOutput)
                         }
                     }
                 }
