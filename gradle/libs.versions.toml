@@ -1,0 +1,55 @@
+[versions]
+agp = "9.3.0"
+kotlin = "2.4.0"
+ksp = "2.3.9"
+coreKtx = "1.16.0"
+appcompat = "1.7.1"
+material = "1.13.0"
+constraintLayout = "2.2.1"
+multidex = "2.0.1"
+lifecycleRuntimeKtx = "2.9.4"
+whyGoogle = "0.8.2"
+whyGoogleV2 = "2.0.6"
+networking = "1.6.1"
+networkingV2 = "2.0.4"
+generator = "0.3.0"
+generatorV2 = "2.0.1"
+wp7ProgressBar = "1.1.0"
+persianDate = "1.7.1"
+sdp = "1.1.1"
+ssp = "1.1.1"
+glide = "5.0.4"
+lottie = "6.6.7"
+playServicesAuthApiPhone = "18.2.0"
+
+[libraries]
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintLayout" }
+androidx-multidex = { module = "androidx.multidex:multidex", version.ref = "multidex" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+
+# Ayan Dependencies:
+why-google = { module = "com.github.shadowalker77:whygoogle", version.ref = "whyGoogle" }
+networking = { module = "com.github.shadowalker77:networking", version.ref = "networking" }
+generator = { module = "com.github.shadowalker77:generator", version.ref = "generator" }
+wp7-progressbar = { module = "com.github.shadowalker77:wp7progressbar", version.ref = "wp7ProgressBar" }
+# V2 ayan dependencies:
+why-googleV2 = { module = "com.github.AyanTech:WhyGoogle", version.ref = "whyGoogleV2" }
+networkingV2 = { module = "com.github.AyanTech:Networking", version.ref = "networkingV2" }
+generatorV2 = { module = "com.github.AyanTech:Generator", version.ref = "generatorV2" }
+
+persian-date = { module = "com.github.samanzamani:PersianDate", version.ref = "persianDate" }
+sdp-android = { module = "com.intuit.sdp:sdp-android", version.ref = "sdp" }
+ssp-android = { module = "com.intuit.ssp:ssp-android", version.ref = "ssp" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
+lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
+play-services-auth-api-phone = { module = "com.google.android.gms:play-services-auth-api-phone", version.ref = "playServicesAuthApiPhone" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

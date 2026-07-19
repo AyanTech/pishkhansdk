@@ -36,7 +36,6 @@ import ir.ayantech.whygoogle.helper.formatAmount
 import ir.ayantech.whygoogle.helper.isVisible
 import ir.ayantech.whygoogle.helper.openUrl
 import ir.ayantech.whygoogle.helper.rtlSetup
-import okio.Okio.source
 
 open class WalletFragment( val paymentButtonText : String? = null) : AyanFragment<PishkhansdkFragmentWalletBinding>(
 

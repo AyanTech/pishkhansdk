@@ -1,12 +1,13 @@
 package ir.ayantech.pishkhansdk.bottom_sheets
 
 import android.view.LayoutInflater
-import ir.ayantech.pishkhansdk.databinding.BottomSheetWaiterBinding
+import ir.ayantech.pishkhansdk.sample.databinding.BottomSheetWaiterBinding
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
 import ir.ayantech.whygoogle.helper.delayed
 import ir.ayantech.whygoogle.helper.trying
 
-class WaiterBottomSheet(activity: WhyGoogleActivity<*>, override val title: String?) : BaseBottomSheet<BottomSheetWaiterBinding>(activity) {
+class WaiterBottomSheet(activity: WhyGoogleActivity<*>, override val title: String?)
+    : BaseBottomSheet<BottomSheetWaiterBinding>(activity) {
 
     private var progressBarCount = 0
 
