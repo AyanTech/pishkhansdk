@@ -13,3 +13,16 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Kotlin compiler state
+.kotlin/
+
+# Gradle local daemon configuration
+/gradle/gradle-daemon-jvm.properties
+
+# IntelliJ IDEA / Android Studio local metadata
+/.idea/.gitignore
+/.idea/compiler.xml
+/.idea/gradle.xml
+/.idea/markdown.xml
+/.idea/misc.xml
