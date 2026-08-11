@@ -1,28 +1,15 @@
 *.iml
 .gradle
 /local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
 .DS_Store
 /build
 /captures
 .externalNativeBuild
 .cxx
 local.properties
-
-# Kotlin compiler state
-.kotlin/
+/.idea/
+/.kotlin/
+/.gradle-user-home/
 
 # Gradle local daemon configuration
 /gradle/gradle-daemon-jvm.properties
-
-# IntelliJ IDEA / Android Studio local metadata
-/.idea/.gitignore
-/.idea/compiler.xml
-/.idea/gradle.xml
-/.idea/markdown.xml
-/.idea/misc.xml

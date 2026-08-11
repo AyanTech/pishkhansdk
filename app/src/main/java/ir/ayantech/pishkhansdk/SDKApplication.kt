@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder
 import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.ayannetworking.ayanModel.LogLevel
 import ir.ayantech.pishkhansdk.helper.PishkhanSDK
-import ir.ayantech.whygoogle.activity.WhyGoogleActivity
+import ir.ayantech.pishkhansdk.sample.BuildConfig
 import java.lang.reflect.Modifier
 
 

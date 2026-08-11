@@ -11,17 +11,11 @@ import ir.ayantech.ayannetworking.api.AyanCommonCallStatus
 import ir.ayantech.ayannetworking.api.CallingState
 import ir.ayantech.ayannetworking.ayanModel.FailureType
 import ir.ayantech.pishkhansdk.bottom_sheets.WaiterBottomSheet
-import ir.ayantech.pishkhansdk.databinding.ActivityMainBinding
 import ir.ayantech.pishkhansdk.helper.PishkhanSDK
-import ir.ayantech.pishkhansdk.model.api.CarPlateNumberHistory
 import ir.ayantech.pishkhansdk.model.api.TrafficFinesCar
-import ir.ayantech.pishkhansdk.model.api.TransferTaxCarV2
-import ir.ayantech.pishkhansdk.model.api.VehicleAuthenticity
-import ir.ayantech.pishkhansdk.model.app_logic.ProductItemDetail
-import ir.ayantech.pishkhansdk.ui.components.init
+import ir.ayantech.pishkhansdk.sample.databinding.ActivityMainBinding
 import ir.ayantech.pishkhansdk.ui.fragments.WalletFragment
 import ir.ayantech.whygoogle.activity.WhyGoogleActivity
-import kotlin.jvm.java
 
 
 class MainActivity : WhyGoogleActivity<ActivityMainBinding>() {
