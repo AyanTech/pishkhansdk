@@ -16,8 +16,8 @@
             android:endX="317.18"
             android:endY="177.97"
             android:type="linear">
-          <item android:offset="0" android:color="@color/pishkhansdk_ic_bank_card_gradient_offset_zero"/>
-          <item android:offset="1" android:color="@color/pishkhansdk_ic_bank_card_gradient_offset_one"/>
+          <item android:offset="0" android:color="#E9ECEF"/>
+          <item android:offset="1" android:color="#111E24"/>
         </gradient>
       </aapt:attr>
     </path>
@@ -26,14 +26,14 @@
         android:strokeAlpha="0.7"
         android:strokeWidth="3"
         android:fillColor="#00000000"
-        android:strokeColor="@color/pishkhansdk_ic_bank_card_first_line"
+        android:strokeColor="#CFEFF7"
         android:fillAlpha="0.7"/>
     <path
         android:pathData="M131.9,-83.6C162.34,-16.26 265.33,102.21 434.44,39.83M434.44,39.83C435.16,39.56 435.89,39.29 436.61,39.02C607,-25.18 506.16,12.81 434.44,39.83Z"
         android:strokeAlpha="0.6"
         android:strokeWidth="3"
         android:fillColor="#00000000"
-        android:strokeColor="@color/pishkhansdk_ic_bank_card_second_line"
+        android:strokeColor="#B4E6F2"
         android:fillAlpha="0.6"/>
     <path
         android:pathData="M269,42C269,46.42 272.58,50 277,50H304C308.42,50 312,46.42 312,42V24C312,19.58 308.42,16 304,16H277C272.58,16 269,19.58 269,24V42Z"
