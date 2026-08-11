@@ -19,8 +19,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     testOptions {
         unitTests.isReturnDefaultValues = true
@@ -37,11 +37,7 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.bundles.androidx)
 
     //-----------------------------------Ayan----------------------
     implementation(libs.why.google)

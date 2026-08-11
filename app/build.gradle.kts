@@ -29,8 +29,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
         viewBinding = true
@@ -41,11 +41,7 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.multidex)
+    implementation(libs.bundles.androidx)
 
     implementation(project(":pishkhansdk"))
     implementation(libs.why.google)
