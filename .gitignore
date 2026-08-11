@@ -10,3 +10,6 @@ local.properties
 /.idea/
 /.kotlin/
 /.gradle-user-home/
+
+# Gradle local daemon configuration
+/gradle/gradle-daemon-jvm.properties

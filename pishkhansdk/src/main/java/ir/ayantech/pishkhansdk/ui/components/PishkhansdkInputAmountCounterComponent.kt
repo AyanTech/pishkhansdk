@@ -2,7 +2,6 @@ package ir.ayantech.pishkhansdk.ui.components
 
 import android.content.Context
 import android.text.InputType
-import androidx.core.content.ContextCompat
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.databinding.PishkhansdkComponentInputAmountCounterBinding
 import ir.ayantech.pishkhansdk.helper.extensions.AfterTextChangedCallback
@@ -12,10 +11,8 @@ import ir.ayantech.pishkhansdk.helper.extensions.makeInvisible
 import ir.ayantech.pishkhansdk.helper.extensions.reformatAmountToNumber
 import ir.ayantech.whygoogle.helper.changeVisibility
 import ir.ayantech.whygoogle.helper.formatAmount
-import ir.ayantech.whygoogle.helper.isNull
 import ir.ayantech.whygoogle.helper.makeGone
 import ir.ayantech.whygoogle.helper.makeVisible
-import ir.ayantech.whygoogle.helper.viewBinding
 
 private var isUpdating = false
 fun PishkhansdkComponentInputAmountCounterBinding.initInputAmountCounterComponent(

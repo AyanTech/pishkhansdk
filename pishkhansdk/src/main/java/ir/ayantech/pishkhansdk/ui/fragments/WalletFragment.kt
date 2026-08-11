@@ -1,11 +1,9 @@
 package ir.ayantech.pishkhansdk.ui.fragments
 
-import android.R.id.input
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
-import androidx.core.text.htmlEncode
 import ir.ayantech.ayannetworking.api.AyanApi
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.databinding.PishkhansdkFragmentWalletBinding
@@ -24,7 +22,7 @@ import ir.ayantech.pishkhansdk.model.constants.EndPoints
 import ir.ayantech.pishkhansdk.ui.adapter.PishkhansdkSuggestionAmountsAdapter
 import ir.ayantech.pishkhansdk.ui.adapter.PishkhansdkWalletPaymentChannelsAdapter
 import ir.ayantech.pishkhansdk.ui.bottom_sheet.PishkhanSdkWalletTermsAndConditionsBottomSheet
- import ir.ayantech.pishkhansdk.ui.components.checkVisibilityStatus
+import ir.ayantech.pishkhansdk.ui.components.checkVisibilityStatus
 import ir.ayantech.pishkhansdk.ui.components.getAmount
 import ir.ayantech.pishkhansdk.ui.components.init
 import ir.ayantech.pishkhansdk.ui.components.initInputAmountCounterComponent
@@ -37,9 +35,8 @@ import ir.ayantech.whygoogle.helper.isVisible
 import ir.ayantech.whygoogle.helper.openUrl
 import ir.ayantech.whygoogle.helper.rtlSetup
 
-open class WalletFragment( val paymentButtonText : String? = null) : AyanFragment<PishkhansdkFragmentWalletBinding>(
-
-) {
+open class WalletFragment(val paymentButtonText: String? = null) :
+    AyanFragment<PishkhansdkFragmentWalletBinding>() {
 
     open val corePishkhan24AyanApi: AyanApi
         get() = PishkhanSDK.coreApi
@@ -88,7 +85,7 @@ open class WalletFragment( val paymentButtonText : String? = null) : AyanFragmen
 
     open fun initViews() {
         initTopSection()
-     }
+    }
 
     open fun initTopSection() {
         getUserWallets()
@@ -100,7 +97,7 @@ open class WalletFragment( val paymentButtonText : String? = null) : AyanFragmen
                 rtlSetup(3)
                 adapter = PishkhansdkSuggestionAmountsAdapter(
                     items = amounts
-                ) { selectedAmount, viewId, position ->
+                ) { selectedAmount, _, _ ->
                     selectedAmount?.let {
                         inputAmountCounterComponent.setText(selectedAmount.formatAmount(""))
                     }
@@ -118,7 +115,7 @@ open class WalletFragment( val paymentButtonText : String? = null) : AyanFragmen
                 defaultValue = neededCashForChargeWallet?.toInt() ?: chargeSettings.Minimum.toInt(),
                 onInputChanges = { newText ->
                     paymentButtonComponent.checkVisibilityStatus(newText)
-                 }
+                }
             )
         }
     }
@@ -178,7 +175,7 @@ open class WalletFragment( val paymentButtonText : String? = null) : AyanFragmen
                 rtlSetup(2)
                 adapter = PishkhansdkWalletPaymentChannelsAdapter(
                     items = paymentChannels
-                ) { selectedPaymentChannel, viewId, position ->
+                ) { selectedPaymentChannel, _, _ ->
                     selectedPaymentChannel?.let {
                         this@WalletFragment.selectedPaymentChannel = selectedPaymentChannel
                         paymentMethodShowNameTv.text =
@@ -283,7 +280,10 @@ open class WalletFragment( val paymentButtonText : String? = null) : AyanFragmen
             termsAndConditionsTv.setOnClickListener {
                 PishkhanSdkWalletTermsAndConditionsBottomSheet(
                     context = requireActivity(),
-                    termsAndConditions = HtmlCompat.fromHtml(termsAndConditions ?: "", HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+                    termsAndConditions = HtmlCompat.fromHtml(
+                        termsAndConditions.orEmpty(),
+                        HtmlCompat.FROM_HTML_MODE_LEGACY
+                    ).toString()
                 ).show()
             }
         }
