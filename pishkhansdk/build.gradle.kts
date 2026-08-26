@@ -8,14 +8,11 @@ plugins {
 android {
     namespace = "ir.ayantech.pishkhansdk"
     compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
+        version = release(36)
     }
 
     defaultConfig {
         minSdk = 21
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
@@ -42,7 +39,7 @@ dependencies {
     //-----------------------------------Ayan----------------------
     implementation(libs.why.google)
     implementation(libs.wp7.progressbar)
-     //------------- ''------------------Networking--------------------------------
+    //------------- ''------------------Networking--------------------------------
     implementation(libs.networking)
 //    implementation(libs.networkingV2)
     compileOnly(libs.generator)
@@ -64,7 +61,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.github.AyanTech"
             artifactId = "pishkhansdk"
-            version = "2.0.0"
+            version = "1.2.11"
 
             afterEvaluate {
                 from(components["release"])
