@@ -1,7 +1,6 @@
 package ir.ayantech.pishkhansdk.helper
 
 
-import android.util.Log
 import ir.ayantech.networking.simpleCallBankChequeStatusSayad
 import ir.ayantech.networking.simpleCallCarAnnualTaxBills
 import ir.ayantech.networking.simpleCallCarAnnualTaxFileRegistrationRequest
@@ -82,11 +81,11 @@ object HandleOutput {
         invoiceInfoOutput: InvoiceInfo.Output,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
-        Log.d("mjmj", "handleOutputResult: $invoiceInfoOutput ")
         when (invoiceInfoOutput.Invoice.Service.Type.Name) {
 
             Products.carAnnualTaxFileRegistration.name -> {
                 callCarAnnualTaxFileRegistrationRequest(
+                    fromTransactionHistory = true,
                     input = CarAnnualTaxFileRegistrationRequest.Input(
                         PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey,
                         GreenSheetBase64Image = "",
@@ -597,10 +596,11 @@ object HandleOutput {
 
     fun callCarAnnualTaxFileRegistrationRequest(
         input: BaseInputModel,
+        fromTransactionHistory: Boolean = false,
         handleResultCallback: ((BaseResultModel<*>) -> Unit)? = null
     ) {
         val fileRegistrationRequestInput = input as CarAnnualTaxFileRegistrationRequest.Input
-        if (fileRegistrationRequestInput.GreenSheetBase64Image.isEmpty()) {
+        if (fileRegistrationRequestInput.GreenSheetBase64Image.isEmpty() && fromTransactionHistory.not()) {
             val customOutput = CarAnnualTaxFileRegistrationRequest.Output(
                 Prerequisites = null,
                 Messages = null,
@@ -616,7 +616,7 @@ object HandleOutput {
                 )
             )
             customOutput.isGreenSheetBase64Empty = true
-            customOutput.purchaseKey = fileRegistrationRequestInput.PurchaseKey ?: ""
+            customOutput.purchaseKey = fileRegistrationRequestInput.PurchaseKey.orEmpty()
             handleResultCallback?.invoke(customOutput)
         } else {
             PishkhanSDK.serviceApi.simpleCallCarAnnualTaxFileRegistrationRequest(
@@ -633,7 +633,7 @@ object HandleOutput {
                         (prerequisites as? CarAnnualTaxFileRegistrationRequest.Input)?.let { inputModel ->
                             callCarAnnualTaxFileRegistrationRequest(
                                 input = inputModel,
-                                handleResultCallback
+                                handleResultCallback = handleResultCallback
                             )
                         }
                     }
