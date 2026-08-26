@@ -79,13 +79,14 @@ object HandleOutput {
 
     fun handleOutputResult(
         invoiceInfoOutput: InvoiceInfo.Output,
+        callFromTransaction: Boolean = false,
         handleResultCallback: ((output: BaseResultModel<*>) -> Unit)? = null
     ) {
         when (invoiceInfoOutput.Invoice.Service.Type.Name) {
 
             Products.carAnnualTaxFileRegistration.name -> {
                 callCarAnnualTaxFileRegistrationRequest(
-                    fromTransactionHistory = true,
+                    fromTransactionHistory = callFromTransaction,
                     input = CarAnnualTaxFileRegistrationRequest.Input(
                         PurchaseKey = invoiceInfoOutput.Invoice.PurchaseKey,
                         GreenSheetBase64Image = "",
