@@ -17,7 +17,6 @@ import ir.ayantech.networking.simpleCallUserTransactions
 import ir.ayantech.pishkhansdk.Initializer
 import ir.ayantech.pishkhansdk.PishkhanUser
 import ir.ayantech.pishkhansdk.R
-import ir.ayantech.pishkhansdk.helper.PaymentHelper.invoiceRegister
 import ir.ayantech.pishkhansdk.helper.payment.channels.BillsPaymentChannelsInterface
 import ir.ayantech.pishkhansdk.helper.payment.channels.InvoicePaymentChannelsInterface
 import ir.ayantech.pishkhansdk.model.api.BillsPayment
@@ -525,6 +524,7 @@ object PishkhanSDK: InvoicePaymentChannelsInterface, BillsPaymentChannelsInterfa
                                 ) { invoiceInfoOutput ->
                                     HandleOutput.handleOutputResult(
                                         invoiceInfoOutput = invoiceInfoOutput,
+                                        callFromTransaction = true
                                     ) {
                                         onTransactionItemClicked?.invoke(
                                             it, invoiceInfoOutput.Invoice.Service.Type.Name

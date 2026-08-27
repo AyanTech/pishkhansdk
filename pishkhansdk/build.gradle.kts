@@ -61,7 +61,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.github.AyanTech"
             artifactId = "pishkhansdk"
-            version = "1.2.11"
+            version = "1.2.12-alpha01"
 
             afterEvaluate {
                 from(components["release"])
