@@ -84,11 +84,11 @@ fun String.encryptData(pk: String): String {
     return encoded
 }
 
-fun String.reformatAmountToNumber() : String {
+fun String.reformatAmountToNumber(): String {
     return this.replace("ریال", "").replace(",", "").trim()
 }
 
-fun String.addChar(char: Char, every: Int) : String {
+fun String.addChar(char: Char, every: Int): String {
     var newStr = ""
     toCharArray().forEachIndexed { index, c ->
         newStr += c
@@ -104,3 +104,20 @@ fun String.extractOtp(pattern: String): String {
         .map { it.value }
         .joinToString("")
 }
+
+fun String.reverseUnify(): String = map { char ->
+    when (char) {
+        '0' -> '٠'
+        '1' -> '١'
+        '2' -> '٢'
+        '3' -> '٣'
+        '4' -> '٤'
+        '5' -> '٥'
+        '6' -> '٦'
+        '7' -> '٧'
+        '8' -> '٨'
+        '9' -> '٩'
+
+        else -> char
+    }
+}.joinToString("")

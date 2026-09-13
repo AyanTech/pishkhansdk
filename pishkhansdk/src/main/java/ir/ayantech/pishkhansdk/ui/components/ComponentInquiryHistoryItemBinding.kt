@@ -2,6 +2,7 @@ package ir.ayantech.pishkhansdk.ui.components
 
 import ir.ayantech.pishkhansdk.R
 import ir.ayantech.pishkhansdk.databinding.PishkhansdkComponentInquiryHistoryItemBinding
+import ir.ayantech.pishkhansdk.helper.extensions.reverseUnify
 import ir.ayantech.pishkhansdk.helper.extensions.setTint
 
 fun PishkhansdkComponentInquiryHistoryItemBinding.init(
@@ -9,7 +10,7 @@ fun PishkhansdkComponentInquiryHistoryItemBinding.init(
     description: String,
     isFavorite: Boolean
 ) {
-    titleTv.text = title
+    titleTv.text = title.reverseUnify()
     descriptionTv.text = description
 
     titleTv.isSelected = true
