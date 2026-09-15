@@ -11,7 +11,7 @@ fun PishkhansdkComponentInquiryHistoryItemBinding.init(
     isFavorite: Boolean
 ) {
     titleTv.text = title.reverseUnify()
-    descriptionTv.text = description
+    descriptionTv.text = description.reverseUnify()
 
     titleTv.isSelected = true
     descriptionTv.isSelected = true
