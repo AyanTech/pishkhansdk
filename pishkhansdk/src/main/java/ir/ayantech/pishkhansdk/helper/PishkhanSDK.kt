@@ -17,6 +17,7 @@ import ir.ayantech.networking.simpleCallUserTransactions
 import ir.ayantech.pishkhansdk.Initializer
 import ir.ayantech.pishkhansdk.PishkhanUser
 import ir.ayantech.pishkhansdk.R
+import ir.ayantech.pishkhansdk.helper.extensions.reverseUnify
 import ir.ayantech.pishkhansdk.helper.payment.channels.BillsPaymentChannelsInterface
 import ir.ayantech.pishkhansdk.helper.payment.channels.InvoicePaymentChannelsInterface
 import ir.ayantech.pishkhansdk.model.api.BillsPayment
@@ -370,7 +371,7 @@ object PishkhanSDK: InvoicePaymentChannelsInterface, BillsPaymentChannelsInterfa
 
                                         R.id.editIv -> {
                                             EditInquiryHistoryBottomSheet(context = context,
-                                                note = inquiryHistoryItem.Note,
+                                                note = inquiryHistoryItem.Note?.reverseUnify(),
                                                 onConfirmClicked = {
                                                     coreApi.simpleCallUserServiceQueryNote(
                                                         UserServiceQueryNote.Input(
